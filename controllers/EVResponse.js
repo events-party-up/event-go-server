@@ -8,12 +8,12 @@ function SuccessResponse(res,result) {
 
 function ErrorResponse(res,code,error) {
 
-  var codeR = 404;
-  if (code != undefined && typeof code == 'number') {
-    codeR = code;
+
+  if (code == undefined) {
+    code = 404;
   }
 
-  if (error != undefined && ( typeof error == 'string' || typeof error == 'Object') ) {
+  if (error == undefined) {
     error = "Error not found";
   }
 

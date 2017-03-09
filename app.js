@@ -85,37 +85,3 @@ var server = require('http').createServer(app);
 server.listen(8008);
 
 module.exports = app;
-
-/*
-var source = Rx.Observable.create(function (observer) {
-    // sử dụng `onNext` push `num` vào observer lần lượt 500 mili giây
-    var num = 0;
-    var id = setInterval(function () {
-        observer.onNext(num++);
-    }, 500);
-
-    setTimeout(function () {
-        observer.onCompleted();
-    }, 10000);
-
-    return function () {
-        console.log('disposed');
-        clearInterval(id);
-    };
-});
-
-var subscription = source.subscribe(
-    function (x) {
-        console.log('onNext: ' + x);
-    },
-    function (e) {
-        console.log('onError: ' + e.message);
-    },
-    function () {
-        console.log('onCompleted');
-    });
-
-setTimeout(function () {
-    subscription.dispose();
-}, 5000);
-*/

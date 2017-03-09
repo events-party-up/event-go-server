@@ -7,18 +7,35 @@ var mongoose = require('mongoose'),
     autoIncrement = require('mongoose-auto-increment');
 var LocationInfo = require('./LocationInfo.js');
 
+function extend(obj, src) {
+    Object.keys(src).forEach(function(key) { obj[key] = src[key]; });
+    return obj;
+}
+
 var userSchema = new Schema({
     name: String,
-    username: String,
-    provider_type: String,
-    provider_id: String,
+    nick_name: String,
+    image_url: String,
+    provider_type: {
+        type: String,
+        required : true
+    },
+    provider_id: {
+        type: String,
+        unique: true,
+        required : true
+    },
+    provider_access_token: String,
     age: Number,
-    sex: String,
-    birthday: Number,
+    gender: {
+        type: String,
+        enum: ['male', 'female']
+    },
+    birthday: Date,
     address: String,
     level: Number,
     user_status: String,
-    tag: {
+    tags: {
       type: [String],
       default: []
     },
@@ -42,6 +59,33 @@ userSchema.methods.generateJWT = function() {
         user_id: this._id,
         exp: parseInt(exp.getTime() / 1000),
     }, 'event-go-2017-hcmus-thanh-thai-@-k13');
+};
+
+userSchema.methods.signInResult = function (version) {
+
+    return extend(this.infoResult(),{
+        provider_type: this.provider_type,
+        provider_id: this.provider_id,
+        user_status: this.user_status,
+        tags: this.tags,
+        devices: this.devices,
+        last_location_info: this.last_location_info,
+        access_token: this.generateJWT()
+    });
+};
+
+userSchema.methods.infoResult = function (version) {
+    return {
+        user_id: this._id,
+        name: this.name,
+        nick_name: this.nick_name,
+        image_url: this.image_url,
+        age: this.age,
+        gender: this.gender,
+        birthday: this.birthday,
+        address: this.address,
+        level: this.level
+    }
 };
 
 var UserModel = mongoose.model('user', userSchema);

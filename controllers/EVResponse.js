@@ -1,6 +1,6 @@
 
 function SuccessResponse(res,result) {
-  req.json({
+  res.json({
     'code': 200,
     'result': result
   });
@@ -17,7 +17,7 @@ function ErrorResponse(res,code,error) {
     error = "Error not found";
   }
 
-  req.json({
+  res.json({
     'code': code,
     'error': error
   });

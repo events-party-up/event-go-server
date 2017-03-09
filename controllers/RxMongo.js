@@ -4,37 +4,48 @@ var mongoose = require('mongoose');
 module.exports = {
 
   findOne: function(object, params) {
-    return object.findOne(params, function(err, doc) {
-      if (err) {
-          observe.onError(err);
-      } else {
-        if (doc == null) {
-          observe.onError('Not found');
-        } else {
-          observe.onNext(doc);
-        }
-      }
+    return  Rx.Observable.create(function (observer) {
+        object.findOne(params, function(err, doc) {
+          if (err) {
+              observer.error(err);
+          } else {
+            if (doc == null) {
+              observer.error('Not found');
+            } else {
+              observer.next(doc);
+            }
+          }
+        })
     })
   },
 
   find: function(object, params) {
 
-    var response = function(err, doc) {
+    var response = function(err, doc, observer) {
       if (err) {
-          observe.onError(err);
+          observer.error(err);
       } else {
         if (doc == null) {
-          observe.onError('Not found');
+          observer.error('Not found');
         } else {
-          observe.onNext(doc);
+          console.log(observer);
+          observer.next(doc);
         }
       }
     };
 
     if (params == null) {
-      return object.find(response);
+      return Rx.Observable.create(function (observer) {
+        object.find(function(err,doc) {
+          response(err,doc,observer);
+        });
+      });
     }
 
-    return object.find(params, response);  
+    return Rx.Observable.create(function (observer) {
+      object.find(function(err,doc) {
+        response(err,doc,observer);
+      });
+    });
   }
 }

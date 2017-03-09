@@ -36,7 +36,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 var index = require('./routes/index');
 var users = require('./routes/users');
-var v10 = require('./routes/users');
+var v10 = require('./routes/api/v1.0.js');
 
 app.use('/', index);
 app.use('/users', users);

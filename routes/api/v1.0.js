@@ -5,3 +5,5 @@ var router = express.Router();
 
 router.get('/users', userController.getAll);
 router.route('/users/:id').get(userController.get);
+
+module.exports = router;

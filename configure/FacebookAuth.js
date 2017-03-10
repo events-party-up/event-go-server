@@ -6,7 +6,7 @@ var Rx = require('rxjs/Rx');
 
 var requestString = "https://graph.facebook.com/v2.8/me?fields=id%2Cname%2Cgender%2Cbirthday%2Cage_range%2Cemail%2Cdevices%2Cpicture%7Burl%7D&access_token="
 
-function requestFacebookInfo(access_token) {
+function requestFacebookInfo(body, access_token) {
 
     var rxObject = Rx.Observable.create(function (observer) {
 
@@ -36,6 +36,10 @@ function requestFacebookInfo(access_token) {
                     'image_url': bodyData.picture == null? "" : bodyData.picture.data.url,
                     'gender': bodyData.gender == null ? "male" : bodyData.gender,
                 };
+
+                var util = require('../Utility/Utility');
+                profileData = util.extendObject(body,profileData);
+
                 observer.next(profileData);
             } else  {
                 observer.error('Error not found');

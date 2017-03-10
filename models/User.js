@@ -6,9 +6,10 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema,
     autoIncrement = require('mongoose-auto-increment');
 var LocationInfo = require('./LocationInfo.js');
+var util = require('../Utility/Utility')
 
 function extend(obj, src) {
-    Object.keys(src).forEach(function(key) { obj[key] = src[key]; });
+    util.extendObject(obj,src);
     return obj;
 }
 

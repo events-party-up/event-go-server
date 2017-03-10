@@ -113,5 +113,19 @@ module.exports = {
                 }
             });
         });
+    },
+    
+    remove: function (object, condition) {
+
+        return Rx.Observable.create(function (observer) {
+
+            object.remove(condition, function (err) {
+                if (err) {
+                    observer.error(err);
+                } else {
+                    observer.next();
+                }
+            });
+        });
     }
-}
+};

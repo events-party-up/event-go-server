@@ -8,6 +8,10 @@ var itemSchema = new Schema({
     image_url: String,
     status: String,
     detail: String,
+    created_date: {
+        type: Date,
+        default: new Date()
+    },
     tags: {
       type: [String],
       default: []

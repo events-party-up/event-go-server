@@ -21,7 +21,7 @@ var EVBody = require('./../EVBody.js');
 
        if (doc != null) {
          doc = doc.map(function (ele) {
-           return ele.signInResult();
+           return ele.infoResult();
          })
        }
 

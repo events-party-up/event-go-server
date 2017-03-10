@@ -10,6 +10,10 @@ var taskSchema = new Schema({
     detail_url: String,
     start_time: Date,
     end_time: Date,
+    created_date: {
+        type: Date,
+        default: new Date()
+    },
     task_info: Object,
     award_ids: {
       type: [String],

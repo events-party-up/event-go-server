@@ -17,6 +17,10 @@ var userSchema = new Schema({
     name: String,
     nick_name: String,
     image_url: String,
+    created_date: {
+        type: Date,
+        default: new Date()
+    },
     provider_type: {
         type: String,
         required : true
@@ -85,7 +89,8 @@ userSchema.methods.infoResult = function (version) {
         gender: this.gender,
         birthday: this.birthday,
         address: this.address,
-        level: this.level
+        level: this.level,
+        created_date: this.created_date
     }
 };
 

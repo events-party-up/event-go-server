@@ -4,9 +4,21 @@ var mongoose = require('mongoose'),
 
 var supplierSchema = new Schema({
     name: String,
-    username: String,
+    username: {
+        type: String,
+        unique: true
+    },
     password: String,
     company_info: Object,
+    image_urL: String,
+    level: {
+        type: Number,
+        default: 1
+    },
+    created_date: {
+        type: Date,
+        default: new Date()
+    },
     status: String
 });
 
@@ -23,6 +35,25 @@ supplierSchema.methods.generateJWT = function() {
         password: this.password,
         exp: parseInt(exp.getTime() / 1000),
     }, 'event-go-2017-hcmus-thanh-thai-@-k13-supplier');
+};
+
+supplierSchema.methods.signInResult = function (version) {
+
+    return require('../Utility/Utility').extendObject(this.infoResult(),{
+        username: this.username,
+        access_token: this.generateJWT()
+    });
+};
+
+supplierSchema.methods.infoResult = function (version) {
+    return {
+        user_id: this._id,
+        name: this.name,
+        image_url: this.image_url,
+        level: this.level,
+        company_info: this.company_info,
+        supplier_status: this.supplier_status,
+    }
 };
 
 var SupplierModel = mongoose.model('supplier', supplierSchema);

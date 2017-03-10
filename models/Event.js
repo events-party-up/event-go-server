@@ -12,6 +12,10 @@ var eventSchema = new Schema({
     detail_url: String,
     start_time: Date,
     end_time: Date,
+    created_date: {
+        type: Date,
+        default: new Date()
+    },
     tags: {
       type: [String],
       default: []

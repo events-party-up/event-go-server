@@ -8,6 +8,10 @@ var locationSchema = new Schema({
     detail: String,
     address: String,
     image_url: String,
+    created_date: {
+        type: Date,
+        default: new Date()
+    },
     links: {
       type: [String],
       default: []

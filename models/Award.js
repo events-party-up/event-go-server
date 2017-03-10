@@ -10,6 +10,10 @@ var awardSchema = new Schema({
     contact: String,
     more: String,
     item_id: String,
+    created_date: {
+        type: Date,
+        default: new Date()
+    },
     tags: {
       type: [String],
       default: []

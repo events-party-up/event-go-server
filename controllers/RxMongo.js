@@ -56,7 +56,7 @@ module.exports = {
 
         return  Rx.Observable.create(function (observer) {
 
-            object.findOneAndUpdate(query,params, {new: true}, function(err, doc) {
+            object.findOneAndUpdate(query,params, function(err, doc) {
 
                 if (err) {
                     observer.error(err);
@@ -71,7 +71,11 @@ module.exports = {
         })
     },
 
-    find: function(object, params) {
+    find: function(object, params, protection) {
+
+      if (protection == null) {
+        protection = { __v: false}
+      }
 
         var response = function(err, doc, observer) {
             if (err) {
@@ -87,7 +91,7 @@ module.exports = {
 
         if (params == null) {
             return Rx.Observable.create(function (observer) {
-                object.find(function(err,doc) {
+                object.find({}, protection, function(err,doc) {
                     response(err,doc,observer);
                 });
             });
@@ -114,7 +118,7 @@ module.exports = {
             });
         });
     },
-    
+
     remove: function (object, condition) {
 
         return Rx.Observable.create(function (observer) {

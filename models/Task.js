@@ -3,6 +3,10 @@ var mongoose = require('mongoose'),
     autoIncrement = require('mongoose-auto-increment');
 
 var taskSchema = new Schema({
+    supplier_id: {
+      type: Schema.Types.ObjectId,
+      ref: 'supplier'
+    },
     name: String,
     decribe: String,
     thumbnail_url: String,

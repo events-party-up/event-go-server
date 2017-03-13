@@ -3,7 +3,10 @@ var mongoose = require('mongoose'),
     autoIncrement = require('mongoose-auto-increment');
 
 var awardSchema = new Schema({
-    supplier_id: String,
+    supplier_id: {
+      type: Schema.Types.ObjectId,
+      ref: 'supplier'
+    },
     name: String,
     image_url: String,
     describe: String,

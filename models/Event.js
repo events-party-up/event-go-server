@@ -3,7 +3,10 @@ var mongoose = require('mongoose'),
     autoIncrement = require('mongoose-auto-increment');
 
 var eventSchema = new Schema({
-    supplier_id: String,
+    supplier_id: {
+      type: Schema.Types.ObjectId,
+      ref: 'supplier'
+    },
     name: String,
     sub_name: String,
     thumbnail_url: String,
@@ -38,6 +41,56 @@ var eventSchema = new Schema({
 eventSchema.methods.generateJWT = function() {
 
 };
+
+eventSchema.methods.getInfo = function(ver) {
+    return {
+      event_id: this._id;
+      supplier_id: this.supplier_id,
+      name: this.name,
+      sub_name: this.sub_name,
+      thumbnail_url: this.thumbnail_url,
+      cover_url: this.cover_url,
+      policy_url: this.policy_url,
+      detail_url: this.detail_url,
+      start_time: this.start_time,
+      end_time: this.end_time,
+      created_date: this.created_date,
+      location_info: this.location_info,
+      status: this.status,
+      tags: this.tags
+    }
+};
+
+eventSchema.methods.getDetail = function(ver) {
+
+  var tObject = this;
+  tObject["event_id"] = tObject["_id"];
+  delete tObject["_id"];
+  delete tObject["_v"];
+
+  return tObject;
+}
+
+eventSchema.methods.keyRequires = function(ver) {
+
+  return [
+    "supplier_id","name","sub_name",
+     "thumbnail_url", "cover_url", "policy_url",
+     "detail_url", "start_time", "end_time"
+  ]
+}
+
+eventSchema.methods.checkKeyRequire = function(ver, data) {
+
+  var require_keys = this.keyRequires(ver);
+  var object_keys = Object.keys(data);
+
+  object_keys.forEach(function(key) {
+    delete require_keys[key];
+  });
+
+  return require_keys.length == 0;
+}
 
 var eventModel = mongoose.model('event', eventSchema);
 module.exports = eventModel;

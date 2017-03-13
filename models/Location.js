@@ -4,7 +4,10 @@ var mongoose = require('mongoose'),
 
 var locationSchema = new Schema({
     name: String,
-    supplier_id: String,
+    supplier_id: {
+      type: Schema.Types.ObjectId,
+      ref: 'supplier'
+    },
     detail: String,
     address: String,
     image_url: String,

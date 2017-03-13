@@ -161,7 +161,9 @@ var EVBody = require('./../EVBody.js');
        if (admin.username.localeCompare(configure.admin_username) == 0 &&
            admin.password.localeCompare(configure.admin_password) == 0)
        {
-          RxMongo.remove(Users,{'_id': user_id_remove}).subscribe(function () {
+          RxMongo.remove(Users,{
+            '_id': user_id_remove
+          }).subscribe(function () {
 
             EVResponse.success(res,"Success");
           }, function (err) {

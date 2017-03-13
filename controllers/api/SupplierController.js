@@ -27,7 +27,7 @@ module.exports = {
 
             EVResponse.success(res, doc);
         }, function(error) {
-            console.log('asdsadsa' + error);
+            
             EVResponse.failure(res,403, error);
         });
     },

@@ -24,7 +24,7 @@ var notificationSchema = new Schema({
   status: {
     type: String,
     enum: ['pending', 'pushing', 'done']
-  }
+  },
   tags: {
     type: [String],
     default: [],

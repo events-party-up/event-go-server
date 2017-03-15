@@ -5,8 +5,8 @@
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema,
     autoIncrement = require('mongoose-auto-increment');
-var LocationInfo = require('./LocationInfo.js');
-var util = require('../Utility/Utility')
+var LocationInfo = require('./../Events/LocationInfo.js');
+var util = require('../../Utility/Utility')
 
 function extend(obj, src) {
     util.extendObject(obj,src);

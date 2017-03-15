@@ -24,7 +24,11 @@ var jwt_decode = require('jwt-decode');
 
 function verifiyAccessToken(req, key) {
   // CHeck user_id decode jwt
-  var decode = jwt_decode(access_token);
+  if (req.query.access_token == null) {
+    return null;
+  }
+
+  var decode = jwt_decode(req.query.access_token);
   var value = decode[key];
 
   return value;
@@ -32,6 +36,6 @@ function verifiyAccessToken(req, key) {
 
 module.exports = {
   success: SuccessResponse,
-  failure: ErrorResponse
+  failure: ErrorResponse,
   verifiyAccessToken: verifiyAccessToken,
-}
+};

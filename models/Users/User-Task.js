@@ -11,6 +11,10 @@ var userTaskSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'user'
   },
+  event_id: {
+    type: Schema.Types.ObjectId,
+    ref: 'user'
+  },
   start_time: {
     type: Date,
     default: new Date()

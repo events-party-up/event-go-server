@@ -4,11 +4,11 @@ var Rx = require('rxjs/Rx');
 var RxMongo = require('./../RxMongo.js');
 var EVBody = require('./../EVBody.js');
 
-var UserEvents = require(../../models/user-event);
-var UserTasks = require(../../models/user-task);
-var UserSubs = require(../../models/user-subscribe);
-var Users = require(../../models/user-subscribe);
-var Notifications = require(../../models/Notifications);
+var UserEvents = require('../../models/Users/User-Event');
+var UserTasks = require('../../models/Users/User-Task');
+var UserSubs = require('../../models/Users/User-Subscribe');
+var Users = require('../../models/Users/User-Subscribe');
+var Notifications = require('../../models/Notifications');
 
 module.exports = {
 
@@ -27,7 +27,7 @@ module.exports = {
     if (body.event_ids != null) {
       usersRX = RxMongo.find(UserEvents,{
         'supplier_id': supplier_id,
-        'event_id': body.event_ids,
+        'event_id': body.event_ids
       },{
         "user_id": 1,
         "_id": 0
@@ -36,7 +36,7 @@ module.exports = {
      else if (body.task_ids != null) {
        usersRX = RxMongo.find(UserTasks,{
          'supplier_id': supplier_id,
-         'task_id': body.task_ids,
+         'task_id': body.task_ids
        },{
          "user_id": 1,
          "_id": 0
@@ -44,7 +44,7 @@ module.exports = {
     } // Post for all user-subscribe in supplier
     else if (body.user_subscribe != null) {
       usersRX = RxMongo.find(UserSubs,{
-        'supplier_id': supplier_id,
+        'supplier_id': supplier_id
       },{
         "user_id": 1,
         "_id": 0
@@ -60,7 +60,7 @@ module.exports = {
     usersRX.subscribe(function(docs) {
       docs.map(function(element) {
         return element[user_id_key];
-      })
+      });
       newNotification.pushed_users = newNotification;
       RxMongo.save(newNotification).subscribe(function() {
         EVResponse.success(res, newNotification);
@@ -86,6 +86,7 @@ module.exports = {
       EVResponse.success(res,docs);
     }, function(err){
       EVResponse.failure(res,406,"Error load notifications");
-    })
+    });
+
   }
-}
+};

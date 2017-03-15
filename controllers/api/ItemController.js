@@ -100,4 +100,4 @@ module.exports = {
       EVResponse.failure(res,405, "Delete Item failure");
     });
   }
-}
+};

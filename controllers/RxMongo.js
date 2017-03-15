@@ -3,33 +3,6 @@ var mongoose = require('mongoose');
 
 module.exports = {
 
-    query: function(func,params,canNull) {
-
-        if (canNull == undefined) {
-            canNull = true;
-        }
-
-        if (params == undefined) {
-            canNull = {};
-        }
-
-        return  Rx.Observable.create(function (observer) {
-            console.log(func);
-            func(function(err,doc){
-                console.log('asdsadasdsa');
-                if (err) {
-                    observer.error(err);
-                } else {
-                    if (doc == null && !canNull) {
-                        observer.error('Not found');
-                    } else {
-                        observer.next(doc);
-                    }
-                }
-            });
-        });
-    },
-
     findOne: function(object, params, canNull) {
 
         if (canNull == undefined) {
@@ -41,6 +14,8 @@ module.exports = {
             object.findOne(params, function(err, doc) {
 
                 if (err) {
+                    console.log("FindOne failure with Object " + object);
+                    console.log("Error: " + err);
                     observer.error(err);
                 } else {
                     if (doc == null && !canNull) {
@@ -59,6 +34,8 @@ module.exports = {
             object.findOneAndUpdate(query,params, function(err, doc) {
 
                 if (err) {
+                    console.log("findOneAndUpdate failure with Object " + object);
+                    console.log("Error: " + err);
                     observer.error(err);
                 } else {
                     if (doc == null ) {
@@ -79,6 +56,7 @@ module.exports = {
 
         var response = function(err, doc, observer) {
             if (err) {
+                console.log("find failure with Object " + object);
                 observer.error(err);
             } else {
                 if (doc == null) {
@@ -111,6 +89,8 @@ module.exports = {
             object.save(function (err) {
 
                 if(err) {
+                    console.log("save failure with Object " + object);
+                    console.log("Error: " + err);
                     observer.error(err);
                 } else {
                     observer.next();
@@ -125,6 +105,8 @@ module.exports = {
 
             object.remove(condition, function (err) {
                 if (err) {
+                    console.log("remove failure with Object " + object);
+                    console.log("Error: " + err);
                     observer.error(err);
                 } else {
                     observer.next();

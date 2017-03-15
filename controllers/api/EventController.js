@@ -1,5 +1,7 @@
 var Suppliers = require('../../models/Supplier');
-var Events = require('../../models/Event');
+var Events = require('../../models/Events/Event');
+var UserEvent = require('../../models/Users/User-Event');
+var UserAward = require('../../models/Users/User-Award');
 
 var mongoose = require('mongoose');
 var EVResponse = require('./../EVResponse.js');
@@ -22,12 +24,12 @@ module.exports = {
     });
 
     rx.subscribe(function(doc){
-        if(doc) {
-          doc = doc.map(function(element){
-            return element.getInfo();
-          })
-        }
-        EVResponse.success(res, doc);
+      if(doc) {
+        doc = doc.map(function(element){
+          return element.getInfo();
+        })
+      }
+      EVResponse.success(res, doc);
     }, function(error) {
 
       EVResponse.failure(res,403, error);
@@ -70,11 +72,12 @@ module.exports = {
       return;
     }
 
-    RxMongo.save(newEvent).subscribe(function(
-      EVResponse.success(res,newEvent.getDetail());
-    ), function(error) {
-      EVResponse.failure(res,406,"Save fail event");
-    });
+    RxMongo.save(newEvent).subscribe(function() {
+          EVResponse.success(res, newEvent.getDetail());
+        }, function(error) {
+          EVResponse.failure(res,406,"Save fail event");
+        }
+    );
   },
 
   updateEvent: function(req,res,next) {
@@ -95,7 +98,7 @@ module.exports = {
     }, function(error) {
       EVResponse.failure(res,403,"Update fail with error " + error);
     })
-  }
+  },
 
   deleteEvent: function(req,res,next) {
 
@@ -115,6 +118,6 @@ module.exports = {
     }, function (err) {
       EVResponse.failure(res,403,"Failure");
     })
-  }
+  },
 
-}
+};

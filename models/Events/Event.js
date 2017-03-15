@@ -44,7 +44,7 @@ eventSchema.methods.generateJWT = function() {
 
 eventSchema.methods.getInfo = function(ver) {
     return {
-      event_id: this._id;
+      event_id: this._id,
       supplier_id: this.supplier_id,
       name: this.name,
       sub_name: this.sub_name,

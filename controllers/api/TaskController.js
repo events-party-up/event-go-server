@@ -1,12 +1,10 @@
 var Suppliers = require('../../models/Supplier');
-var Events = require('../../models/Event');
-var Tasks = require('../../models/Task');
-var TaskItems = require('../../models/Task-Item');
+var Events = require('../../models/Events/Event');
+var Tasks = require('../../models/Tasks/Task');
+var TaskItems = require('../../models/Tasks/Task-Item');
 var TaskLocations = require('../../models/Task-Locations');
 
 var mongoose = require('mongoose');
-var GoogleAuth = require('google-auth-library');
-var jwt_decode = require('jwt-decode');
 var EVResponse = require('./../EVResponse.js');
 var Rx = require('rxjs/Rx');
 var RxMongo = require('./../RxMongo.js');
@@ -17,7 +15,7 @@ module.exports = {
   getTask: function(req,res,next) {
 
     var task_id = req.params.task_id;
-    var event_id = req.params.event_id;
+    // var event_id = req.params.event_id;
 
     var rx = RxMongo.findOne(Tasks,{
       "_id": task_id,
@@ -26,9 +24,9 @@ module.exports = {
     rx.subscribe(function(doc){
       EVResponse.success(res, doc);
     }, function(err) {
-      EVResponse.failure(res,403, error);
+      EVResponse.failure(res,403, err);
     });
-  }
+  },
 
   postTask: function(req,res,next) {
 
@@ -49,7 +47,7 @@ module.exports = {
     }, {
       $push: {
         "tasks": [
-          newTasks._id;
+          newTasks._id
         ]
       }
     });
@@ -102,11 +100,7 @@ module.exports = {
       '_id': event_id,
       'supplier_id': supplier_id
     }, {
-      {
-        $pull: {
-          tasks: task_id
-        }
-      }
+        $pull: { 'tasks': task_id }
     });
 
     RxMongo.remove(Tasks, {
@@ -122,7 +116,10 @@ module.exports = {
       EVResponse.failure(res,405, "Delete task failure");
     });
 
-  }
+  },
+
+  // POST: /events/:event_id/tasks/:task_id/joinTask?access_token=?
+
 
 
 };

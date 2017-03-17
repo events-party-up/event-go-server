@@ -1,5 +1,5 @@
 var Suppliers = require('../../models/Supplier');
-var Items = require('../../models/Items');
+var Items = require('../../models/Events/Item');
 
 var mongoose = require('mongoose');
 var EVResponse = require('./../EVResponse.js');

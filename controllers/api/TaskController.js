@@ -1,8 +1,8 @@
 var Suppliers = require('../../models/Supplier');
 var Events = require('../../models/Events/Event');
 var Tasks = require('../../models/Tasks/Task');
-var TaskItems = require('../../models/Tasks/Task-Item');
-var TaskLocations = require('../../models/Task-Locations');
+// var TaskItems = require('../../models/Tasks/Task-Item');
+// var TaskLocations = require('../../models/Task-Locations');
 
 var mongoose = require('mongoose');
 var EVResponse = require('./../EVResponse.js');

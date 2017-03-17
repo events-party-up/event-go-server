@@ -31,5 +31,5 @@ var notificationSchema = new Schema({
   }
 });
 
-var notificationModel = mongoose.model('user-event',notificationSchema);
+var notificationModel = mongoose.model('notification',notificationSchema);
 module.exports =  notificationModel;

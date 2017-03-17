@@ -18,5 +18,5 @@ var userSubSchema = new Schema({
   }
 });
 
-var userSubSchema = mongoose.model('user-event',userEventSchema);
+var userSubSchema = mongoose.model('user-subsrcibe',userSubSchema);
 module.exports =  userSubSchema;

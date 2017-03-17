@@ -31,9 +31,9 @@ supplierSchema.methods.generateJWT = function() {
     exp.setDate(today.getDate() + 30);
 
     return jwt.sign({
-        user_id: this._id,
+        supplier_id: this._id,
         password: this.password,
-        exp: parseInt(exp.getTime() / 1000),
+        exp: parseInt(exp.getTime() / 1000)
     }, 'event-go-2017-hcmus-thanh-thai-@-k13-supplier');
 };
 

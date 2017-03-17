@@ -15,7 +15,7 @@ module.exports = {
 
     getAll: function (req,res,next) {
 
-        var user_id = EVResponse.verifiyAccessToken(req,'_id');
+        var user_id = EVResponse.verifiyAccessToken(req,"user_id");
         if (user_id == null) {
             EVResponse.failure(res,403,"Missing access token or accesstoken not true");
             return;
@@ -32,7 +32,7 @@ module.exports = {
 
     get: function (req,res,next) {
 
-        var user_id = EVResponse.verifiyAccessToken(req,'_id');
+        var user_id = EVResponse.verifiyAccessToken(req,"user_id");
         if (user_id == null) {
             EVResponse.failure(res,403,"Missing access token or accesstoken not true");
             return;
@@ -51,7 +51,7 @@ module.exports = {
 
     joinEvent: function (req,res,next) {
 
-        var user_id = EVResponse.verifiyAccessToken(req,"_id");
+        var user_id = EVResponse.verifiyAccessToken(req,"user_id");
         if (user_id == null) {
 
             EVResponse.failure(res,403,"Missing access token");
@@ -75,7 +75,7 @@ module.exports = {
 
     outEvent: function (req,res,next) {
 
-        var user_id = EVResponse.verifiyAccessToken(req,"_id");
+        var user_id = EVResponse.verifiyAccessToken(req,"user_id");
         if (user_id == null) {
 
             EVResponse.failure(res,403,"Missing access token");
@@ -101,7 +101,7 @@ module.exports = {
     // Step 4 : Update state UserEvent
     completeEvent: function (req,res,next) {
 
-        var user_id = EVResponse.verifiyAccessToken(req,"_id");
+        var user_id = EVResponse.verifiyAccessToken(req,"user_id");
         if (user_id == null) {
 
             EVResponse.failure(res,403,"Missing access token");

@@ -16,7 +16,7 @@ module.exports = {
 
     getAll: function (req,res,next) {
 
-        var user_id = EVResponse.verifiyAccessToken(req,'id');
+        var user_id = EVResponse.verifiyAccessToken(req,"user_id");
         if (user_id == null) {
             EVResponse.failure(res,403,"Missing access token or accesstoken not true");
             return;
@@ -33,7 +33,7 @@ module.exports = {
 
     get: function (req,res,next) {
 
-        var user_id = EVResponse.verifiyAccessToken(req,'_id');
+        var user_id = EVResponse.verifiyAccessToken(req,"user_id");
         if (user_id == null) {
             EVResponse.failure(res,403,"Missing access token or accesstoken not true");
             return;
@@ -52,7 +52,7 @@ module.exports = {
 
     joinTask: function (req,res,next) {
 
-        var user_id = EVResponse.verifiyAccessToken(req,"_id");
+        var user_id = EVResponse.verifiyAccessToken(req,"user_id");
         if (user_id == null) {
 
             EVResponse.failure(res,403,"Missing access token");

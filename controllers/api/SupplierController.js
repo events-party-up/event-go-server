@@ -3,6 +3,8 @@
  */
 
 var Suppliers = require('../../models/Supplier');
+var UserEvent = require('../../models/Users/User-Event');
+
 var mongoose = require('mongoose');
 var GoogleAuth = require('google-auth-library');
 var jwt_decode = require('jwt-decode');
@@ -13,25 +15,68 @@ var EVBody = require('./../EVBody.js');
 
 module.exports = {
 
+    // GET suppliers?assess_token={}
     getAll : function(req, res, next) {
 
-        var rx = RxMongo.find(Suppliers);
+        RxMongo.find(Suppliers, {}).subscribe(function (docs) {
+            // Check admin
+            var body = EVBody(req.body);
+            var admin = body.admin;
 
-        rx.subscribe(function(doc) {
-
-            if (doc != null) {
-                doc = doc.map(function (ele) {
-                    return ele.infoResult();
-                })
+            var mess = EVResponse.authoriedAdmin(admin);
+            if (mess != null) {
+                EVResponse.success(res,docs);
+            } else {
+                if (docs != null) {
+                    docs = docs.map(function (ele) {
+                        return ele.infoResult();
+                    });
+                }
+                EVResponse.success(res,docs);
             }
-
-            EVResponse.success(res, doc);
-        }, function(error) {
-            
-            EVResponse.failure(res,403, error);
+        }, function (error) {
+            EVResponse.failure(res,407,mess);
         });
     },
 
+    // GET suppliers/events/:event_id?assess_token={}
+    // Step 1: Check supplier_id in access_token and get event_id in params
+    // Step 2: Find Event with (event_id, supplier_id)
+    // Step 3.1: True - get all UserEvent with event_id
+    // Step 3.2: False - Callback result
+    getAllUserEvent: function(req,res,next) {
+
+        // Step 1: Check supplier_id in access_token and get event_id in params
+        var supplier_id = EVResponse.verifiyAccessToken(req,"supplier_id");
+        if (supplier_id == null) {
+            EVResponse.failure(res,405,"Access token not true");
+            return;
+        }
+
+        var event_id = req.params.event_id;
+        var getUserEventRx = RxMongo.find(UserEvent, {
+            'event_id': event_id
+        });
+
+        // Step 2: Find Event with (event_id, supplier_id)
+        RxMongo.findOne(Events, {
+            "_id": event_id,
+            "supplier_id": supplier_id
+        }).subscribe(function (doc) {
+
+            getUserEventRx.subscribe(function (docs) {
+                // Step 3.1: True - get all UserEvent with event_id
+                EVResponse.success(res,docs);
+            }, function (error) {
+                // Step 3.2: False - Callback result
+                EVResponse.failure(res,406,"User Event not available");
+            })
+        }, function (error) {
+            EVResponse.failure(res,406,"Event not available");
+        });
+    },
+
+    // GET suppliers/:supplier_id
     get : function(req,res,next) {
 
         var rx = RxMongo.findOne(Suppliers, {
@@ -45,6 +90,7 @@ module.exports = {
         });
     },
 
+    // POST
     signIn: function (req,res,next) {
 
         var body = EVBody(req.body);
@@ -67,6 +113,7 @@ module.exports = {
         }
     },
 
+    // POST
     signUp: function(req,res,next) {
 
         var body = EVBody(req.body);
@@ -102,6 +149,7 @@ module.exports = {
 
     },
 
+    // PUT
     update: function (req,res,next) {
 
         var body = EVBody(req.body);
@@ -130,6 +178,7 @@ module.exports = {
 
     },
 
+    // Delete
     delete: function (req,res,next) {
 
         var body = EVBody(req.body);
@@ -153,23 +202,5 @@ module.exports = {
         });
 
     },
-
-    getAllSupplierWitAdmin: function (req,res,next) {
-
-        var body = EVBody(req.body);
-        var admin = body.admin;
-
-        var mess = EVResponse.authoriedAdmin(admin);
-        if (mess != null) {
-            EVResponse.failure(res,406,mess);
-        }
-
-        RxMongo.find(Suppliers, {}).subscribe(function (docs) {
-            EVResponse.success(res,docs);
-        }, function (error) {
-            EVResponse.failure(res,407,mess);
-        })
-    }
-
 
 };

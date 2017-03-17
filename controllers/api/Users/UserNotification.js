@@ -15,7 +15,7 @@ module.exports = {
 
     getAll: function (req,res,next) {
 
-        var user_id = EVResponse.verifiyAccessToken(req,'id');
+        var user_id = EVResponse.verifiyAccessToken(req,"user_id");
         if (user_id == null) {
             EVResponse.failure(res,403,"Missing access token or accesstoken not true");
             return;
@@ -32,7 +32,7 @@ module.exports = {
 
     get: function (req,res,next) {
 
-        var user_id = EVResponse.verifiyAccessToken(req,'id');
+        var user_id = EVResponse.verifiyAccessToken(req,"user_id");
         if (user_id == null) {
             EVResponse.failure(res,403,"Missing access token or accesstoken not true");
             return;
@@ -60,7 +60,7 @@ module.exports = {
         var body = EVBody(req.body);
         var user_id = req.query.user_id;
         var newAward = new UserNotification(body);
-        newAward.user_id = user_id
+        newAward.user_id = user_id;
         newAward.supplier_id = supplier_id;
 
         RxMongo.save(newAward).subscribe(function () {

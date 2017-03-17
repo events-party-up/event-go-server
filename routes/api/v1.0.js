@@ -24,6 +24,10 @@ router.route('/suppliers/:id')
     .delete(supplierController.delete)
     .get(supplierController.get);
 
+// GET suppliers/events/:event_id?assess_token={}
+router.route('/suppliers/events/:event_id')
+    .get(supplierController.getAllUserEvent);
+
 // Event
 var eventController = require("../../controllers/api/EventController");
 router.get('/events', eventController.getAllOfSupplier);

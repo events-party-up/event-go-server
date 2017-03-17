@@ -2,15 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="597568a0-39f3-4f28-82fa-10b6a9c555b3" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/apidoc.json" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controllers/api/EventController.js" afterPath="$PROJECT_DIR$/controllers/api/EventController.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controllers/EVResponse.js" afterPath="$PROJECT_DIR$/controllers/EVResponse.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controllers/api/SupplierController.js" afterPath="$PROJECT_DIR$/controllers/api/SupplierController.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controllers/api/Users/UserAwardController.js" afterPath="$PROJECT_DIR$/controllers/api/Users/UserAwardController.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controllers/api/Users/UserEventController.js" afterPath="$PROJECT_DIR$/controllers/api/Users/UserEventController.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controllers/api/Users/UserNotification.js" afterPath="$PROJECT_DIR$/controllers/api/Users/UserNotification.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controllers/api/Users/UserTaskController.js" afterPath="$PROJECT_DIR$/controllers/api/Users/UserTaskController.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/Supplier.js" afterPath="$PROJECT_DIR$/models/Supplier.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/api/v1.0.js" afterPath="$PROJECT_DIR$/routes/api/v1.0.js" />
     </list>
     <ignored path="untitled.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -33,11 +30,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="UserAwardController.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="UserAwardController.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/controllers/api/Users/UserAwardController.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="108">
-              <caret line="55" column="0" selection-start-line="55" selection-start-column="0" selection-end-line="55" selection-end-column="0" />
+            <state relative-caret-position="1065">
+              <caret line="73" column="34" selection-start-line="73" selection-start-column="34" selection-end-line="73" selection-end-column="34" />
               <folding>
                 <element signature="e#0#42#0" expanded="false" />
               </folding>
@@ -45,16 +42,32 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="EventController.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/controllers/api/EventController.js">
+      <file leaf-file-name="SupplierController.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/controllers/api/SupplierController.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
-              <caret line="100" column="51" selection-start-line="100" selection-start-column="33" selection-end-line="100" selection-end-column="51" />
+            <state relative-caret-position="358">
+              <caret line="47" column="12" selection-start-line="47" selection-start-column="12" selection-end-line="47" selection-end-column="12" />
               <folding>
-                <element signature="e#787#1491#0" expanded="false" />
-                <element signature="e#1532#2025#0" expanded="false" />
-                <element signature="e#2066#2528#0" expanded="false" />
+                <element signature="e#0#42#0" expanded="false" />
+                <element signature="e#1772#2433#0" expanded="false" />
+                <element signature="e#2440#2489#0" expanded="false" />
+                <element signature="e#2762#3850#0" expanded="false" />
+                <element signature="e#3920#4201#0" expanded="false" />
+                <element signature="e#4252#4864#0" expanded="false" />
+                <element signature="e#4914#5949#0" expanded="false" />
+                <element signature="e#5999#6769#0" expanded="false" />
+                <element signature="e#6822#7424#0" expanded="false" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Supplier.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/models/Supplier.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="360">
+              <caret line="24" column="20" selection-start-line="24" selection-start-column="20" selection-end-line="24" selection-end-column="20" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -67,6 +80,16 @@
               <folding>
                 <element signature="e#915#1179#0" expanded="false" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="EVResponse.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/controllers/EVResponse.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="210">
+              <caret line="14" column="0" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -128,26 +151,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="LocationController.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/controllers/api/LocationController.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="216">
-              <caret line="86" column="51" selection-start-line="86" selection-start-column="33" selection-end-line="86" selection-end-column="51" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ItemController.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/controllers/api/ItemController.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="216">
-              <caret line="86" column="51" selection-start-line="86" selection-start-column="33" selection-end-line="86" selection-end-column="51" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
     </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
@@ -199,15 +202,15 @@
         <option value="$PROJECT_DIR$/models/User-Notification.js" />
         <option value="$PROJECT_DIR$/models/Users/User-Notification.js" />
         <option value="$PROJECT_DIR$/controllers/api/TaskController.js" />
-        <option value="$PROJECT_DIR$/controllers/EVResponse.js" />
         <option value="$PROJECT_DIR$/routes/api/v1.0.js" />
-        <option value="$PROJECT_DIR$/models/Supplier.js" />
         <option value="$PROJECT_DIR$/controllers/api/EventController.js" />
-        <option value="$PROJECT_DIR$/controllers/api/SupplierController.js" />
         <option value="$PROJECT_DIR$/controllers/api/Users/UserTaskController.js" />
         <option value="$PROJECT_DIR$/controllers/api/Users/UserNotification.js" />
         <option value="$PROJECT_DIR$/controllers/api/Users/UserEventController.js" />
         <option value="$PROJECT_DIR$/controllers/api/Users/UserAwardController.js" />
+        <option value="$PROJECT_DIR$/controllers/EVResponse.js" />
+        <option value="$PROJECT_DIR$/models/Supplier.js" />
+        <option value="$PROJECT_DIR$/controllers/api/SupplierController.js" />
       </list>
     </option>
   </component>
@@ -282,60 +285,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="event-go-server" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="event-go-server" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="controllers" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="event-go-server" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="event-go-server" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="controllers" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="api" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="event-go-server" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="event-go-server" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="controllers" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="api" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Users" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
       <pane id="Scratches" />
@@ -351,11 +300,11 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/models/Events" />
       <recent name="$PROJECT_DIR$/models/Tasks" />
       <recent name="$PROJECT_DIR$/models/Users" />
       <recent name="$PROJECT_DIR$/controllers/api/Users" />
-      <recent name="$PROJECT_DIR$/controllers/api" />
     </key>
   </component>
   <component name="RunManager" selected="Node.js.bin/www">
@@ -447,12 +396,12 @@
       <workItem from="1489215795348" duration="2127000" />
       <workItem from="1489224911724" duration="872000" />
       <workItem from="1489562683089" duration="10189000" />
-      <workItem from="1489726004441" duration="3807000" />
+      <workItem from="1489726004441" duration="5899000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="39905000" />
+    <option name="totallyTimeSpent" value="41997000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -465,16 +414,17 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1243" height="734" extended-state="0" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22504091" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32954547" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32954547" sideWeight="0.5032733" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32954547" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.0" sideWeight="0.4967267" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.36688313" sideWeight="0.4967267" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -482,7 +432,6 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
@@ -726,14 +675,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/controllers/EVResponse.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="21" column="18" selection-start-line="21" selection-start-column="18" selection-end-line="21" selection-end-column="18" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/routes/api/v1.0.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="390">
@@ -750,34 +691,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/models/Supplier.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="214">
-          <caret line="33" column="19" selection-start-line="33" selection-start-column="16" selection-end-line="33" selection-end-column="19" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/controllers/api/TaskController.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="187">
           <caret line="89" column="51" selection-start-line="89" selection-start-column="33" selection-end-line="89" selection-end-column="51" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/controllers/api/SupplierController.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="49" column="55" selection-start-line="49" selection-start-column="37" selection-end-line="49" selection-end-column="55" />
-          <folding>
-            <element signature="e#0#42#0" expanded="false" />
-            <element signature="e#2681#2962#0" expanded="false" />
-            <element signature="e#3013#3625#0" expanded="false" />
-            <element signature="e#3675#4710#0" expanded="false" />
-            <element signature="e#4760#5530#0" expanded="false" />
-            <element signature="e#5583#6185#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -874,12 +792,46 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/controllers/EVResponse.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="14" column="0" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/controllers/api/Users/UserAwardController.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="108">
-          <caret line="55" column="0" selection-start-line="55" selection-start-column="0" selection-end-line="55" selection-end-column="0" />
+        <state relative-caret-position="1065">
+          <caret line="73" column="34" selection-start-line="73" selection-start-column="34" selection-end-line="73" selection-end-column="34" />
           <folding>
             <element signature="e#0#42#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/Supplier.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="24" column="20" selection-start-line="24" selection-start-column="20" selection-end-line="24" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/controllers/api/SupplierController.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="358">
+          <caret line="47" column="12" selection-start-line="47" selection-start-column="12" selection-end-line="47" selection-end-column="12" />
+          <folding>
+            <element signature="e#0#42#0" expanded="false" />
+            <element signature="e#1772#2433#0" expanded="false" />
+            <element signature="e#2440#2489#0" expanded="false" />
+            <element signature="e#2762#3850#0" expanded="false" />
+            <element signature="e#3920#4201#0" expanded="false" />
+            <element signature="e#4252#4864#0" expanded="false" />
+            <element signature="e#4914#5949#0" expanded="false" />
+            <element signature="e#5999#6769#0" expanded="false" />
+            <element signature="e#6822#7424#0" expanded="false" />
           </folding>
         </state>
       </provider>

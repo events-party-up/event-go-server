@@ -2,7 +2,7 @@
 function SuccessResponse(res,result) {
   res.json({
     'code': 200,
-    'result': result
+    'data': result
   });
 };
 

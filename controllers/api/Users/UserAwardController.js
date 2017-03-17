@@ -61,7 +61,7 @@ module.exports = {
         var body = EVBody(req.body);
         var user_id = req.query.user_id;
         var newAward = new UserAward(body);
-        newAward.user_id = user_id
+        newAward.user_id = user_id;
         newAward.supplier_id = supplier_id;
 
         RxMongo.save(newAward).subscribe(function () {

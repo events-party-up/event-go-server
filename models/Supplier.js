@@ -19,7 +19,11 @@ var supplierSchema = new Schema({
         type: Date,
         default: new Date()
     },
-    status: String
+    status: String,
+    tags: {
+        type: [String],
+        default: [],
+    }
 });
 
 var jwt = require('jsonwebtoken');

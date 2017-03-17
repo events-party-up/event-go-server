@@ -15,7 +15,47 @@ var EVBody = require('./../EVBody.js');
 
 module.exports = {
 
-    // GET suppliers?assess_token={}
+    /**
+     * @api {get} /suppliers/ Read all supplier info
+     * @apiVersion 0.1.0
+     * @apiName GetAllSupplier
+     * @apiGroup Supplier
+     * @apiPermission none
+     *
+     * @apiDescription Lấy tất cả supplier hiện có với thông tin cơ bản
+     *
+     *
+     * @apiExample Example usage:
+     * GET /suppliers
+     *
+     * @apiSuccess {Number} code                Code Success
+     * @apiSuccess {Object[]} data              List of Suppliers options (Array of Suppliers).
+     * @apiSuccessExample {json} Success-Response:
+     *     HTTP/1.1 200 OK
+     *     {
+     *       code: 200,
+     *       data: [
+     *          supplier_id: "string",
+     *          name: "string",
+     *         image_urL: "string",
+     *         level: Number,
+     *         company_info: {
+     *           company_name: "string"
+     *         },
+     *         supplier_status: "string",
+     *         tags: "[string]"
+     *       ]
+     *     }
+     *
+     * @apiError NoAccessRight Only authenticated Admins can access the data.
+     * @apiError UserNotFound   The <code>id</code> of the User was not found.
+     *
+     * @apiErrorExample Response (example):
+     *     HTTP/1.1 401 Not Authenticated
+     *     {
+     *       "error": "NoAccessRight"
+     *     }
+     */
     getAll : function(req, res, next) {
 
         RxMongo.find(Suppliers, {}).subscribe(function (docs) {

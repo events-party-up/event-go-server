@@ -16,7 +16,7 @@ var EVBody = require('./../EVBody.js');
 module.exports = {
 
     /**
-     * @api {get} /suppliers/ Read all supplier info
+     * @api {get} suppliers/ Read all supplier info
      * @apiVersion 0.1.0
      * @apiName GetAllSupplier
      * @apiGroup Supplier
@@ -79,12 +79,54 @@ module.exports = {
         });
     },
 
-    // GET suppliers/events/:event_id?assess_token={}
-    // Step 1: Check supplier_id in access_token and get event_id in params
-    // Step 2: Find Event with (event_id, supplier_id)
-    // Step 3.1: True - get all UserEvent with event_id
-    // Step 3.2: False - Callback result
+
+
+
+    /**
+     * @api {get} suppliers/:event_id Get All User In Event
+     * @apiParam {String} event_id want to get all user
+     * @apiVersion 0.1.0
+     * @apiName Get all user in event
+     * @apiGroup Supplier
+     * @apiPermission supplier or admin
+     *
+     * @apiDescription Lấy danh sách người chơi tham gia sự kiện
+     *
+     *
+     * @apiExample Example usage:
+     * GET /suppliers/events/abcde
+     *
+     * @apiSuccess {Number} code                Code Success
+     * @apiSuccess {Object[]} data              List of Suppliers options (Array of Suppliers).
+     * @apiSuccessExample {json} Success-Response:
+     *     HTTP/1.1 200 OK
+     *     {
+     *       code: 200,
+     *       data: [
+     *         event_id: "string",
+     *         user_id: "string",
+     *         start_time: Number,
+     *         end_time: Number,
+     *         status: "string",
+     *         user_tasks: "[string]"
+     *       ]
+     *     }
+     *
+     * @apiError NoAccessRight Only authenticated Admins can access the data.
+     * @apiError UserNotFound   The <code>id</code> of the User was not found.
+     *
+     * @apiErrorExample Response (example):
+     *     HTTP/1.1 401 Not Authenticated
+     *     {
+     *       "error": "NoAccessRight"
+     *     }
+     */
     getAllUserEvent: function(req,res,next) {
+
+        // Step 1: Check supplier_id in access_token and get event_id in params
+        // Step 2: Find Event with (event_id, supplier_id)
+        // Step 3.1: True - get all UserEvent with event_id
+        // Step 3.2: False - Callback result
 
         // Step 1: Check supplier_id in access_token and get event_id in params
         var supplier_id = EVResponse.verifiyAccessToken(req,"supplier_id");

@@ -2,8 +2,5 @@
   "name": "Event Go",
   "version": "0.1.0",
   "description": "Event Go RESTFUL API Docs for Supplier",
-  "apidoc": {
-    "title": "APIDoc for Supplier",
-    "url" : " https://peaceful-tundra-72722.herokuapp.com/"
-  }
+  "url" : "https://api.github.com/v1"
 }

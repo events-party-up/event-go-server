@@ -301,8 +301,14 @@ module.exports = {
      *
      * @apiParamExample {json} Request-Example-InBody:
      * {
-     *    username: "username",
-     *    password: "password"
+     *    admin: {
+     *       username: "username",
+     *       password: "password"
+     *    }
+     *    supplier: {
+     *      username: "username",
+     *      password: "password"
+     *    }
      * }
      *
      * @apiSuccess {Number} code                Code Success
@@ -331,7 +337,7 @@ module.exports = {
      *     HTTP/1.1 406 Supplier data empty
      *     {
      *       "code": 406
-     *       "error": "supplier is not existed"
+     *       "error": "supplier data empty"
      *     }
      *     * @apiErrorExample username or password not availabe
      *     HTTP/1.1 407 UserName Or Password not available
@@ -387,10 +393,10 @@ module.exports = {
     },
 
     /**
-     * @api {put} suppliers?access_token Sign up
+     * @api {put} suppliers?access_token Update Supplier Info
      * @apiParam {string} supplier access_token require
      * @apiVersion 0.1.0
-     * @apiName Supplier Updated
+     * @apiName Update Supplier Info
      * @apiGroup Supplier
      * @apiPermission admin, supplier
      *

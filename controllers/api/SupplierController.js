@@ -21,7 +21,7 @@ module.exports = {
 
             if (doc != null) {
                 doc = doc.map(function (ele) {
-                    return ele.signInResult();
+                    return ele.infoResult();
                 })
             }
 
@@ -39,7 +39,7 @@ module.exports = {
         });
 
         rx.subscribe(function(doc) {
-            EVResponse.success(res, doc);
+            EVResponse.success(res, doc.infoResult());
         }, function(error) {
             EVResponse.failure(res,403, error);
         });
@@ -141,24 +141,35 @@ module.exports = {
             return;
         }
 
-        if (admin != null && admin.username != null && admin.password != null) {
-            var configure = require('../../configure/configure');
-            if (admin.username.localeCompare(configure.admin_username) == 0 &&
-                admin.password.localeCompare(configure.admin_password) == 0)
-            {
-                RxMongo.remove(Suppliers,{'_id': user_id_remove}).subscribe(function () {
-
-                    EVResponse.success(res,"Success");
-                }, function (err) {
-                    EVResponse.failure(res,403,"Failure");
-                })
-            } else {
-                EVResponse.failure(res,406,"Fail 171");
-            }
-        } else {
-            EVResponse.failure(res,406,"Fail 174");
+        var mess = EVResponse.authoriedAdmin(admin);
+        if (mess != null) {
+            EVResponse.failure(res,406,mess);
         }
 
+        RxMongo.remove(Suppliers,{'_id': user_id_remove}).subscribe(function () {
+            EVResponse.success(res,"Success");
+        }, function (err) {
+            EVResponse.failure(res,403,"Failure");
+        });
+
+    },
+
+    getAllSupplierWitAdmin: function (req,res,next) {
+
+        var body = EVBody(req.body);
+        var admin = body.admin;
+
+        var mess = EVResponse.authoriedAdmin(admin);
+        if (mess != null) {
+            EVResponse.failure(res,406,mess);
+        }
+
+        RxMongo.find(Suppliers, {}).subscribe(function (docs) {
+            EVResponse.success(res,docs);
+        }, function (error) {
+            EVResponse.failure(res,407,mess);
+        })
     }
+
 
 };

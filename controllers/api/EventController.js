@@ -120,4 +120,35 @@ module.exports = {
     })
   },
 
+  // Step 1: Check supplier_id in access_token and get event_id in params
+  // Step 2: Find Event with (event_id, supplier_id)
+  // Step 3.1: True - get all UserEvent with event_id
+  // Step 3.2: False - Callback result
+  getAllUserEvent: function(req,res,next) {
+
+    var supplier_id = EVResponse.verifiyAccessToken(req,"supplier_id");
+    if (supplier_id == null) {
+      EVResponse.failure(res,405,"Access token not true");
+      return;
+    }
+
+    var getUserEventRx = RxMongo.find(UserEvent, {
+      'event_id': user_id
+    });
+
+    var event_id = req.params.event_id;
+    RxMongo.findOne(Events, {
+      "_id": event_id,
+      "supplier_id": supplier_id
+    }).subscribe(function (doc) {
+
+      getUserEventRx.subscribe(function (docs) {
+        EVResponse.success(res,docs);
+      }, function (error) {
+        EVResponse.failure(res,406,"User Event not available");
+      })
+    }, function (error) {
+      EVResponse.failure(res,406,"Event not available");
+    });
+  }
 };

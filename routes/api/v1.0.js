@@ -30,7 +30,11 @@ router.route('/suppliers/:supplier_id')
 router.route('/suppliers/events/:event_id/users')
     .get(supplierController.getAllUserEvent);
 
-router.get('/suppliers/:supplier_id/events', supplierController.getAllOfSupplier);
+router.get('/suppliers/:supplier_id/events', supplierController.getEventAllOfSupplier);
+
+router.get('/suppliers/:supplier_id/locations', supplierController.getLocationAllOfSupplier);
+
+router.get('/suppliers/:supplier_id/items', supplierController.getItemAllOfSupplier);
 
 // Event
 var eventController = require("../../controllers/api/EventController");
@@ -84,7 +88,6 @@ router.route('/awards/:award_id')
 
 // Locations
 var locationController = require("../../controllers/api/LocationController");
-router.get('/locations', locationController.getAllOfSupplier);
 router.post('/locations', locationController.create);
 
 router.route('/locations/:location_id')
@@ -94,13 +97,12 @@ router.route('/locations/:location_id')
 
 // Items
 var itemController = require("../../controllers/api/ItemController");
-router.get('/items', itemController.getAllOfSupplier);
 router.post('/items', itemController.create);
 
 router.route('/locations/:item_id')
       .get(itemController.getDetail)
       .put(itemController.update)
-      .delete(itemController.delete)
+      .delete(itemController.delete);
 
 // Push notification
 var pushNotification = require("../../controllers/api/PushNotificationController");

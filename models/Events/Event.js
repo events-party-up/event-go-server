@@ -69,7 +69,7 @@ eventSchema.methods.getDetail = function(ver) {
   delete tObject["_v"];
 
   return tObject;
-}
+};
 
 eventSchema.methods.keyRequires = function(ver) {
 

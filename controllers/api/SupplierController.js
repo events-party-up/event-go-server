@@ -3,6 +3,7 @@
  */
 
 var Suppliers = require('../../models/Supplier');
+var Events = require('../../models/Events/Event');
 var UserEvent = require('../../models/Users/User-Event');
 
 var mongoose = require('mongoose');
@@ -16,7 +17,7 @@ var EVBody = require('./../EVBody.js');
 module.exports = {
 
     /**
-     * @api {get} suppliers/ Read all supplier info
+     * @api {get} suppliers/ GetAllSupplier
      * @apiVersion 0.1.0
      * @apiName GetAllSupplier
      * @apiGroup Supplier
@@ -47,13 +48,11 @@ module.exports = {
      *       ]
      *     }
      *
-     * @apiError NoAccessRight Only authenticated Admins can access the data.
-     * @apiError UserNotFound   The <code>id</code> of the User was not found.
      *
-     * @apiErrorExample Response (example):
-     *     HTTP/1.1 401 Not Authenticated
+     * @apiErrorExample Get supplier failure:
+     *     HTTP/1.1 403 Get supplier failure
      *     {
-     *       "error": "NoAccessRight"
+     *       "error": "Get supplier failure"
      *     }
      */
     getAll : function(req, res, next) {
@@ -75,15 +74,15 @@ module.exports = {
                 EVResponse.success(res,docs);
             }
         }, function (error) {
-            EVResponse.failure(res,407,mess);
+            EVResponse.failure(res,403,"Get supplier failure");
         });
     },
 
     /**
-     * @api {get} suppliers/:event_id Get All User In Event
+     * @api {get} suppliers/events/:event_id/users GetAllUserInEvent
      * @apiParam {String} event_id want to get all user
      * @apiVersion 0.1.0
-     * @apiName Get all user in event
+     * @apiName GetAllUserInEvent
      * @apiGroup Supplier
      * @apiPermission supplier or admin
      *
@@ -91,7 +90,7 @@ module.exports = {
      *
      *
      * @apiExample Example usage:
-     * GET /suppliers/events/abcde
+     * GET /suppliers/events/abcde/users
      *
      * @apiSuccess {Number} code                Code Success
      * @apiSuccess {Object} data              Result supplier info
@@ -109,13 +108,18 @@ module.exports = {
      *       ]
      *     }
      *
-     * @apiError NoAccessRight Only authenticated Admins can access the data.
-     * @apiError UserNotFound   The <code>id</code> of the User was not found.
      *
-     * @apiErrorExample Response (example):
-     *     HTTP/1.1 401 Not Authenticated
+     * @apiErrorExample User Event not available:
+     *     HTTP/1.1 406 User Event not available
      *     {
-     *       "error": "NoAccessRight"
+     *       "code": 406
+     *       "error": "User Event not available"
+     *     }
+     *  @apiErrorExample Event not available:
+     *     HTTP/1.1 407 Event not available
+     *     {
+     *       "code": 407
+     *       "error": "Event not available"
      *     }
      */
     getAllUserEvent: function(req,res,next) {
@@ -151,15 +155,81 @@ module.exports = {
                 EVResponse.failure(res,406,"User Event not available");
             })
         }, function (error) {
-            EVResponse.failure(res,406,"Event not available");
+            EVResponse.failure(res,405,"Event not available");
         });
     },
 
     /**
-     * @api {get} suppliers/:supplier_id Get supplier info
+     * @api {get} suppliers/:supplier_id/events GetAllEvents
+     * @apiParam {string} supplier_id Supplier_id want to get events
+     * @apiVersion 0.1.0
+     * @apiName GetAllEvents
+     * @apiGroup Supplier
+     * @apiPermission none
+     *
+     * @apiDescription  Read all event of supplier_id with basic infomation
+     *
+     *
+     * @apiExample Example usage:
+     * GET /suppliers/dasdsadsad/events
+     *
+     * @apiSuccess {Number} code                Code Success
+     * @apiSuccess {Object[]} data              List of Events options (Array of Events).
+     * @apiSuccessExample {json} Success-Response:
+     *     HTTP/1.1 200 OK
+     *     {
+     *       code: 200,
+     *       data: [
+     *        event_id: "string",
+     *        supplier_id: "string",
+     *        name: "string",
+     *        sub_name: "string",
+     *        thumbnail_url: "string",
+     *        cover_url: "string",
+     *        policy_url: "string",
+     *        detail_url: "string",
+     *        start_time: Number,
+     *        end_time: Number,
+     *        created_date: Number,
+     *        location_info: {Object Location},
+     *        tags: "[string]"
+     *       ]
+     *     }
+     *
+     *
+     * @apiErrorExample Get events failure (example):
+     *     HTTP/1.1 403 Get events failure
+     *     {
+   *       code : 403
+   *       error: "Get events failure"
+  *     }
+     */
+    getAllOfSupplier: function(req,res,next) {
+
+        var supplier_id = req.params.supplier_id
+
+        var rx = RxMongo.find(Events, {
+            "supplier_id": supplier_id
+        });
+
+        rx.subscribe(function(doc){
+            if(doc) {
+                doc = doc.map(function(element){
+                    return element.getInfo();
+                })
+            }
+            EVResponse.success(res, doc);
+        }, function(error) {
+
+            EVResponse.failure(res,403, error);
+        });
+    },
+
+    /**
+     * @api {get} suppliers/:supplier_id GetDetail
      * @apiParam {String} supplier_id want to get info
      * @apiVersion 0.1.0
-     * @apiName Get Supplier info
+     * @apiName GetDetail
      * @apiGroup Supplier
      * @apiPermission none
      *
@@ -188,13 +258,12 @@ module.exports = {
      *       ]
      *     }
      *
-     * @apiError NoAccessRight Only authenticated Admins can access the data.
-     * @apiError UserNotFound   The <code>id</code> of the User was not found.
      *
-     * @apiErrorExample Response (example):
-     *     HTTP/1.1 401 Not Authenticated
+     * @apiErrorExample Load event detail failure:
+     *     HTTP/1.1 403 Load event detail failure
      *     {
-     *       "error": "NoAccessRight"
+     *        "code": 403
+     *       "error": "Load event detail failure"
      *     }
      */
     get : function(req,res,next) {
@@ -206,14 +275,14 @@ module.exports = {
         rx.subscribe(function(doc) {
             EVResponse.success(res, doc.infoResult());
         }, function(error) {
-            EVResponse.failure(res,403, error);
+            EVResponse.failure(res,403, "Load event detail failure");
         });
     },
 
     /**
-     * @api {post} suppliers/signin Sign in
+     * @api {post} suppliers/signin SignIn
      * @apiVersion 0.1.0
-     * @apiName Supplier SignIn
+     * @apiName SignIn
      * @apiGroup Supplier
      * @apiPermission none
      *
@@ -221,7 +290,7 @@ module.exports = {
      *
      *
      * @apiExample Example usage:
-     * Post /suppliers/signin
+     * POST /suppliers/signin
      *
      * @apiParamExample {json} Request-Example-InBody:
      * {
@@ -287,9 +356,9 @@ module.exports = {
     },
 
     /**
-     * @api {post} suppliers/signup Sign up
+     * @api {post} suppliers/signup SignUp
      * @apiVersion 0.1.0
-     * @apiName Supplier SignUp
+     * @apiName SignUp
      * @apiGroup Supplier
      * @apiPermission admin
      *
@@ -297,7 +366,7 @@ module.exports = {
      *
      *
      * @apiExample Example usage:
-     * Post /suppliers/signup
+     * POST /suppliers/signup
      *
      * @apiParamExample {json} Request-Example-InBody:
      * {
@@ -393,10 +462,10 @@ module.exports = {
     },
 
     /**
-     * @api {put} suppliers?access_token Update Supplier Info
+     * @api {put} suppliers?access_token UpdateInfo
      * @apiParam {string} supplier access_token require
      * @apiVersion 0.1.0
-     * @apiName Update Supplier Info
+     * @apiName UpdateInfo
      * @apiGroup Supplier
      * @apiPermission admin, supplier
      *
@@ -404,7 +473,7 @@ module.exports = {
      *
      *
      * @apiExample Example usage:
-     * Put /suppliers?access_token=asdfsdf
+     * PUT /suppliers?access_token=asdfsdf
      *
      * @apiParamExample {json} Request-Example-InBody:
      * {
@@ -482,9 +551,9 @@ module.exports = {
     },
 
     /**
-     * @api {delete} suppliers/:suplier_id Delete supplier
+     * @api {delete} suppliers/:suplier_id Delete
      * @apiVersion 0.1.0
-     * @apiName Delete supplier
+     * @apiName Delete
      * @apiGroup Supplier
      * @apiPermission admin
      *
@@ -492,7 +561,7 @@ module.exports = {
      *
      *
      * @apiExample Example usage:
-     * Delete /suppliers/asdasdas
+     * DELETE /suppliers/asdasdas
      *
      * @apiParamExample {json} Request-Example-InBody:
      * {
@@ -503,7 +572,7 @@ module.exports = {
      * }
      *
      * @apiSuccess {Number} code                Code Success
-     * @apiSuccess {Object} data                Result supplier info
+     * @apiSuccess {String} data                Message
      * @apiSuccessExample {json} Success-Response:
      *     HTTP/1.1 200 OK
      *     {

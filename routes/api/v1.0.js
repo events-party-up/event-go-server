@@ -15,6 +15,8 @@ router.route('/users/:id')
 
 // Supplier
 var supplierController = require("../../controllers/api/SupplierController.js");
+
+
 router.get('/suppliers', supplierController.getAll);
 router.post('/suppliers/signUp', supplierController.signUp);
 router.post('/suppliers/signIn', supplierController.signIn);
@@ -25,12 +27,13 @@ router.route('/suppliers/:supplier_id')
     .get(supplierController.get);
 
 // GET suppliers/events/:event_id?assess_token={}
-router.route('/suppliers/events/:event_id')
+router.route('/suppliers/events/:event_id/users')
     .get(supplierController.getAllUserEvent);
+
+router.get('/suppliers/:supplier_id/events', supplierController.getAllOfSupplier);
 
 // Event
 var eventController = require("../../controllers/api/EventController");
-router.get('/events', eventController.getAllOfSupplier);
 router.post('/events', eventController.createEvent);
 
 router.route('/events/:event_id')

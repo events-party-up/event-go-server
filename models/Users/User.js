@@ -72,7 +72,6 @@ userSchema.methods.signInResult = function (version) {
         provider_type: this.provider_type,
         provider_id: this.provider_id,
         user_status: this.user_status,
-        tags: this.tags,
         devices: this.devices,
         last_location_info: this.last_location_info,
         access_token: this.generateJWT()
@@ -90,7 +89,8 @@ userSchema.methods.infoResult = function (version) {
         birthday: this.birthday,
         address: this.address,
         level: this.level,
-        created_date: this.created_date
+        created_date: this.created_date,
+        tags: this.tags,
     }
 };
 

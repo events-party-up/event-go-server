@@ -51,7 +51,7 @@ supplierSchema.methods.signInResult = function (version) {
 
 supplierSchema.methods.infoResult = function (version) {
     return {
-        user_id: this._id,
+        supplier_id: this._id,
         name: this.name,
         image_url: this.image_url,
         level: this.level,

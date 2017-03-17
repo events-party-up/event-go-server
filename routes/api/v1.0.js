@@ -20,7 +20,7 @@ router.post('/suppliers/signUp', supplierController.signUp);
 router.post('/suppliers/signIn', supplierController.signIn);
 router.put('/suppliers', supplierController.update);
 
-router.route('/suppliers/:id')
+router.route('/suppliers/:supplier_id')
     .delete(supplierController.delete)
     .get(supplierController.get);
 

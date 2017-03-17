@@ -79,9 +79,6 @@ module.exports = {
         });
     },
 
-
-
-
     /**
      * @api {get} suppliers/:event_id Get All User In Event
      * @apiParam {String} event_id want to get all user
@@ -97,7 +94,7 @@ module.exports = {
      * GET /suppliers/events/abcde
      *
      * @apiSuccess {Number} code                Code Success
-     * @apiSuccess {Object[]} data              List of Suppliers options (Array of Suppliers).
+     * @apiSuccess {Object} data              Result supplier info
      * @apiSuccessExample {json} Success-Response:
      *     HTTP/1.1 200 OK
      *     {
@@ -158,7 +155,48 @@ module.exports = {
         });
     },
 
-    // GET suppliers/:supplier_id
+    /**
+     * @api {get} suppliers/:supplier_id Get supplier info
+     * @apiParam {String} supplier_id want to get info
+     * @apiVersion 0.1.0
+     * @apiName Get Supplier info
+     * @apiGroup Supplier
+     * @apiPermission none
+     *
+     * @apiDescription Get supplier info
+     *
+     *
+     * @apiExample Example usage:
+     * GET /suppliers/abcde
+     *
+     * @apiSuccess {Number} code                Code Success
+     * @apiSuccess {Object} data                Result supplier info
+     * @apiSuccessExample {json} Success-Response:
+     *     HTTP/1.1 200 OK
+     *     {
+     *       code: 200,
+     *       data: [
+     *         supplier_id: "string",
+     *         name: "string",
+     *         image_urL: "string",
+     *         level: Number,
+     *         company_info: {
+     *           company_name: "string"
+     *         },
+     *         supplier_status: "string",
+     *         tags: "[string]"
+     *       ]
+     *     }
+     *
+     * @apiError NoAccessRight Only authenticated Admins can access the data.
+     * @apiError UserNotFound   The <code>id</code> of the User was not found.
+     *
+     * @apiErrorExample Response (example):
+     *     HTTP/1.1 401 Not Authenticated
+     *     {
+     *       "error": "NoAccessRight"
+     *     }
+     */
     get : function(req,res,next) {
 
         var rx = RxMongo.findOne(Suppliers, {
@@ -172,30 +210,148 @@ module.exports = {
         });
     },
 
-    // POST
+    /**
+     * @api {post} suppliers/signin Sign in
+     * @apiVersion 0.1.0
+     * @apiName Supplier SignIn
+     * @apiGroup Supplier
+     * @apiPermission none
+     *
+     * @apiDescription Supplier SignIn
+     *
+     *
+     * @apiExample Example usage:
+     * Post /suppliers/signin
+     *
+     * @apiParamExample {json} Request-Example-InBody:
+     * {
+     *    username: "username",
+     *    password: "password"
+     * }
+     *
+     * @apiSuccess {Number} code                Code Success
+     * @apiSuccess {Object} data              List of Suppliers options (Array of Suppliers).
+     * @apiSuccessExample {json} Success-Response:
+     *     HTTP/1.1 200 OK
+     *     {
+     *       code: 200,
+     *       data: [
+     *         supplier_id: "string",
+     *         name: "string",
+     *         image_urL: "string",
+     *         level: Number,
+     *         company_info: {
+     *           company_name: "string"
+     *         },
+     *         supplier_status: "string",
+     *         tags: "[string]",
+     *         username: "string",
+     *         access_token: "string"
+     *       ]
+     *     }
+     *
+     *
+     * @apiErrorExample User is not existed:
+     *     HTTP/1.1 403 Not Authenticated
+     *     {
+     *       "code": 403
+     *       "error": "supplier is not existed"
+     *     }
+     *     * @apiErrorExample User is not existed:
+     *     HTTP/1.1 404 Not Authenticated
+     *     {
+     *       "code": 404
+     *       "error": "Missing missing username or passoword key"
+     *     }
+     */
     signIn: function (req,res,next) {
 
         var body = EVBody(req.body);
         var username = body.username;
         var password = body.password;
 
-        if (username != null && password != null) {
-
-            RxMongo.findOne(Suppliers,{
-                'username': username,
-                'password': password
-            }, false). subscribe(function (doc) {
-
-                EVResponse.success(res,doc.signInResult());
-            }, function (error) {
-                EVResponse.failure(res,403,error);
-            })
-        } else {
-            EVResponse.failure(res,403,"Missing missing username + passoword key");
+        if (username == null || password == null) {
+            EVResponse.failure(res,404,"Missing missing username or passoword key");
+            return;
         }
+
+        RxMongo.findOne(Suppliers,{
+            'username': username,
+            'password': password
+        }, false). subscribe(function (doc) {
+
+            EVResponse.success(res,doc.signInResult());
+        }, function (error) {
+            EVResponse.failure(res,403,"supplier is not existed");
+        });
     },
 
-    // POST
+    /**
+     * @api {post} suppliers/signup Sign up
+     * @apiVersion 0.1.0
+     * @apiName Supplier SignUp
+     * @apiGroup Supplier
+     * @apiPermission admin
+     *
+     * @apiDescription Supplier SignUp
+     *
+     *
+     * @apiExample Example usage:
+     * Post /suppliers/signup
+     *
+     * @apiParamExample {json} Request-Example-InBody:
+     * {
+     *    username: "username",
+     *    password: "password"
+     * }
+     *
+     * @apiSuccess {Number} code                Code Success
+     * @apiSuccess {Object} data                Result supplier info
+     * @apiSuccessExample {json} Success-Response:
+     *     HTTP/1.1 200 OK
+     *     {
+     *       code: 200,
+     *       data: [
+     *         supplier_id: "string",
+     *         name: "string",
+     *         image_urL: "string",
+     *         level: Number,
+     *         company_info: {
+     *           company_name: "string"
+     *         },
+     *         supplier_status: "string",
+     *         tags: "[string]",
+     *         username: "string",
+     *         access_token: "string"
+     *       ]
+     *     }
+     *
+     *
+     * @apiErrorExample Supplier data empty:
+     *     HTTP/1.1 406 Supplier data empty
+     *     {
+     *       "code": 406
+     *       "error": "supplier is not existed"
+     *     }
+     *     * @apiErrorExample username or password not availabe
+     *     HTTP/1.1 407 UserName Or Password not available
+     *     {
+     *       "code": 407
+     *       "error": "UserName Or Password not available"
+     *     }
+     *     * @apiErrorExample Authoried admin failure
+     *     HTTP/1.1 408 Authoried admin fail
+     *     {
+     *       "code": 408
+     *       "error": "Authoried admin fail"
+     *     }
+     *     * @apiErrorExample Create new supplier failure
+     *     HTTP/1.1 409 Create new supplier failure
+     *     {
+     *       "code": 409
+     *       "error": "Create new supplier failure"
+     *     }
+     */
     signUp: function(req,res,next) {
 
         var body = EVBody(req.body);
@@ -203,84 +359,180 @@ module.exports = {
         var supplierData = body.supplier;
 
         if (supplierData == null) {
-            EVResponse.failure(res,406,"Fail 77");
+            EVResponse.failure(res,406,"Supplier data empty");
             return;
         }
 
-        if (admin != null && admin.username != null && admin.password != null) {
-
-            // check username vs password available
-            var username = supplierData.username;
-            var password = supplierData.password;
-
-            if (username.length < 6 || password.length < 6) {
-                EVResponse.failure(res,407,'username & password not availabe');
-            }
-
-            // create new password
-            var newSupplier = new Suppliers(supplierData);
-            RxMongo.save(newSupplier).subscribe(function () {
-                EVResponse.success(res,newSupplier.signInResult());
-            }, function (error) {
-                EVResponse.failure(res,406,error);
-            })
-
-        } else {
-            EVResponse.failure(res,406,"Fail 174");
+        var adminMess = EVResponse.authoriedAdmin(admin);
+        if (admin != null) {
+            EVResponse.failure(res,408,adminMess);
+            return;
         }
 
+        // check username vs password available
+        var username = supplierData.username;
+        var password = supplierData.password;
+
+        if (username.length < 6 || password.length < 6) {
+            EVResponse.failure(res,407,'username or password not availabe');
+        }
+
+        // create new password
+        var newSupplier = new Suppliers(supplierData);
+        RxMongo.save(newSupplier).subscribe(function () {
+            EVResponse.success(res,newSupplier.signInResult());
+        }, function (error) {
+            EVResponse.failure(res,409,"Create new supplier failure");
+        });
     },
 
-    // PUT
+    /**
+     * @api {put} suppliers?access_token Sign up
+     * @apiParam {string} supplier access_token require
+     * @apiVersion 0.1.0
+     * @apiName Supplier Updated
+     * @apiGroup Supplier
+     * @apiPermission admin, supplier
+     *
+     * @apiDescription Supplier Update
+     *
+     *
+     * @apiExample Example usage:
+     * Put /suppliers?access_token=asdfsdf
+     *
+     * @apiParamExample {json} Request-Example-InBody:
+     * {
+     *    name: "{string}",
+     *    company_info: {
+     *        url: "asdasd"
+     *    },
+     *    ..... (more field in supplier)
+     * }
+     *
+     * @apiSuccess {Number} code                Code Success
+     * @apiSuccess {Object} data                Result supplier info
+     * @apiSuccessExample {json} Success-Response:
+     *     HTTP/1.1 200 OK
+     *     {
+     *       code: 200,
+     *       data: [
+     *         supplier_id: "string",
+     *         name: "string",
+     *         image_urL: "string",
+     *         level: Number,
+     *         company_info: {
+     *           company_name: "string"
+     *         },
+     *         supplier_status: "string",
+     *         tags: "[string]",
+     *         username: "string",
+     *         access_token: "string"
+     *       ]
+     *     }
+     *
+     *
+     * @apiErrorExample Missing access token:
+     *     HTTP/1.1 401 Missing access token
+     *     {
+     *       "code": 401
+     *       "error": "Missing access token"
+     *     }
+     *     * @apiErrorExample Update fail with error:
+     *     HTTP/1.1 402 Update fail with error
+     *     {
+     *       "code": 402
+     *       "error": "Update fail with error + error"
+     *     }
+     */
     update: function (req,res,next) {
 
         var body = EVBody(req.body);
 
         // Check access token
         var access_token = body.access_token;
-        if ( access_token == null) {
-            EVResponse.failure(res,403,"Missing access token");
+        var adminMess = EVResponse.authoriedAdmin(body.admin);
+
+        if ( access_token == null && adminMess != null) {
+            EVResponse.failure(res,401,"Missing access token");
             return;
         }
 
-        // CHeck user_id decode jwt
-        var decode = jwt_decode(access_token);
-        var user_id = decode.user_id;
-        if ( user_id == null) {
+        var supplier_id = EVResponse.verifiyAccessToken(req,"supplier_id");
+        // Admin ver
+        if (adminMess == null && body.supplier_id != null) {
+            supplier_id = body.supplier_id;
+        }
+        if ( supplier_id == null) {
 
-            EVResponse.failure(res,403,"Missing access token");
+            EVResponse.failure(res,401,"Missing access token");
             return;
         }
 
-        RxMongo.findOneAndUpdated(Suppliers,{'_id': user_id}, body).subscribe(function (doc) {
-            EVResponse.success(res,"Update success");
+        RxMongo.findOneAndUpdated(Suppliers,{'_id': supplier_id}, body).subscribe(function (doc) {
+            EVResponse.success(res,doc.signInResult());
         }, function (error) {
-            EVResponse.failure(res,403,"Update fail with error " + error);
+            EVResponse.failure(res,402,"Update fail with error " + error);
         });
-
     },
 
-    // Delete
+    /**
+     * @api {delete} suppliers/:suplier_id Delete supplier
+     * @apiVersion 0.1.0
+     * @apiName Delete supplier
+     * @apiGroup Supplier
+     * @apiPermission admin
+     *
+     * @apiDescription Supplier delete
+     *
+     *
+     * @apiExample Example usage:
+     * Delete /suppliers/asdasdas
+     *
+     * @apiParamExample {json} Request-Example-InBody:
+     * {
+     *      admin: {
+     *       username: "username",
+     *       password: "password"
+     *      }
+     * }
+     *
+     * @apiSuccess {Number} code                Code Success
+     * @apiSuccess {Object} data                Result supplier info
+     * @apiSuccessExample {json} Success-Response:
+     *     HTTP/1.1 200 OK
+     *     {
+     *       code: 200,
+     *       data: "Success"
+     *     }
+     *
+     *
+     * @apiErrorExample Admin authoried failure:
+     *     HTTP/1.1 401 Admin authoried failure
+     *     {
+     *       "code": 401
+     *       "error": "Admin authoried failure"
+     *     }
+     *     * @apiErrorExample Failure Delete Supplier
+     *     HTTP/1.1 402 Failure Delete Supplier
+     *     {
+     *       "code": 402
+     *       "error": "Failure Delete Supplier"
+     *     }
+     */
     delete: function (req,res,next) {
 
         var body = EVBody(req.body);
         var admin = body.admin;
-        var user_id_remove = req.params.id;
-
-        if (user_id_remove == null) {
-            EVResponse.failure(res,403,"Fail 155");
-            return;
-        }
 
         var mess = EVResponse.authoriedAdmin(admin);
         if (mess != null) {
-            EVResponse.failure(res,406,mess);
+            EVResponse.failure(res,401,mess);
         }
 
-        RxMongo.remove(Suppliers,{'_id': user_id_remove}).subscribe(function () {
+        RxMongo.remove(Suppliers,{'_id': supplier_id_remove}).subscribe(function () {
             EVResponse.success(res,"Success");
         }, function (err) {
-            EVResponse.failure(res,403,"Failure");
+            EVResponse.failure(res,402,"Failure Delete Supplier");
         });
 
     },

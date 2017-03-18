@@ -16,7 +16,7 @@ var userNotificationSchema = new Schema({
         ref: 'notification'
     },
     title: String,
-    subTitle: String,
+    body: String,
     image_url: String,
     create_time: {
         type: Date,

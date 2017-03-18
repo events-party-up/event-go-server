@@ -9,7 +9,7 @@ var awardSchema = new Schema({
     },
     name: String,
     image_url: String,
-    describe: String,
+    detail: String,
     contact: String,
     more: String,
     item_id: String,
@@ -20,7 +20,8 @@ var awardSchema = new Schema({
     tags: {
       type: [String],
       default: []
-    }
+    },
+    status: String
 });
 
 var jwt = require('jsonwebtoken');

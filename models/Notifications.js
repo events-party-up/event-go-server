@@ -7,16 +7,13 @@ var notificationSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'supplier'
   },
-  pushed_users: {
-    type: [String],
-    default: []
-  },
   created_date: {
     type: Date,
     default: new Date()
   },
   title: String,
   body: String,
+  image_url: String,
   time_start_push: Date,
   time_end_push: Date,
   max_push_per_user: Number,

@@ -29,7 +29,7 @@ module.exports = {
    *     HTTP/1.1 200 OK
    *     {
      *       code: 200,
-     *       data: [
+     *       data: {
      *        location_id: string,
      *        supplier_id: string,
      *        name: string,
@@ -41,7 +41,7 @@ module.exports = {
      *        location_info: {Object Location},
      *        tags: [string]
      *        status: string,
-     *       ]
+     *       }
      *     }
    *
    *
@@ -99,7 +99,7 @@ module.exports = {
    *     HTTP/1.1 200 OK
    *     {
      *       code: 200,
-     *       data: [
+     *       data: {
      *        location_id: string,
      *        supplier_id: string,
      *        name: string,
@@ -111,7 +111,7 @@ module.exports = {
      *        location_info: {Object Location},
      *        tags: [string]
      *        status: string,
-     *       ]
+     *       }
      *     }
    *
    *
@@ -181,7 +181,7 @@ module.exports = {
    *     HTTP/1.1 200 OK
    *     {
      *       code: 200,
-     *       data: [
+     *       data: {
      *        location_id: string,
      *        supplier_id: string,
      *        name: string,
@@ -193,7 +193,7 @@ module.exports = {
      *        location_info: {Object Location},
      *        tags: [string]
      *        status: string,
-     *       ]
+     *       }
      *     }
    *
    *

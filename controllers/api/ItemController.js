@@ -29,7 +29,7 @@ module.exports = {
    *     HTTP/1.1 200 OK
    *     {
      *       code: 200,
-     *       data: [
+     *       data: {
      *        item_id: string,
      *        supplier_id: string,
      *        name: string,
@@ -38,7 +38,7 @@ module.exports = {
      *        created_date: Number,
      *        tags: [string]
      *        status: string,
-     *       ]
+     *       }
      *     }
    *
    *
@@ -93,7 +93,7 @@ module.exports = {
    *     HTTP/1.1 200 OK
    *     {
      *       code: 200,
-     *       data: [
+     *       data: {
      *        item_id: string,
      *        supplier_id: string,
      *        name: string,
@@ -102,7 +102,7 @@ module.exports = {
      *        created_date: Number,
      *        tags: [string]
      *        status: string,
-     *       ]
+     *       }
      *     }
    *
    *
@@ -169,7 +169,7 @@ module.exports = {
    *     HTTP/1.1 200 OK
    *     {
      *       code: 200,
-     *       data: [
+     *       data: {
      *        item_id: string,
      *        supplier_id: string,
      *        name: string,
@@ -178,7 +178,7 @@ module.exports = {
      *        created_date: Number,
      *        tags: [string]
      *        status: string,
-     *       ]
+     *       }
      *     }
    *
    *

@@ -32,7 +32,7 @@ module.exports = {
    *     HTTP/1.1 200 OK
    *     {
      *       code: 200,
-     *       data: [
+     *       data: {
      *        task_id: "string",
      *        supplier_id: "string",
      *        name: "string",
@@ -51,7 +51,7 @@ module.exports = {
      *        next_tasks: [string],
      *        previous_tasks_require: [string]
      *        status: string
-     *       ]
+     *       }
      *     }
    *
    *
@@ -118,7 +118,7 @@ module.exports = {
    *     HTTP/1.1 200 OK
    *     {
      *       code: 200,
-     *       data: [
+     *       data: {
      *        task_id: "string",
      *        supplier_id: "string",
      *        name: "string",
@@ -138,7 +138,7 @@ module.exports = {
      *        award_ids: [string],
      *        task_ids: [string],
      *        status: string
-     *       ]
+     *       }
      *     }
    *
    *
@@ -232,7 +232,7 @@ module.exports = {
    *     HTTP/1.1 200 OK
    *     {
      *       code: 200,
-     *       data: [
+     *       data: {
      *        task_id: "string",
      *        supplier_id: "string",
      *        name: "string",
@@ -252,7 +252,7 @@ module.exports = {
      *        award_ids: [string],
      *        task_ids: [string],
      *        status: string
-     *       ]
+     *       }
      *     }
    *
    *

@@ -12,7 +12,6 @@ router.route('/users/:id')
     .delete(userController.delete)
     .get(userController.get);
 
-
 // Supplier
 var supplierController = require("../../controllers/api/SupplierController.js");
 
@@ -26,7 +25,6 @@ router.route('/suppliers/:supplier_id')
     .delete(supplierController.delete)
     .get(supplierController.get);
 
-// GET suppliers/events/:event_id?assess_token={}
 router.route('/suppliers/events/:event_id/users')
     .get(supplierController.getAllUserEvent);
 
@@ -35,6 +33,10 @@ router.get('/suppliers/:supplier_id/events', supplierController.getEventAllOfSup
 router.get('/suppliers/:supplier_id/locations', supplierController.getLocationAllOfSupplier);
 
 router.get('/suppliers/:supplier_id/items', supplierController.getItemAllOfSupplier);
+
+router.get('/suppliers/:supplier_id/awards', supplierController.getAwardAllOfSupplier);
+
+router.get('/suppliers/:supplier_id/notificaitons', supplierController.getNotificationAllOfSupplier);
 
 // Event
 var eventController = require("../../controllers/api/EventController");
@@ -78,7 +80,6 @@ router.route('/userevents/:user_event_id/tasks/:user_task_id')
 
 // Awards
 var awardController = require("../../controllers/api/AwardController");
-router.get('/awards', awardController.getAllOfSupplier);
 router.post('/awards', awardController.createAward);
 
 router.route('/awards/:award_id')

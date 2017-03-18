@@ -7,6 +7,7 @@ var Events = require('../../models/Events/Event');
 var UserEvent = require('../../models/Users/User-Event');
 var Locations = require('../../models/Location');
 var Items = require('../../models/Events/Item');
+var Notifications = require('../../models/Notifications');
 
 var mongoose = require('mongoose');
 var GoogleAuth = require('google-auth-library');
@@ -233,7 +234,7 @@ module.exports = {
      * @apiVersion 0.1.0
      * @apiName GetAllLocations
      * @apiGroup Supplier
-     * @apiPermission none
+     * @apiPermission supplier or admin
      *
      * @apiDescription  Read all locations of supplier_id with basic infomation
      *
@@ -300,7 +301,7 @@ module.exports = {
      * @apiVersion 0.1.0
      * @apiName GetAllItems
      * @apiGroup Supplier
-     * @apiPermission none
+     * @apiPermission supplier or admin
      *
      * @apiDescription  Read all items of supplier_id
      *
@@ -355,6 +356,139 @@ module.exports = {
             EVResponse.success(res, doc);
         }, function(error) {
             EVResponse.failure(res,403, error);
+        });
+    },
+
+    /**
+     * @api {get} suppliers/:supplier_id/awards?access_token={} GetAllAward
+     * @apiParam {string} supplier_id Supplier_id want to get awards
+     * @apiVersion 0.1.0
+     * @apiName GetAllAwards
+     * @apiGroup Supplier
+     * @apiPermission supplier or admin
+     *
+     * @apiDescription  Read all awards of supplier_id
+     *
+     *
+     * @apiExample Example usage:
+     * GET /suppliers/dasdsadsad/awards?access_token=abcde
+     *
+     * @apiSuccess {Number} code                Code Success
+     * @apiSuccess {Object[]} data              List of awards options (Array of Awards).
+     * @apiSuccessExample {json} Success-Response:
+     *     HTTP/1.1 200 OK
+     *     {
+     *       code: 200,
+     *       data: [
+     *        award_id: string,
+     *        supplier_id: string,
+     *        name: string,
+     *        detail: string,
+     *        image_url: string,
+     *        more: string,
+     *        contact: string,
+     *        item_id: string,
+     *        created_date: Number,
+     *        tags: [string]
+     *        status: string,
+     *       ]
+     *     }
+     *
+     *  @apiErrorExample Access token not true
+     *     HTTP/1.1 401 Access token not true
+     *     {
+     *       code : 401
+     *       error: "Access token not true"
+     *     }
+     * @apiErrorExample Get awards failure:
+     *     HTTP/1.1 403 Get awards failure
+     *     {
+     *       code : 403
+     *       error: "Get Awards failure"
+     *     }
+     */
+    getAwardAllOfSupplier: function(res,req,next) {
+        var supplier_id = EVResponse.verifiyAccessToken(req,"supplier_id");
+        if (supplier_id == null) {
+            EVResponse.failure(res,401,"Access token not true");
+            return;
+        }
+
+        var rx = RxMongo.find(Awards, {
+            "supplier_id": supplier_id
+        });
+
+        rx.subscribe(function(doc){
+            EVResponse.success(res, doc);
+        }, function(error) {
+            EVResponse.failure(res,403, "Get Awards failure");
+        });
+    },
+
+    /**
+     * @api {get} suppliers/:supplier_id/notifications?access_token={} GetAllNotifitions
+     * @apiParam {string} supplier_id Supplier_id want to get Notifitions
+     * @apiVersion 0.1.0
+     * @apiName GetAllNotifitions
+     * @apiGroup Supplier
+     * @apiPermission supplier or admin
+     *
+     * @apiDescription  Read all Notifitions of supplier_id
+     *
+     *
+     * @apiExample Example usage:
+     * GET /suppliers/dasdsadsad/notifions?access_token=abcde
+     *
+     * @apiSuccess {Number} code                Code Success
+     * @apiSuccess {Object[]} data              List of awards options (Array of Awards).
+     * @apiSuccessExample {json} Success-Response:
+     *     HTTP/1.1 200 OK
+     *     {
+     *       code: 200,
+     *       data: [
+     *        notification_id: string,
+     *        supplier_id: string,
+     *        title: string,
+     *        body: string,
+     *        image_url: string,
+     *        time_start_push: string,
+     *        time_end_push: string,
+     *        max_push_per_user: string,
+     *        max_user_push: Number,
+     *        tags: [string]
+     *        status: string,
+     *       ]
+     *     }
+     *
+     *  @apiErrorExample Access token not true
+     *     HTTP/1.1 401 Access token not true
+     *     {
+     *       code : 401
+     *       error: "Access token not true"
+     *     }
+     * @apiErrorExample Get awards failure:
+     *     HTTP/1.1 403 Get awards failure
+     *     {
+     *       code : 403
+     *       error: "Get Awards failure"
+     *     }
+     */
+    getNotificationAllOfSupplier: function (res,req,next) {
+
+        var supplier_id = EVResponse.verifiyAccessToken(req,"supplier_id");
+        if (supplier_id == null) {
+            EVResponse.failure(res,401,"Access token not true");
+            return;
+        }
+
+        var rx = RxMongo.find(Notifications, {
+            "supplier_id": supplier_id
+        });
+
+        rx.subscribe(function(doc){
+            EVResponse.success(res, doc);
+        }, function(error) {
+            EVResponse.failure(res,403, "Get Notifications failure");
         });
     },
 

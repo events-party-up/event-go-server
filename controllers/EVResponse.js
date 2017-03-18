@@ -27,7 +27,8 @@ var jwt_decode = require('jwt-decode');
 
 function verifiyAccessToken(req, key) {
   // CHeck user_id decode jwt
-  if (req.query.access_token == null) {
+  var access_token = req.headers['Authorization']
+  if (access_token == null) {
     return null;
   }
 

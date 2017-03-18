@@ -41,7 +41,7 @@ function verifiyAccessToken(req, key) {
 var configure = require('../configure/configure');
 function authoriedAdmin(admin) {
 
-  if (admin == null)
+  if (admin == null || admin == undefined)
     return "admin empty";
 
   if (admin.username == null || admin.password == null)

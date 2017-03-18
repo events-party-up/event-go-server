@@ -57,6 +57,7 @@ supplierSchema.methods.infoResult = function (version) {
         level: this.level,
         company_info: this.company_info,
         supplier_status: this.supplier_status,
+        create_date: this.create_date
     }
 };
 

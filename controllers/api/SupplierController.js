@@ -64,7 +64,14 @@ module.exports = {
             var admin = body.admin;
 
             var mess = EVResponse.authoriedAdmin(admin);
-            if (mess != null) {
+            if (mess == null) {
+
+                if (docs != null) {
+                    docs = docs.map(function (ele) {
+                        return ele.signInResult();
+                    });
+                }
+
                 EVResponse.success(res,docs);
             } else {
                 if (docs != null) {
@@ -534,10 +541,11 @@ module.exports = {
     get : function(req,res,next) {
 
         var rx = RxMongo.findOne(Suppliers, {
-            '_id': req.params.id
-        });
+            '_id': req.params.supplier_id
+        }, false);
 
         rx.subscribe(function(doc) {
+            console.log(doc);
             EVResponse.success(res, doc.infoResult());
         }, function(error) {
             EVResponse.failure(res,403, "Load event detail failure");

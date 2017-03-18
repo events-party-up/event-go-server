@@ -281,7 +281,7 @@ module.exports = {
      *       error: "Get location failure"
      *     }
      */
-    getLocationAllOfSupplier: function(res,req,next) {
+    getLocationAllOfSupplier: function(req,res,next) {
 
         var supplier_id = EVResponse.verifiyAccessToken(req,"supplier_id");
         if (supplier_id == null) {
@@ -345,7 +345,7 @@ module.exports = {
      *       error: "Get items failure"
      *     }
      */
-    getItemAllOfSupplier: function(res,req,next) {
+    getItemAllOfSupplier: function(req,res,next) {
 
         var supplier_id = EVResponse.verifiyAccessToken(req,"supplier_id");
         if (supplier_id == null) {
@@ -412,7 +412,7 @@ module.exports = {
      *       error: "Get Awards failure"
      *     }
      */
-    getAwardAllOfSupplier: function(res,req,next) {
+    getAwardAllOfSupplier: function(req,res,next) {
         var supplier_id = EVResponse.verifiyAccessToken(req,"supplier_id");
         if (supplier_id == null) {
             EVResponse.failure(res,401,"Access token not true");
@@ -478,7 +478,7 @@ module.exports = {
      *       error: "Get Awards failure"
      *     }
      */
-    getNotificationAllOfSupplier: function (res,req,next) {
+    getNotificationAllOfSupplier: function (req,res,next) {
 
         var supplier_id = EVResponse.verifiyAccessToken(req,"supplier_id");
         if (supplier_id == null) {
@@ -723,6 +723,7 @@ module.exports = {
 
         if (username.length < 6 || password.length < 6) {
             EVResponse.failure(res,407,'username or password not availabe');
+            return;
         }
 
         // create new password

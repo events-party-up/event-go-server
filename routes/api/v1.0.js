@@ -36,7 +36,7 @@ router.get('/suppliers/:supplier_id/items', supplierController.getItemAllOfSuppl
 
 router.get('/suppliers/:supplier_id/awards', supplierController.getAwardAllOfSupplier);
 
-router.get('/suppliers/:supplier_id/notificaitons', supplierController.getNotificationAllOfSupplier);
+router.get('/suppliers/:supplier_id/notifications', supplierController.getNotificationAllOfSupplier);
 
 // Event
 var eventController = require("../../controllers/api/EventController");

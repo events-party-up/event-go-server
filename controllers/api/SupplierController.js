@@ -10,8 +10,6 @@ var Items = require('../../models/Events/Item');
 var Notifications = require('../../models/Notifications');
 
 var mongoose = require('mongoose');
-var GoogleAuth = require('google-auth-library');
-var jwt_decode = require('jwt-decode');
 var EVResponse = require('./../EVResponse.js');
 var Rx = require('rxjs/Rx');
 var RxMongo = require('./../RxMongo.js');
@@ -706,7 +704,7 @@ module.exports = {
         }
 
         var adminMess = EVResponse.authoriedAdmin(admin);
-        if (admin != null) {
+        if (adminMess != null) {
             EVResponse.failure(res,408,adminMess);
             return;
         }

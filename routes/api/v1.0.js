@@ -12,9 +12,8 @@ router.route('/users/:id')
     .delete(userController.delete)
     .get(userController.get);
 
-// Supplier
+// Suppliers
 var supplierController = require("../../controllers/api/SupplierController.js");
-
 
 router.get('/suppliers', supplierController.getAll);
 router.post('/suppliers/signUp', supplierController.signUp);
@@ -25,18 +24,14 @@ router.route('/suppliers/:supplier_id')
     .delete(supplierController.delete)
     .get(supplierController.get);
 
+// Supplier
 router.route('/suppliers/events/:event_id/users')
     .get(supplierController.getAllUserEvent);
-
-router.get('/suppliers/:supplier_id/events', supplierController.getEventAllOfSupplier);
-
-router.get('/suppliers/:supplier_id/locations', supplierController.getLocationAllOfSupplier);
-
-router.get('/suppliers/:supplier_id/items', supplierController.getItemAllOfSupplier);
-
-router.get('/suppliers/:supplier_id/awards', supplierController.getAwardAllOfSupplier);
-
-router.get('/suppliers/:supplier_id/notifications', supplierController.getNotificationAllOfSupplier);
+router.get('/suppliers/events', supplierController.getEventAllOfSupplierRoleSupplier);
+router.get('/suppliers/locations', supplierController.getLocationAllOfSupplier);
+router.get('/suppliers/items', supplierController.getItemAllOfSupplier);
+router.get('/suppliers/awards', supplierController.getAwardAllOfSupplier);
+router.get('/suppliers/notifications', supplierController.getNotificationAllOfSupplier);
 
 // Event
 var eventController = require("../../controllers/api/EventController");
@@ -46,6 +41,8 @@ router.route('/events/:event_id')
       .get(eventController.getDetail)
       .put(eventController.updateEvent)
       .delete(eventController.deleteEvent);
+
+router.get('/events', eventController.getAllEventOfSupplier);
 
 // User Event
 var userEventController = require("../../controllers/api/Users/UserEventController");

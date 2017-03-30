@@ -4,6 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var session = require('express-session');
 
 var app = express();
 
@@ -37,13 +38,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(function (req, res, next) {
 
   // Website you wish to allow to connect
-  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:62229');
 
   // Request methods you wish to allow
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE');
 
   // Request headers you wish to allow
-  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type, Authorization');
 
   // Set to true if you need the website to include cookies in the requests sent
   // to the API (e.g. in case you use sessions)
@@ -52,13 +53,24 @@ app.use(function (req, res, next) {
   // Pass to next layer of middleware
   next();
 });
+const MongoStore = require('connect-mongo')(session);
+
+app.use(session({
+    secret: 'event-go-event-go-2017-lv',
+    resave: true,
+    saveUninitialized: true,
+    cookie: {
+      secure: false,
+      maxAge: 60 * 60 * 60 * 60,
+      httpOnly: false // <- set httpOnly to false
+    },
+    store: new MongoStore({ mongooseConnection: mongoose.connection })
+}));
 
 var index = require('./routes/index');
-var users = require('./routes/users');
 var v10 = require('./routes/api/v1.0.js');
 
 app.use('/', index);
-app.use('/users', users);
 app.use('/api/v1.0', v10);
 
 // catch 404 and forward to error handler

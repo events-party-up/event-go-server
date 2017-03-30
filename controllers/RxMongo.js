@@ -54,6 +54,8 @@ module.exports = {
         protection = { __v: false}
       }
 
+      console.log(params);
+
         var response = function(err, doc, observer) {
             if (err) {
                 console.log("find failure with Object " + object);
@@ -76,7 +78,7 @@ module.exports = {
         }
 
         return Rx.Observable.create(function (observer) {
-            object.find(function(err,doc) {
+            object.find(params,function(err,doc) {
                 response(err,doc,observer);
             });
         });

@@ -339,4 +339,80 @@ module.exports = {
     })
   },
 
+  /**
+   * @api {get} events?supplier_id={} GetAllEventsOfSupplier
+   * @apiParam {string} supplier_id Supplier_id want to get events
+   * @apiVersion 0.1.0
+   * @apiName GetAllEventsOfSupplier
+   * @apiGroup Events
+   * @apiPermission none
+   *
+   * @apiDescription  Read all event of supplier_id with basic infomation
+   *
+   *
+   * @apiExample Example usage:
+   * GET /events?supplier_id=dasdsadsad
+   *
+   * @apiSuccess {Number} code                Code Success
+   * @apiSuccess {Object[]} data              List of Events options (Array of Events).
+   * @apiSuccessExample {json} Success-Response:
+   *     HTTP/1.1 200 OK
+   *     {
+   *       code: 200,
+   *       data: [
+   *        event_id: "string",
+   *        supplier_id: "string",
+   *        name: "string",
+   *        sub_name: "string",
+   *        thumbnail_url: "string",
+   *        cover_url: "string",
+   *        policy_url: "string",
+   *        detail_url: "string",
+   *        start_time: Number,
+   *        end_time: Number,
+   *        created_date: Number,
+   *        location_info: {Object Location},
+   *        tags: "[string]"
+   *       ]
+   *     }
+   *
+   *
+   * @apiErrorExample Get events failure (example):
+   *     HTTP/1.1 403 Get events failure
+   *     {
+   *       code : 403
+   *       error: "Get events failure"
+   *     }
+   * @apiErrorExample Missing supplier id:
+   *     HTTP/1.1 403 Missing supplier id
+   *     {
+   *       code : 404
+   *       error: "Missing supplier id"
+   *     }
+   */
+  getAllEventOfSupplier: function(req,res,next) {
+
+      var supplier_id = req.query.supplier_id;
+      if (supplier_id == null) {
+        EVResponse.failure(res,404,"Missing supplier id");
+        return;
+      }
+
+      var rx = RxMongo.find(Events, {
+          "supplier_id": supplier_id
+      });
+
+      rx.subscribe(function(doc){
+          if(doc) {
+              doc = doc.map(function(element){
+                  return element.getInfo();
+              })
+          }
+          EVResponse.success(res, doc);
+      }, function(error) {
+
+          EVResponse.failure(res,403, error);
+      });
+  },
+
 };

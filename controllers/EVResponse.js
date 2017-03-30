@@ -27,13 +27,17 @@ var jwt_decode = require('jwt-decode');
 
 function verifiyAccessToken(req, key) {
   // CHeck user_id decode jwt
-  console.log(req.authorization);
+  // access_token trong header hoac session
   var access_token = req.authorization;
+  if (access_token == null) {
+    access_token = req.session.access_token;
+  }
+
   if (access_token == null || access_token == undefined ) {
     return null;
   }
 
-  var decode = jwt_decode(req.query.access_token);
+  var decode = jwt_decode(access_token);
   var value = decode[key];
 
   return value;

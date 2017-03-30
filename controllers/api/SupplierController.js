@@ -168,7 +168,7 @@ module.exports = {
     },
 
     /**
-     * @api {get} suppliers/:supplier_id/events GetAllEvents
+     * @api {get} suppliers/events GetAllEvents
      * @apiParam {string} supplier_id Supplier_id want to get events
      * @apiVersion 0.1.0
      * @apiName GetAllEvents
@@ -212,29 +212,32 @@ module.exports = {
    *       error: "Get events failure"
   *     }
      */
-    getEventAllOfSupplier: function(req,res,next) {
+    getEventAllOfSupplierRoleSupplier: function(req,res,next) {
 
-        var supplier_id = req.params.supplier_id;
+      var supplier_id = EVResponse.verifiyAccessToken(req,"supplier_id");
+      if (supplier_id == null || supplier_id == undefined) {
+        EVResponse.failure(res,401, 'Missing access token');
+        return;
+      }
 
-        var rx = RxMongo.find(Events, {
-            "supplier_id": supplier_id
-        });
+      var rx = RxMongo.find(Events, {
+          "supplier_id": supplier_id
+      });
 
-        rx.subscribe(function(doc){
-            if(doc) {
-                doc = doc.map(function(element){
-                    return element.getInfo();
-                })
-            }
-            EVResponse.success(res, doc);
-        }, function(error) {
-
-            EVResponse.failure(res,403, error);
-        });
+      rx.subscribe(function(doc){
+          if(doc) {
+              doc = doc.map(function(element){
+                  return element.getDetail();
+              })
+          }
+          EVResponse.success(res, doc);
+      }, function(error) {
+          EVResponse.failure(res,403, error);
+      });
     },
 
     /**
-     * @api {get} suppliers/:supplier_id/locations?access_token={} GetAllLocations
+     * @api {get} suppliers/locations  GetAllLocations
      * @apiParam {string} supplier_id Supplier_id want to get locations
      * @apiVersion 0.1.0
      * @apiName GetAllLocations
@@ -245,7 +248,7 @@ module.exports = {
      *
      *
      * @apiExample Example usage:
-     * GET /suppliers/dasdsadsad/locations?access_token=abcde
+     * GET /suppliers/dasdsadsad/locations
      *
      * @apiSuccess {Number} code                Code Success
      * @apiSuccess {Object[]} data              List of Locations options (Array of Locations).
@@ -301,7 +304,7 @@ module.exports = {
     },
 
     /**
-     * @api {get} suppliers/:supplier_id/items?access_token={} GetAllItems
+     * @api {get} suppliers/items  GetAllItems
      * @apiParam {string} supplier_id Supplier_id want to get items
      * @apiVersion 0.1.0
      * @apiName GetAllItems
@@ -312,7 +315,7 @@ module.exports = {
      *
      *
      * @apiExample Example usage:
-     * GET /suppliers/dasdsadsad/items?access_token=abcde
+     * GET /suppliers/dasdsadsad/items
      *
      * @apiSuccess {Number} code                Code Success
      * @apiSuccess {Object[]} data              List of Items options (Array of Items).
@@ -347,9 +350,10 @@ module.exports = {
      */
     getItemAllOfSupplier: function(req,res,next) {
 
+        console.log('dsadsa');
         var supplier_id = EVResponse.verifiyAccessToken(req,"supplier_id");
         if (supplier_id == null) {
-            EVResponse.failure(res,405,"Access token not true");
+            EVResponse.failure(res,401,"Access token not true");
             return;
         }
 
@@ -365,7 +369,7 @@ module.exports = {
     },
 
     /**
-     * @api {get} suppliers/:supplier_id/awards?access_token={} GetAllAward
+     * @api {get} suppliers/awards GetAllAward
      * @apiParam {string} supplier_id Supplier_id want to get awards
      * @apiVersion 0.1.0
      * @apiName GetAllAwards
@@ -376,7 +380,7 @@ module.exports = {
      *
      *
      * @apiExample Example usage:
-     * GET /suppliers/dasdsadsad/awards?access_token=abcde
+     * GET /suppliers/dasdsadsad/awards
      *
      * @apiSuccess {Number} code                Code Success
      * @apiSuccess {Object[]} data              List of awards options (Array of Awards).
@@ -431,7 +435,7 @@ module.exports = {
     },
 
     /**
-     * @api {get} suppliers/:supplier_id/notifications?access_token={} GetAllNotifitions
+     * @api {get} suppliers/notifications GetAllNotifitions
      * @apiParam {string} supplier_id Supplier_id want to get Notifitions
      * @apiVersion 0.1.0
      * @apiName GetAllNotifitions
@@ -442,7 +446,7 @@ module.exports = {
      *
      *
      * @apiExample Example usage:
-     * GET /suppliers/dasdsadsad/notifions?access_token=abcde
+     * GET /suppliers/dasdsadsad/notifions
      *
      * @apiSuccess {Number} code                Code Success
      * @apiSuccess {Object[]} data              List of awards options (Array of Awards).
@@ -540,6 +544,13 @@ module.exports = {
      */
     get : function(req,res,next) {
 
+        var id = req.params.supplier_id;
+        if (id === 'events' || id === 'items' ||
+            id === 'locations' || id === 'awards' ||
+             id === 'notifications') {
+              next();
+        }
+
         var rx = RxMongo.findOne(Suppliers, {
             '_id': req.params.supplier_id
         }, false);
@@ -621,8 +632,11 @@ module.exports = {
             'username': username,
             'password': password
         }, false). subscribe(function (doc) {
-
-            EVResponse.success(res,doc.signInResult());
+            var result = doc.signInResult();
+            req.session.access_token = result.access_token;
+            req.session.save();
+            console.log(req.session);
+            EVResponse.success(res,result);
         }, function (error) {
             EVResponse.failure(res,403,"supplier is not existed");
         });
@@ -736,7 +750,7 @@ module.exports = {
     },
 
     /**
-     * @api {put} suppliers?access_token UpdateInfo
+     * @api {put} suppliers  UpdateInfo
      * @apiParam {string} supplier access_token require
      * @apiVersion 0.1.0
      * @apiName UpdateInfo
@@ -747,7 +761,7 @@ module.exports = {
      *
      *
      * @apiExample Example usage:
-     * PUT /suppliers?access_token=asdfsdf
+     * PUT /suppliers =asdfsdf
      *
      * @apiParamExample {json} Request-Example-InBody:
      * {
@@ -798,7 +812,7 @@ module.exports = {
         var body = EVBody(req.body);
 
         // Check access token
-        var access_token = body.access_token;
+        var access_token = req.session.access_token;
         var adminMess = EVResponse.authoriedAdmin(body.admin);
 
         if ( access_token == null && adminMess != null) {

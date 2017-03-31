@@ -549,6 +549,7 @@ module.exports = {
             id === 'locations' || id === 'awards' ||
              id === 'notifications' || id === 'me') {
               next();
+              return;
         }
 
         var rx = RxMongo.findOne(Suppliers, {
@@ -605,13 +606,12 @@ module.exports = {
      *     }
      */
     getMe: function(req,res,next) {
-
+        
       var supplier_id = EVResponse.verifiyAccessToken(req,'supplier_id');
       if (supplier_id == null ) {
         EVResponse.failure(res,401,'Missing token key');
         return;
       }  
-
       var rx = RxMongo.findOne(Suppliers, {
             '_id': supplier_id
         }, false);

@@ -547,7 +547,7 @@ module.exports = {
         var id = req.params.supplier_id;
         if (id === 'events' || id === 'items' ||
             id === 'locations' || id === 'awards' ||
-             id === 'notifications') {
+             id === 'notifications' || id === 'me') {
               next();
         }
 
@@ -559,7 +559,68 @@ module.exports = {
             console.log(doc);
             EVResponse.success(res, doc.infoResult());
         }, function(error) {
-            EVResponse.failure(res,403, "Load event detail failure");
+            EVResponse.failure(res,403, "Load supplier detail failure");
+        });
+    },
+
+    /**
+     * @api {get} suppliers/me GetDetail
+     * @apiParam {String} supplier_id want to get info
+     * @apiVersion 0.1.0
+     * @apiName GetDetail
+     * @apiGroup Supplier
+     * @apiPermission Supplier
+     *
+     * @apiDescription Get supplier info
+     *
+     *
+     * @apiExample Example usage:
+     * GET /suppliers/abcde
+     *
+     * @apiSuccess {Number} code                Code Success
+     * @apiSuccess {Object} data                Result supplier info
+     * @apiSuccessExample {json} Success-Response:
+     *     HTTP/1.1 200 OK
+     *     {
+     *       code: 200,
+     *       data: [
+     *         supplier_id: "string",
+     *         name: "string",
+     *         image_urL: "string",
+     *         level: Number,
+     *         company_info: {
+     *           company_name: "string"
+     *         },
+     *         supplier_status: "string",
+     *         tags: "[string]"
+     *       ]
+     *     }
+     *
+     *
+     * @apiErrorExample Load event detail failure:
+     *     HTTP/1.1 403 Load event detail failure
+     *     {
+     *        "code": 403
+     *       "error": "Load event detail failure"
+     *     }
+     */
+    getMe: function(req,res,next) {
+
+      var supplier_id = EVResponse.verifiyAccessToken(req,'supplier_id');
+      if (supplier_id == null ) {
+        EVResponse.failure(res,401,'Missing token key');
+        return;
+      }  
+
+      var rx = RxMongo.findOne(Suppliers, {
+            '_id': supplier_id
+        }, false);
+
+        rx.subscribe(function(doc) {
+            console.log(doc);
+            EVResponse.success(res, doc.infoResult());
+        }, function(error) {
+            EVResponse.failure(res,403, "Load supplier detail failure");
         });
     },
 

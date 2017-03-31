@@ -32,6 +32,7 @@ router.get('/suppliers/locations', supplierController.getLocationAllOfSupplier);
 router.get('/suppliers/items', supplierController.getItemAllOfSupplier);
 router.get('/suppliers/awards', supplierController.getAwardAllOfSupplier);
 router.get('/suppliers/notifications', supplierController.getNotificationAllOfSupplier);
+router.get('/suppliers/me', supplierController.getMe);
 
 // Event
 var eventController = require("../../controllers/api/EventController");

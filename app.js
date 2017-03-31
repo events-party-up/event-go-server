@@ -38,7 +38,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(function (req, res, next) {
 
   // Website you wish to allow to connect
-  var originPermiss = req.headers.origin == null ? "*": originPermiss
+  var originPermiss = req.headers.origin == null ? "*": req.headers.origin;
   res.setHeader('Access-Control-Allow-Origin', originPermiss);
 
   // Request methods you wish to allow

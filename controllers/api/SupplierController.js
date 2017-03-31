@@ -618,7 +618,7 @@ module.exports = {
 
         rx.subscribe(function(doc) {
             console.log(doc);
-            EVResponse.success(res, doc.infoResult());
+            EVResponse.success(res, doc.signInResult());
         }, function(error) {
             EVResponse.failure(res,403, "Load supplier detail failure");
         });

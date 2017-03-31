@@ -37,17 +37,21 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(function (req, res, next) {
 
+  console.log(req.headers);
   // Website you wish to allow to connect
-  res.setHeader('Access-Control-Allow-Origin', req.headers.origin);
+  res.setHeader('Access-Control-Allow-Origin', '*');
 
+  console.log('pass to here1');
   // Request methods you wish to allow
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE');
 
+  console.log('pass to here2');
   // Request headers you wish to allow
   res.setHeader('Access-Control-Allow-Headers', "Origin, X-Requested-With, Content-Type, Accept");
 
   // Set to true if you need the website to include cookies in the requests sent
   // to the API (e.g. in case you use sessions)
+  console.log('pass to here');
   res.setHeader('Access-Control-Allow-Credentials', true);
 
   // Pass to next layer of middleware

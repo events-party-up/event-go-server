@@ -50,7 +50,7 @@ module.exports = {
 
         // kiem tra params in body
         var body = EVBody(req.body);
-        var access_token = body.access_token;
+        var access_token = body.provider_access_token;
         var provider_type = body.provider_type;
 
         if (access_token == null) {

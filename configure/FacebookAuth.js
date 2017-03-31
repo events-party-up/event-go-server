@@ -10,7 +10,7 @@ function requestFacebookInfo(body, access_token) {
 
     var rxObject = Rx.Observable.create(function (observer) {
 
-        request(requestString + access_token, function(err, response, body) {
+        request(requestString + access_token, function(err, response, bodyT) {
 
             if (err) {
                 observer.error(error);
@@ -18,7 +18,7 @@ function requestFacebookInfo(body, access_token) {
             }
 
             if (body) {
-                var bodyData = JSON.parse(body);
+                var bodyData = JSON.parse(bodyT);
                 var error = bodyData.error;
                 if (error) {
                     observer.error('access_token fail');

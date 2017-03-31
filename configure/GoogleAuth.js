@@ -10,10 +10,11 @@ var Rx = require('rxjs/Rx');
 function requestGoogleInfo(body, access_token) {
 
     var rxObject = Rx.Observable.create(function (observer) {
-        var client = new auth.OAuth2('633133829509-91rk6671rtm60nqdg0tiqjvhuenme6no.apps.googleusercontent.com', '', '');
+        var client = new auth.OAuth2('799105536867-ebsqfeki0pb3h85osajcvm6h2o8i4f5q.apps.googleusercontent.com', '', '');
         client.verifyIdToken(
             access_token,
             [
+                '799105536867-ebsqfeki0pb3h85osajcvm6h2o8i4f5q.apps.googleusercontent.com',
                 '799105536867-8tcdqtmv7krhgfh4tat9ch1b226t4kc7.apps.googleusercontent.com',
                 '799105536867-mb2kn9vvcvcs2qqf6q9qqmj2rhbus82b.apps.googleusercontent.com',
                 '633133829509-91rk6671rtm60nqdg0tiqjvhuenme6no.apps.googleusercontent.com',

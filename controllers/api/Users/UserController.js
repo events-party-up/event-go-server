@@ -53,16 +53,15 @@ module.exports = {
         var access_token = body.provider_access_token;
         var provider_type = body.provider_type;
 
-        if (access_token == null) {
+        if (access_token == null || access_token == undefined) {
             EVResponse.failure(res,403,"Missing access_token key");
             return;
         }
 
-        if (provider_type == null) {
+        if (provider_type == null || access_token == undefined) {
             EVResponse.failure(res,403,"Missing provider_type key");
             return;
         }
-
         var authRx = null;
         // Step 1: Check token key with provider
         if (provider_type.localeCompare("facebook") == 0) {

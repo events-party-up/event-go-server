@@ -98,7 +98,7 @@ router.route('/locations/:location_id')
 var itemController = require("../../controllers/api/ItemController");
 router.post('/items', itemController.create);
 
-router.route('/locations/:item_id')
+router.route('/items/:item_id')
       .get(itemController.getDetail)
       .put(itemController.update)
       .delete(itemController.delete);

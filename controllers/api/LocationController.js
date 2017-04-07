@@ -1,5 +1,5 @@
 var Suppliers = require('../../models/Supplier');
-
+var Locations = require('../../models/Location');
 
 var mongoose = require('mongoose');
 var EVResponse = require('./../EVResponse.js');
@@ -130,15 +130,17 @@ module.exports = {
    */
   create: function(req,res,next) {
 
+    console.log("Call location");
+
     var supplier_id = EVResponse.verifiyAccessToken(req,"supplier_id");
     if (supplier_id == null) {
       EVResponse.failure(res,401,"Access token not true");
       return;
     }
-    var LocationInfo = EVBody(req.body);
-    LocationInfo.supplier_id = supplier_id;
-
-    var newItem = new Locations(LocationInfo);
+    var locationInfo = EVBody(req.body);
+    locationInfo.supplier_id = supplier_id;
+    var newItem = new Locations(locationInfo);
+    console.log(newItem);
 
     RxMongo.save(newItem).subscribe(function() {
       EVResponse.success(res,newItem);

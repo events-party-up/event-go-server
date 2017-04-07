@@ -3,15 +3,19 @@ var mongoose = require('mongoose');
 
 module.exports = {
 
-    findOne: function(object, params, canNull) {
+    findOne: function(object, params, canNull, protection) {
 
         if (canNull == undefined) {
             canNull = true;
         }
 
+        if (protection == null) {
+            protection = { '__v': false}
+        }
+
         return  Rx.Observable.create(function (observer) {
 
-            object.findOne(params, function(err, doc) {
+            object.findOne(params,protection, function(err, doc) {
 
                 if (err) {
                     console.log("FindOne failure with Object " + object);
@@ -27,11 +31,15 @@ module.exports = {
             })
         })
     },
-    findOneAndUpdated: function(object,query, params) {
+    findOneAndUpdated: function(object,query, params,protection) {
+
+        if (protection == null) {
+            protection = { '__v': false}
+        }
 
         return  Rx.Observable.create(function (observer) {
 
-            object.findOneAndUpdate(query,params, function(err, doc) {
+            object.findOneAndUpdate(query,params,protection, function(err, doc) {
 
                 if (err) {
                     console.log("findOneAndUpdate failure with Object " + object);
@@ -51,7 +59,7 @@ module.exports = {
     find: function(object, params, protection) {
 
       if (protection == null) {
-        protection = { __v: false}
+        protection = { '__v': false}
       }
 
       console.log(params);

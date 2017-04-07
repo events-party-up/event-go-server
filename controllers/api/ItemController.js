@@ -57,7 +57,7 @@ module.exports = {
     }, false);
 
     rx.subscribe(function(doc){
-      EVResponse.success(res,doc.getDetail());
+      EVResponse.success(res,doc);
     }, function(error) {
       EVResponse.failure(res,402,error);
     });

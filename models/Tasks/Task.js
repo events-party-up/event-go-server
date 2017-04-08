@@ -8,7 +8,7 @@ var taskSchema = new Schema({
       ref: 'supplier'
     },
     name: String,
-    decribe: String,
+    detail: String,
     thumbnail_url: String,
     cover_url: String,
     detail_url: String,

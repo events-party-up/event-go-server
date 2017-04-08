@@ -810,6 +810,14 @@ module.exports = {
         });
     },
 
+    signOut: function(req,res,next) {
+        
+        delete req.session["access_token"];
+        req.session.save();
+
+        EVResponse.success(res,"Đăng xuất thành công");
+    },
+
     /**
      * @api {put} suppliers  UpdateInfo
      * @apiParam {string} supplier access_token require

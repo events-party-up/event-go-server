@@ -35,6 +35,14 @@ module.exports = {
 
     get : function(req,res,next) {
 
+        var id = req.params.id;
+        if (id === 'events' || id === 'items' ||
+            id === 'locations' || id === 'awards' ||
+             id === 'notifications' || id === 'me' || id === 'signOut') {
+              next();
+              return;
+        }
+
         var rx = RxMongo.findOne(Users, {
             '_id': req.params.id
         });
@@ -43,6 +51,25 @@ module.exports = {
             EVResponse.success(res, doc);
         }, function(error) {
             EVResponse.failure(res,403, error);
+        });
+    },
+
+    getMe: function(req,res,next) {
+        
+      var user_id = EVResponse.verifiyAccessToken(req,'user_id');
+      if (user_id == null ) {
+        EVResponse.failure(res,401,'Missing token key');
+        return;
+      }  
+      var rx = RxMongo.findOne(Users, {
+            '_id': user_id
+        }, false);
+
+        rx.subscribe(function(doc) {
+            console.log(doc);
+            EVResponse.success(res, doc.signInResult());
+        }, function(error) {
+            EVResponse.failure(res,403, "Load User detail failure");
         });
     },
 
@@ -91,7 +118,12 @@ module.exports = {
                     RxMongo.findOneAndUpdated(Users, {
                         'provider_id': profile.provider_id
                     }, profile).subscribe(function (doc) {
-                        EVResponse.success(res, doc.signInResult());
+                        var signInResult = doc.signInResult();
+
+                        req.session.access_token = signInResult.access_token;
+                        req.session.save();
+
+                        EVResponse.success(res, signInResult);
                     }, function (error) {
                         EVResponse.failure(res,403, error)
                     });
@@ -99,7 +131,12 @@ module.exports = {
                 else {
 
                     RxMongo.save(newUser).subscribe(function () {
-                        EVResponse.success(res, newUser.signInResult());
+                        var signInResult = newUser.signInResult();
+
+                        req.session.access_token = signInResult.access_token;
+                        req.session.save();
+
+                        EVResponse.success(res, signInResult);
                     }, function (error) {
                         EVResponse.failure(res,403, error);
                     });
@@ -176,4 +213,10 @@ module.exports = {
 
     },
 
+    signOut: function(req,res,next) {
+        delete req.session["access_token"];
+        req.session.save();
+
+        EVResponse.success(res,"Đăng xuất thành công");
+    },
 };

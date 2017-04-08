@@ -12,7 +12,7 @@ router.put('/users', userController.update);
 
 router.route('/users/:id')
     .delete(userController.delete)
-    .get(userController.get);uk
+    .get(userController.get);
 
 // Suppliers
 var supplierController = require("../../controllers/api/SupplierController.js");

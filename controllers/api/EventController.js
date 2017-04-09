@@ -173,9 +173,12 @@ module.exports = {
       EVResponse.failure(res,402,"Body empty");
       return;
     }
-    var newEvent = new Events(body);
-    var passKey = newEvent.checkKeyRequire();
 
+    var newEvent = new Events(body);
+    newEvent.supplier_id = supplier_id;
+    var passKey = newEvent.checkKeyRequire();
+    console.log("Create passKey");
+    console.log(passKey);
     if (!passKey) {
       EVResponse.failure(res,403,"Body not adequate");
       return;

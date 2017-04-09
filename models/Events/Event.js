@@ -80,16 +80,16 @@ eventSchema.methods.keyRequires = function(ver) {
   ]
 }
 
-eventSchema.methods.checkKeyRequire = function(ver, data) {
+eventSchema.methods.checkKeyRequire = function(ver) {
 
   var require_keys = this.keyRequires(ver);
-  var object_keys = Object.keys(data);
-
-  object_keys.forEach(function(key) {
-    delete require_keys[key];
+  require_keys.forEach(function(key) {
+    if (this[key] === undefined) {
+      return false;
+    }
   });
 
-  return require_keys.length == 0;
+  return true;
 }
 
 var eventModel = mongoose.model('event', eventSchema);

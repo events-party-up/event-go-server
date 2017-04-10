@@ -177,8 +177,7 @@ module.exports = {
     var newEvent = new Events(body);
     newEvent.supplier_id = supplier_id;
     var passKey = newEvent.checkKeyRequire();
-    console.log("Create passKey");
-    console.log(passKey);
+  
     if (!passKey) {
       EVResponse.failure(res,403,"Body not adequate");
       return;
@@ -273,11 +272,12 @@ module.exports = {
     }
 
     var event_id = req.params.event_id;
+    var event_body = EVBody(req.body);
 
     RxMongo.findOneAndUpdated(Events,{
       "_id": event_id,
       "supplier_id": supplier_id
-    }).subscribe(function(doc){
+    },event_body).subscribe(function(doc){
       EVResponse.success(res,doc);
     }, function(error) {
       EVResponse.failure(res,402,"Update fail with error " + error);

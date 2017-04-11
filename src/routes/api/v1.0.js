@@ -90,6 +90,4 @@ var pushNotification = require("../../controllers/api/PushNotificationController
 router.get('/notifications',pushNotification.getNotification);
 router.post('/notifications', pushNotification.pushNotification);
 
-require('./v1.0.client.js')(router);
-
 module.exports = router;

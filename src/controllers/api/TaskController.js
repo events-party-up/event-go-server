@@ -52,6 +52,47 @@ module.exports = {
     });
   },
 
+  getAllOfEvent: function(req,res,next) {
+
+    var supplier_id = EVResponse.verifiyAccessToken(req,"supplier_id");
+    if (supplier_id == null) {
+      EVResponse.failure(res,401,"Access token not true");
+      return;
+    }
+
+    var event_id = req.params.event_id;
+    var eventRx = RxMongo.findOne(Events,{
+      '_id': event_id,
+      'supplier_id': supplier_id
+    }, false, {
+      'tasks': true
+    });
+
+    eventRx.subscribe(function(doc) {
+      console.log(doc);
+      if (!doc || doc.tasks === undefined) {
+        EVResponse.failure(res,404,'Cant find event');
+        return;
+      } 
+      arrayTaskRx = doc.tasks.map(function(task) {
+        return RxMongo.findOne(Tasks,{
+          '_id': task
+        })
+      });
+
+      Rx.Observable.combineLatest(arrayTaskRx).subscribe(function (docs) {
+        console.log(docs);
+          EVResponse.success(res, docs);
+      }, function (error) {
+          console.error(error);
+          EVResponse.failure(res,408, "Load tasks failure");
+      })
+
+    }, function(error) {
+      EVResponse.failure(res,404,'Cant find event');
+    });
+  },
+
   /**
    * @api {post} tasks?access_token Create Task
    * @apiParam {string} access_token Authorized access_token

@@ -51,6 +51,7 @@ router.get('/events', eventController.getAllEventOfSupplier);
 // Tasks
 var taskController = require("../../controllers/api/TaskController");
 router.route('/events/:event_id/tasks')
+      .get(taskController.getAllOfEvent)
       .post(taskController.postTask);
 
 router.route('/events/:event_id/tasks/:task_id')

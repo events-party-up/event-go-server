@@ -7,8 +7,14 @@ var taskSchema = new Schema({
       type: Schema.Types.ObjectId,
       ref: 'supplier'
     },
-    name: String,
-    detail: String,
+    name: {
+      type: String,
+      default: 'Nhiệm vụ của bạn'
+    },
+    detail:  {
+      type: String,
+      default: 'Chi tiết nhiệm vụ của bạn'
+    },
     thumbnail_url: String,
     cover_url: String,
     detail_url: String,

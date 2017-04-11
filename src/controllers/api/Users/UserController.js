@@ -164,12 +164,6 @@ module.exports = {
             return;
         }  
 
-        if ( user_id == null) {
-
-            EVResponse.failure(res,403,"Missing access token");
-            return;
-        }
-
         RxMongo.findOneAndUpdated(Users,{'_id': user_id}, body).subscribe(function (doc) {
             EVResponse.success(res,"Update success");
         }, function (error) {

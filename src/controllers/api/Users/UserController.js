@@ -81,7 +81,7 @@ module.exports = {
         var provider_type = body.provider_type;
 
         if (access_token == null || access_token == undefined) {
-            EVResponse.failure(res,403,"Missing access_token key");
+            EVResponse.failure(res,401,"Missing access_token key");
             return;
         }
 
@@ -158,13 +158,11 @@ module.exports = {
 
         var body = EVBody(req.body);
 
-        var access_token = req.query.access_token;
-        if ( access_token == null) {
-            EVResponse.failure(res,403,"Missing access token");
+        var user_id = EVResponse.verifiyAccessToken(req,'user_id');
+        if (user_id == null ) {
+            EVResponse.failure(res,401,'Missing token key');
             return;
-        }
-
-        var user_id = EVResponse.verifiyAccessToken(req,'_id');
+        }  
 
         if ( user_id == null) {
 

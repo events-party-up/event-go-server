@@ -27,9 +27,68 @@ var locationSchema = new Schema({
     }
 });
 
-locationSchema.methods.generateJWT = function() {
+/**
+ * @apiDefine LocationInfoResponse
+ * @apiSuccessExample {json} Success-Response:
+   *     HTTP/1.1 200 OK
+   *     {
+     *       code: 200,
+     *       data: {
+     *        location_id: string,
+     *        supplier_id: string,
+     *        name: string,
+     *        detail: string,
+     *        address: string,
+     *        link: [string],
+     *        image_url: string,
+     *        created_date: Number,
+     *        location_info: {Object Location},
+     *        tags: [string]
+     *        status: string,
+     *       }
+     *     }
+ */
 
-};
+/**
+ * @apiDefine LocationInfoArrayResponse
+ * @apiSuccessExample {json} Success-Response:
+   *     HTTP/1.1 200 OK
+   *     {
+     *       code: 200,
+     *       data: [
+      *        {
+        *        location_id: string,
+        *        supplier_id: string,
+        *        name: string,
+        *        detail: string,
+        *        address: string,
+        *        link: [string],
+        *        image_url: string,
+        *        created_date: Number,
+        *        location_info: {Object Location},
+        *        tags: [string]
+        *        status: string,
+      *       }, {
+    *               }
+     *      ]
+     *   }
+ */
+
+/**
+ * @apiDefine LocationInfoParams
+ * @apiParamExample {json} Request-Example-InBody-Required:
+   * {
+     *        name: string,
+     *        detail: string,
+     *        address: string,
+     *        link: [string],
+     *        image_url: string,
+     *        created_date: Number,
+     *        location_info: {Object Location},
+     *        tags: [string]
+     *        status: string,
+     * }
+ */
 
 var locationModel = mongoose.model('location', locationSchema);
 module.exports = locationModel;

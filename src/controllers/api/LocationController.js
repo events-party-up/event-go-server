@@ -25,32 +25,15 @@ module.exports = {
    *
    * @apiSuccess {Number} code                Code Success
    * @apiSuccess {Object} data                Location detail
-   * @apiSuccessExample {json} Success-Response:
-   *     HTTP/1.1 200 OK
-   *     {
-     *       code: 200,
-     *       data: {
-     *        location_id: string,
-     *        supplier_id: string,
-     *        name: string,
-     *        detail: string,
-     *        address: string,
-     *        link: [string],
-     *        image_url: string,
-     *        created_date: Number,
-     *        location_info: {Object Location},
-     *        tags: [string]
-     *        status: string,
-     *       }
-     *     }
-   *
+   * 
+   * @apiUse LocationInfoResponse
    *
    * @apiErrorExample Get locations failure:
    *     HTTP/1.1 402 Get locations failure
    *     {
    *       code : 402
    *       error: "Get locations failure"
-  *     }
+   *     }
    */
   getDetail: function(req,res,next) {
 
@@ -76,51 +59,17 @@ module.exports = {
    *
    * @apiDescription  Create Location
    *
-   * @apiParamExample {json} Request-Example-InBody-Required:
-   * {
-     *        name: string,
-     *        detail: string,
-     *        address: string,
-     *        link: [string],
-     *        image_url: string,
-     *        created_date: Number,
-     *        location_info: {Object Location},
-     *        tags: [string]
-     *        status: string,
-     * }
-   *
+   * @apiUse LocationInfoParams
    *
    * @apiExample Example usage:
    * POST /locations?access_token=asdsad
    *
    * @apiSuccess {Number} code                Code Success
    * @apiSuccess {Object} data                Location detail
-   * @apiSuccessExample {json} Success-Response:
-   *     HTTP/1.1 200 OK
-   *     {
-     *       code: 200,
-     *       data: {
-     *        location_id: string,
-     *        supplier_id: string,
-     *        name: string,
-     *        detail: string,
-     *        address: string,
-     *        link: [string],
-     *        image_url: string,
-     *        created_date: Number,
-     *        location_info: {Object Location},
-     *        tags: [string]
-     *        status: string,
-     *       }
-     *     }
+   * @apiUse LocationInfoResponse
    *
-   *
-   * @apiErrorExample Access token not true:
-   *     HTTP/1.1 401 Access token not true
-   *     {
-   *       code : 401
-   *       error: "Access token not true"
-   *     }
+   * @apiUse ErrorAuthorized
+   * 
    * @apiErrorExample Create location failure:
    *     HTTP/1.1 402 Create location failure
    *     {
@@ -160,18 +109,7 @@ module.exports = {
    *
    * @apiDescription  Update Location
    *
-   * @apiParamExample {json} Request-Example-InBody-Required:
-   * {
-     *        name: string,
-     *        detail: string,
-     *        address: string,
-     *        link: [string],
-     *        image_url: string,
-     *        created_date: Number,
-     *        location_info: {Object Location},
-     *        tags: [string]
-     *        status: string,
-     * }
+   * @apiUse LocationInfoParams
    *
    *
    * @apiExample Example usage:
@@ -179,32 +117,9 @@ module.exports = {
    *
    * @apiSuccess {Number} code                Code Success
    * @apiSuccess {Object} data                Location detail
-   * @apiSuccessExample {json} Success-Response:
-   *     HTTP/1.1 200 OK
-   *     {
-     *       code: 200,
-     *       data: {
-     *        location_id: string,
-     *        supplier_id: string,
-     *        name: string,
-     *        detail: string,
-     *        address: string,
-     *        link: [string],
-     *        image_url: string,
-     *        created_date: Number,
-     *        location_info: {Object Location},
-     *        tags: [string]
-     *        status: string,
-     *       }
-     *     }
+   * @apiUse LocationInfoResponse
    *
-   *
-   * @apiErrorExample Access token not true:
-   *     HTTP/1.1 401 Access token not true
-   *     {
-   *       code : 401
-   *       error: "Access token not true"
-   *     }
+   * @apiUse ErrorAuthorized
    * @apiErrorExample Update fail:
    *     HTTP/1.1 402 Update fail
    *     {
@@ -258,12 +173,7 @@ module.exports = {
      *     }
    *
    *
-   * @apiErrorExample Access token not true:
-   *     HTTP/1.1 401 Access token not true
-   *     {
-   *       code : 401
-   *       error: "Access token not true"
-   *     }
+   * @apiUse ErrorAuthorized
    * @apiErrorExample Delete Location Failure:
    *     HTTP/1.1 402 Delete Location Failure
    *     {
@@ -289,6 +199,66 @@ module.exports = {
       EVResponse.failure(res,402, "Delete Item failure");
     });
   },
-  
+
+  /**
+   * @api {get} client/locations?current_location_lat={lat}&current_location_lng={lng} GetLocations
+   * @apiParam {string} current_location_lat Latitude of client current location
+   * @apiParam {string} current_location_lng Longitude of client current location
+   * @apiVersion 0.1.0
+   * @apiName GetLocations
+   * @apiGroup ClientMobile
+   * @apiPermission User Authorized
+   *
+   * @apiDescription  get locations near client
+   *
+   *
+   * @apiExample Example usage:
+   * GET /client/locations?current_location_lat=-123213&current_location_lng=12321312
+   *
+   * @apiSuccess {Number} code                Code Success
+   * @apiSuccess {Object[]} data                Location detail
+   * 
+   * @apiUse LocationInfoArrayResponse
+   *
+   * @apiUse ErrorAuthorized
+   * @apiErrorExample Get locations failure:
+   *     HTTP/1.1 402 Get locations failure
+   *     {
+   *       code : 402
+   *       error: "Get locations failure"
+   *     }
+   */
+  getLocationForClient: function(req,res,next) {
+
+      var user_id = EVResponse.verifiyAccessToken(req,'user_id');
+      if (user_id === null) {
+        EVResponse.failure(res,401,'Missing access token or not acceptable');
+        return;
+      }
+
+      var params = req.query;
+      var current_location = params.current_location;
+
+      // Search location in range
+      var queryMongo = {
+          'location_info': {
+            $exists: true
+          },
+          'location_info.coordinate': {
+            $exists: true
+          },
+          'location_info.coordinate.lat': {
+            $exists: true
+          },
+          'location_info.coordinate.lng': {
+            $exists: true
+          },
+      }
+      RxMongo.find(Locations,queryMongo).subscribe(function(docs){
+        EVResponse.success(res,docs);
+      }, function(error){
+        EVResponse.failure(res,403,'Load location error');
+      });
+  }
 
 };

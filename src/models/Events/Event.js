@@ -37,16 +37,17 @@ var eventSchema = new Schema({
     },
     status: {
       type: String,
-      enum: ['Prepare for Submit', 'Waiting for Review', 'In Review','Rejected', 'Ready for Sale'],
+      enum: ['Prepare for Submit', 'Waiting for Review', 'In Review','Rejected', 'Ready for Sale', 'Waiting For Start'],
       default: 'Prepare for Submit'
     },
 });
 
-eventSchema['prepareForSubmit'] = 'Prepare for Submit';
-eventSchema['waitingForReview'] = 'Waiting for Review';
-eventSchema['inReview'] = 'In Review';
-eventSchema['rejected'] = 'Rejected';
-eventSchema['readyForSale'] = 'Ready for Sale';
+eventSchema.statics.prepareForSubmit = 'Prepare for Submit';
+eventSchema.statics.waitingForReview = 'Waiting for Review';
+eventSchema.statics.inReview = 'In Review';
+eventSchema.statics.rejected = 'Rejected';
+eventSchema.statics.readyForSale = 'Ready for Sale';
+eventSchema.statics.waitingForStart = 'Waiting For Start';
 
 eventSchema.methods.generateJWT = function() {
 

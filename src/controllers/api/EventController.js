@@ -278,8 +278,58 @@ module.exports = {
       });
   },
 
+  /**
+   * @api {get} client/events GetEventsForClient
+   * @apiVersion 0.1.0
+   * @apiName GetEventsForClient
+   * @apiGroup ClientMobile
+   * @apiPermission User Authorized
+   *
+   * @apiDescription  Read all event with basic infomation
+   *
+   * @apiExample Example usage:
+   * GET /client/events
+   *
+   * @apiSuccess {Number} code                Code Success
+   * @apiSuccess {Object[]} data              List of Events options (Array of Events).
+   * 
+   * @apiUse EventInfoSuccessExample
+   * 
+   * @apiUse ErrorAuthorized
+   * @apiErrorExample Get events failure (example):
+   *     HTTP/1.1 403 Get events failure
+   *     {
+   *       code : 403
+   *       error: "Get events failure"
+   *     }
+   * @apiErrorExample Missing supplier id:
+   *     HTTP/1.1 403 Missing supplier id
+   *     {
+   *       code : 404
+   *       error: "Missing supplier id"
+   *     }
+   */
   getEventForClient: function(req,res,next) {
 
-  }
+    var user_id = EVResponse.verifiyAccessToken(req,'user_id');
+    if (user_id === null) {
+      EVResponse.failure(res,401,'Missing access token or not acceptable');
+      return;
+    }
 
+    var params = req.query;
+
+    var eventRx = RxMongo.find(Events,{
+      'status': {$in : [Events.readyForSale, Events.waitForStart]}
+    }).subscribe(function(docs){
+      if(docs) {
+          docs = docs.map(function(element){
+              return element.getInfo();
+          })
+      }
+      EVResponse.success(res, docs);  
+    }, function(error) {
+      EVResponse.failure(res,403, 'Get event error');
+    });
+  }
 };

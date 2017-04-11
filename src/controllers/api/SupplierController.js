@@ -32,23 +32,7 @@ module.exports = {
      *
      * @apiSuccess {Number} code                Code Success
      * @apiSuccess {Object[]} data              List of Suppliers options (Array of Suppliers).
-     * @apiSuccessExample {json} Success-Response:
-     *     HTTP/1.1 200 OK
-     *     {
-     *       code: 200,
-     *       data: [
-     *          supplier_id: "string",
-     *          name: "string",
-     *         image_urL: "string",
-     *         level: Number,
-     *         company_info: {
-     *           company_name: "string"
-     *         },
-     *         supplier_status: "string",
-     *         tags: "[string]"
-     *       ]
-     *     }
-     *
+     * @apiUse SupplierInfoResponse
      *
      * @apiErrorExample Get supplier failure:
      *     HTTP/1.1 403 Get supplier failure
@@ -271,12 +255,7 @@ module.exports = {
      *       ]
      *     }
      *
-     *  @apiErrorExample Access token not true
-     *     HTTP/1.1 401 Access token not true
-     *     {
-     *       code : 401
-     *       error: "Access token not true"
-     *     }
+     *     @apiUse ErrorAuthorized
      * @apiErrorExample Get location failure:
      *     HTTP/1.1 403 Get location failure
      *     {
@@ -313,34 +292,15 @@ module.exports = {
      *
      * @apiDescription  Read all items of supplier_id
      *
-     *
      * @apiExample Example usage:
      * GET /suppliers/dasdsadsad/items
      *
      * @apiSuccess {Number} code                Code Success
      * @apiSuccess {Object[]} data              List of Items options (Array of Items).
-     * @apiSuccessExample {json} Success-Response:
-     *     HTTP/1.1 200 OK
-     *     {
-     *       code: 200,
-     *       data: [
-     *        item_id: string,
-     *        supplier_id: string,
-     *        name: string,
-     *        detail: string,
-     *        image_url: string,
-     *        created_date: Number,
-     *        tags: [string]
-     *        status: string,
-     *       ]
-     *     }
-     *
-     *  @apiErrorExample Access token not true
-     *     HTTP/1.1 401 Access token not true
-     *     {
-     *       code : 401
-     *       error: "Access token not true"
-     *     }
+     * 
+     * @apiUse ItemInfoResponse
+     * 
+     * @apiUse ErrorAuthorized
      * @apiErrorExample Get items failure:
      *     HTTP/1.1 403 Get items failure
      *     {
@@ -403,12 +363,7 @@ module.exports = {
      *       ]
      *     }
      *
-     *  @apiErrorExample Access token not true
-     *     HTTP/1.1 401 Access token not true
-     *     {
-     *       code : 401
-     *       error: "Access token not true"
-     *     }
+     *     @apiUse ErrorAuthorized
      * @apiErrorExample Get awards failure:
      *     HTTP/1.1 403 Get awards failure
      *     {
@@ -469,12 +424,7 @@ module.exports = {
      *       ]
      *     }
      *
-     *  @apiErrorExample Access token not true
-     *     HTTP/1.1 401 Access token not true
-     *     {
-     *       code : 401
-     *       error: "Access token not true"
-     *     }
+     *     @apiUse ErrorAuthorized
      * @apiErrorExample Get awards failure:
      *     HTTP/1.1 403 Get awards failure
      *     {
@@ -517,23 +467,8 @@ module.exports = {
      *
      * @apiSuccess {Number} code                Code Success
      * @apiSuccess {Object} data                Result supplier info
-     * @apiSuccessExample {json} Success-Response:
-     *     HTTP/1.1 200 OK
-     *     {
-     *       code: 200,
-     *       data: [
-     *         supplier_id: "string",
-     *         name: "string",
-     *         image_urL: "string",
-     *         level: Number,
-     *         company_info: {
-     *           company_name: "string"
-     *         },
-     *         supplier_status: "string",
-     *         tags: "[string]"
-     *       ]
-     *     }
-     *
+     * 
+     * @apiUse SupplierInfoResponse
      *
      * @apiErrorExample Load event detail failure:
      *     HTTP/1.1 403 Load event detail failure
@@ -580,23 +515,8 @@ module.exports = {
      *
      * @apiSuccess {Number} code                Code Success
      * @apiSuccess {Object} data                Result supplier info
-     * @apiSuccessExample {json} Success-Response:
-     *     HTTP/1.1 200 OK
-     *     {
-     *       code: 200,
-     *       data: [
-     *         supplier_id: "string",
-     *         name: "string",
-     *         image_urL: "string",
-     *         level: Number,
-     *         company_info: {
-     *           company_name: "string"
-     *         },
-     *         supplier_status: "string",
-     *         tags: "[string]"
-     *       ]
-     *     }
-     *
+     * 
+     * @apiUse SupplierInfoResponse
      *
      * @apiErrorExample Load event detail failure:
      *     HTTP/1.1 403 Load event detail failure
@@ -644,25 +564,8 @@ module.exports = {
      *
      * @apiSuccess {Number} code                Code Success
      * @apiSuccess {Object} data              List of Suppliers options (Array of Suppliers).
-     * @apiSuccessExample {json} Success-Response:
-     *     HTTP/1.1 200 OK
-     *     {
-     *       code: 200,
-     *       data: [
-     *         supplier_id: "string",
-     *         name: "string",
-     *         image_urL: "string",
-     *         level: Number,
-     *         company_info: {
-     *           company_name: "string"
-     *         },
-     *         supplier_status: "string",
-     *         tags: "[string]",
-     *         username: "string",
-     *         access_token: "string"
-     *       ]
-     *     }
-     *
+     * 
+     * @apiUse SupplierInfoResponse
      *
      * @apiErrorExample User is not existed:
      *     HTTP/1.1 403 Not Authenticated
@@ -729,25 +632,8 @@ module.exports = {
      *
      * @apiSuccess {Number} code                Code Success
      * @apiSuccess {Object} data                Result supplier info
-     * @apiSuccessExample {json} Success-Response:
-     *     HTTP/1.1 200 OK
-     *     {
-     *       code: 200,
-     *       data: [
-     *         supplier_id: "string",
-     *         name: "string",
-     *         image_urL: "string",
-     *         level: Number,
-     *         company_info: {
-     *           company_name: "string"
-     *         },
-     *         supplier_status: "string",
-     *         tags: "[string]",
-     *         username: "string",
-     *         access_token: "string"
-     *       ]
-     *     }
-     *
+     * 
+     * @apiUse SupplierInfoResponse
      *
      * @apiErrorExample Supplier data empty:
      *     HTTP/1.1 406 Supplier data empty
@@ -842,32 +728,9 @@ module.exports = {
      *
      * @apiSuccess {Number} code                Code Success
      * @apiSuccess {Object} data                Result supplier info
-     * @apiSuccessExample {json} Success-Response:
-     *     HTTP/1.1 200 OK
-     *     {
-     *       code: 200,
-     *       data: [
-     *         supplier_id: "string",
-     *         name: "string",
-     *         image_urL: "string",
-     *         level: Number,
-     *         company_info: {
-     *           company_name: "string"
-     *         },
-     *         supplier_status: "string",
-     *         tags: "[string]",
-     *         username: "string",
-     *         access_token: "string"
-     *       ]
-     *     }
+     * @apiUse SupplierInfoResponse
      *
-     *
-     * @apiErrorExample Missing access token:
-     *     HTTP/1.1 401 Missing access token
-     *     {
-     *       "code": 401
-     *       "error": "Missing access token"
-     *     }
+     *     @apiUse ErrorAuthorized
      *     * @apiErrorExample Update fail with error:
      *     HTTP/1.1 402 Update fail with error
      *     {
@@ -936,14 +799,8 @@ module.exports = {
      *       data: "Success"
      *     }
      *
-     *
-     * @apiErrorExample Admin authoried failure:
-     *     HTTP/1.1 401 Admin authoried failure
-     *     {
-     *       "code": 401
-     *       "error": "Admin authoried failure"
-     *     }
-     *     * @apiErrorExample Failure Delete Supplier
+     *     @apiUse ErrorAuthorized
+     *     @apiErrorExample Failure Delete Supplier
      *     HTTP/1.1 402 Failure Delete Supplier
      *     {
      *       "code": 402

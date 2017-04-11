@@ -17,7 +17,7 @@ module.exports = {
 
         var user_id = EVResponse.verifiyAccessToken(req,"user_id");
         if (user_id == null) {
-            EVResponse.failure(res,403,"Missing access token or accesstoken not true");
+            EVResponse.failure(res,401,"Missing access token or accesstoken not true");
             return;
         }
 
@@ -34,7 +34,7 @@ module.exports = {
 
         var user_id = EVResponse.verifiyAccessToken(req,"user_id");
         if (user_id == null) {
-            EVResponse.failure(res,403,"Missing access token or accesstoken not true");
+            EVResponse.failure(res,401,"Missing access token or accesstoken not true");
             return;
         }
 
@@ -54,7 +54,7 @@ module.exports = {
         var user_id = EVResponse.verifiyAccessToken(req,"user_id");
         if (user_id == null) {
 
-            EVResponse.failure(res,403,"Missing access token");
+            EVResponse.failure(res,401,"Missing access token");
             return;
         }
 
@@ -78,7 +78,7 @@ module.exports = {
         var user_id = EVResponse.verifiyAccessToken(req,"user_id");
         if (user_id == null) {
 
-            EVResponse.failure(res,403,"Missing access token");
+            EVResponse.failure(res,401,"Missing access token");
             return;
         }
         var event_id = req.params.event_id;

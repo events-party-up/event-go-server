@@ -28,32 +28,7 @@ module.exports = {
    *
    * @apiSuccess {Number} code                Code Success
    * @apiSuccess {Object} data                Task detail
-   * @apiSuccessExample {json} Success-Response:
-   *     HTTP/1.1 200 OK
-   *     {
-     *       code: 200,
-     *       data: {
-     *        task_id: "string",
-     *        supplier_id: "string",
-     *        name: "string",
-     *        detail: "string",
-     *        thumbnail_url: "string",
-     *        cover_url: "string",
-     *        detail_url: "string",
-     *        start_time: Number,
-     *        end_time: Number,
-     *        created_date: Number,
-     *        task_info: {Object task},
-     *        tags: "[string]",
-     *        award_ids: [string],
-     *        max_num_finish_task: Number,
-     *        current_num_finish_task: Number,
-     *        next_tasks: [string],
-     *        previous_tasks_require: [string]
-     *        status: string
-     *       }
-     *     }
-   *
+   * @apiUse TaskInfoResponse
    *
    * @apiErrorExample Get tasks failure:
    *     HTTP/1.1 402 Get tasks failure
@@ -87,67 +62,17 @@ module.exports = {
    *
    * @apiDescription  Create Task
    *
-   * @apiParamExample {json} Request-Example-InBody-Required:
-   * {
-
-     *        supplier_id: "string",
-     *        name: "string",
-     *        detail: "string",
-     *        thumbnail_url: "string",
-     *        cover_url: "string",
-     *        detail_url: "string",
-     *        start_time: Number,
-     *        end_time: Number,
-     *        created_date: Number,
-     *        task_info: {Object task},
-     *        tags: "[string]",
-     *        award_ids: [string],
-     *        max_num_finish_task: Number,
-     *        current_num_finish_task: Number,
-     *        next_tasks: [string],
-     *        previous_tasks_require: [string]
-     * }
-   *
+   * @apiUse TaskInfoParams
    *
    * @apiExample Example usage:
    * POST /tasks
    *
    * @apiSuccess {Number} code                Code Success
    * @apiSuccess {Object} data                Task detail
-   * @apiSuccessExample {json} Success-Response:
-   *     HTTP/1.1 200 OK
-   *     {
-     *       code: 200,
-     *       data: {
-     *        task_id: "string",
-     *        supplier_id: "string",
-     *        name: "string",
-     *        sub_name: "string",
-     *        thumbnail_url: "string",
-     *        cover_url: "string",
-     *        policy_url: "string",
-     *        detail_url: "string",
-     *        start_time: Number,
-     *        end_time: Number,
-     *        created_date: Number,
-     *        location_info: {Object Location},
-     *        tags: "[string]",
-     *        priority: Number,
-     *        limit_user: Number,
-     *        rule: Object,
-     *        award_ids: [string],
-     *        task_ids: [string],
-     *        status: string
-     *       }
-     *     }
    *
+   * @apiUse TaskInfoResponse
    *
-   * @apiErrorExample Access token not true:
-   *     HTTP/1.1 401 Access token not true
-   *     {
-   *       code : 401
-   *       error: "Access token not true"
-   *     }
+   * @apiUse ErrorAuthorized
    * @apiErrorExample Create task failure:
    *     HTTP/1.1 402 Create task failure
    *     {
@@ -201,67 +126,17 @@ module.exports = {
    *
    * @apiDescription  Update Task
    *
-   * @apiParamExample {json} Request-Example-InBody-Required:
-   * {
-     *     task_id: "string",
-     *        supplier_id: "string",
-     *        name: "string",
-     *        detail: "string",
-     *        thumbnail_url: "string",
-     *        cover_url: "string",
-     *        detail_url: "string",
-     *        start_time: Number,
-     *        end_time: Number,
-     *        created_date: Number,
-     *        task_info: {Object task},
-     *        tags: "[string]",
-     *        award_ids: [string],
-     *        max_num_finish_task: Number,
-     *        current_num_finish_task: Number,
-     *        next_tasks: [string],
-     *        previous_tasks_require: [string]
-     * }
-   *
+   * @apiUse TaskInfoParams
    *
    * @apiExample Example usage:
    * PUT /tasks/sdfdsafa?access_token=?
    *
    * @apiSuccess {Number} code                Code Success
    * @apiSuccess {Object} data                Task detail
-   * @apiSuccessExample {json} Success-Response:
-   *     HTTP/1.1 200 OK
-   *     {
-     *       code: 200,
-     *       data: {
-     *        task_id: "string",
-     *        supplier_id: "string",
-     *        name: "string",
-     *        sub_name: "string",
-     *        thumbnail_url: "string",
-     *        cover_url: "string",
-     *        policy_url: "string",
-     *        detail_url: "string",
-     *        start_time: Number,
-     *        end_time: Number,
-     *        created_date: Number,
-     *        location_info: {Object Location},
-     *        tags: "[string]",
-     *        priority: Number,
-     *        limit_user: Number,
-     *        rule: Object,
-     *        award_ids: [string],
-     *        task_ids: [string],
-     *        status: string
-     *       }
-     *     }
+   * 
+   * @apiUse TaskInfoResponse
    *
-   *
-   * @apiErrorExample Access token not true:
-   *     HTTP/1.1 401 Access token not true
-   *     {
-   *       code : 401
-   *       error: "Access token not true"
-   *     }
+   * @apiUse ErrorAuthorized
    * @apiErrorExample Update fail:
    *     HTTP/1.1 402 Update fail
    *     {
@@ -316,12 +191,7 @@ module.exports = {
      *     }
    *
    *
-   * @apiErrorExample Access token not true:
-   *     HTTP/1.1 401 Access token not true
-   *     {
-   *       code : 401
-   *       error: "Access token not true"
-   *     }
+   * @apiUse ErrorAuthorized
    * @apiErrorExample Delete Task Failure:
    *     HTTP/1.1 402 Delete Task Failure
    *     {

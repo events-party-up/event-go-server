@@ -25,26 +25,9 @@ module.exports = {
    *
    * @apiSuccess {Number} code                Code Success
    * @apiSuccess {Object} data                Award detail
-   * @apiSuccessExample {json} Success-Response:
-   *     HTTP/1.1 200 OK
-   *     {
-     *       code: 200,
-     *       data: [
-     *        award_id: string,
-     *        supplier_id: string,
-     *        name: string,
-     *        detail: string,
-     *        image_url: string,
-     *        more: string,
-     *        contact: string,
-     *        item_id: string,
-     *        created_date: Number,
-     *        tags: [string]
-     *        status: string,
-     *       ]
-     *     }
-   *
-   *
+   * 
+   * @apiUse AwardInfoResponse
+   * 
    * @apiErrorExample Get award failure:
    *     HTTP/1.1 402 Get award failure
    *     {
@@ -76,50 +59,17 @@ module.exports = {
    *
    * @apiDescription  Create Award
    *
-   * @apiParamExample {json} Request-Example-InBody-Required:
-   * {
-     *        name: string,
-     *        detail: string,
-     *        image_url: string,
-     *        more: string,
-     *        contact: string,
-     *        item_id: string,
-     *        tags: [string]
-     *        status: string,
-     * }
-   *
+   * @apiUse AwardInfoParams
    *
    * @apiExample Example usage:
    * POST /awards?access_token=asdsad
    *
    * @apiSuccess {Number} code                Code Success
    * @apiSuccess {Object} data                Award detail
-   * @apiSuccessExample {json} Success-Response:
-   *     HTTP/1.1 200 OK
-   *     {
-     *       code: 200,
-     *       data: {
-     *        award_id: string,
-     *        supplier_id: string,
-     *        name: string,
-     *        detail: string,
-     *        image_url: string,
-     *        more: string,
-     *        contact: string,
-     *        item_id: string,
-     *        created_date: Number,
-     *        tags: [string]
-     *        status: string,
-     *       }
-     *     }
    *
+   * @apiUse AwardInfoResponse
    *
-   * @apiErrorExample Access token not true:
-   *     HTTP/1.1 401 Access token not true
-   *     {
-   *       code : 401
-   *       error: "Access token not true"
-   *     }
+   * @apiUse ErrorAuthorized
    * @apiErrorExample Create award failure:
    *     HTTP/1.1 402 Create award failure
    *     {
@@ -157,50 +107,16 @@ module.exports = {
    *
    * @apiDescription  Update Award
    *
-   * @apiParamExample {json} Request-Example-InBody-Required:
-   * {
-     *        name: string,
-     *        detail: string,
-     *        image_url: string,
-     *        more: string,
-     *        contact: string,
-     *        item_id: string,
-     *        tags: [string]
-     *        status: string,
-     * }
-   *
-   *
+   * @apiUse AwardInfoParams
    * @apiExample Example usage:
    * PUT /awards/sdfdsafa?access_token=?
    *
    * @apiSuccess {Number} code                Code Success
    * @apiSuccess {Object} data                Award detail
-   * @apiSuccessExample {json} Success-Response:
-   *     HTTP/1.1 200 OK
-   *     {
-     *       code: 200,
-     *       data: {
-     *        award_id: string,
-     *        supplier_id: string,
-     *        name: string,
-     *        detail: string,
-     *        image_url: string,
-     *        more: string,
-     *        contact: string,
-     *        item_id: string,
-     *        created_date: Number,
-     *        tags: [string]
-     *        status: string,
-     *       }
-     *     }
    *
+   * @apiUse AwardInfoResponse
    *
-   * @apiErrorExample Access token not true:
-   *     HTTP/1.1 401 Access token not true
-   *     {
-   *       code : 401
-   *       error: "Access token not true"
-   *     }
+   * @apiUse ErrorAuthorized
    * @apiErrorExample Update fail:
    *     HTTP/1.1 402 Update fail
    *     {
@@ -253,13 +169,7 @@ module.exports = {
      *       data: "Success"
      *     }
    *
-   *
-   * @apiErrorExample Access token not true:
-   *     HTTP/1.1 401 Access token not true
-   *     {
-   *       code : 401
-   *       error: "Access token not true"
-   *     }
+   * @apiUse ErrorAuthorized
    * @apiErrorExample Delete Award Failure:
    *     HTTP/1.1 402 Delete Award Failure
    *     {

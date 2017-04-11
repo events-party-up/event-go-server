@@ -21,46 +21,20 @@ module.exports = {
    *
    * @apiDescription  Read event detail info
    *
-   *
    * @apiExample Example usage:
    * GET /events/dasdsadsad
    *
    * @apiSuccess {Number} code                Code Success
    * @apiSuccess {Object} data                Event detail
-   * @apiSuccessExample {json} Success-Response:
-   *     HTTP/1.1 200 OK
-   *     {
-     *       code: 200,
-     *       data: {
-     *        event_id: "string",
-     *        supplier_id: "string",
-     *        name: "string",
-     *        sub_name: "string",
-     *        thumbnail_url: "string",
-     *        cover_url: "string",
-     *        policy_url: "string",
-     *        detail_url: "string",
-     *        start_time: Number,
-     *        end_time: Number,
-     *        created_date: Number,
-     *        location_info: {Object Location},
-     *        tags: "[string]",
-     *        priority: Number,
-     *        limit_user: Number,
-     *        rule: Object,
-     *        award_ids: [string],
-     *        task_ids: [string],
-     *        status: string
-     *       }
-     *     }
-   *
-   *
+   * 
+   * @apiUse EventDetailSuccessExample
+   * 
    * @apiErrorExample Get events failure:
    *     HTTP/1.1 403 Get events failure
    *     {
    *       code : 403
    *       error: "Get events failure"
-  *     }
+   *     }
    */
   getDetail: function(req,res,next) {
 
@@ -86,61 +60,16 @@ module.exports = {
    * @apiPermission supplier or admin
    *
    * @apiDescription  Create Event
-   *
-   * @apiParamExample {json} Request-Example-InBody-Required:
-   * {
-     *    "supplier_id": string,
-     *    "name": string,
-     *    "sub_name": string,
-          "thumbnail_url": string,
-          "cover_url": string
-          "policy_url": string,
-          "detail_url": string,
-          "start_time": Number,
-          "end_time": Number,
-          .... More if have above params that is required for create
-     * }
-   *
-   *
+   * 
+   * @apiUse EventPostPutParam
    * @apiExample Example usage:
+   * 
    * POST /events
    *
    * @apiSuccess {Number} code                Code Success
    * @apiSuccess {Object} data                Event detail
-   * @apiSuccessExample {json} Success-Response:
-   *     HTTP/1.1 200 OK
-   *     {
-     *       code: 200,
-     *       data: {
-     *        event_id: "string",
-     *        supplier_id: "string",
-     *        name: "string",
-     *        sub_name: "string",
-     *        thumbnail_url: "string",
-     *        cover_url: "string",
-     *        policy_url: "string",
-     *        detail_url: "string",
-     *        start_time: Number,
-     *        end_time: Number,
-     *        created_date: Number,
-     *        location_info: {Object Location},
-     *        tags: "[string]",
-     *        priority: Number,
-     *        limit_user: Number,
-     *        rule: Object,
-     *        award_ids: [string],
-     *        task_ids: [string],
-     *        status: string
-     *       }
-     *     }
-   *
-   *
-   * @apiErrorExample Access token not true:
-   *     HTTP/1.1 401 Access token not true
-   *     {
-   *       code : 401
-   *       error: "Access token not true"
-   *     }
+   * @apiUse EventDetailSuccessExample
+   * @apiUse ErrorAuthorized
    * @apiErrorExample Body empty:
    *     HTTP/1.1 402 Body empty
    *     {
@@ -201,61 +130,17 @@ module.exports = {
    * @apiPermission supplier or admin
    *
    * @apiDescription  Update Event
-   *
-   * @apiParamExample {json} Request-Example-InBody-Required:
-   * {
-     *    "supplier_id": string,
-     *    "name": string,
-     *    "sub_name": string,
-          "thumbnail_url": string,
-          "cover_url": string
-          "policy_url": string,
-          "detail_url": string,
-          "start_time": Number,
-          "end_time": Number,
-          .... More if have above params that is required for create
-     * }
-   *
-   *
+   * 
+   * @apiUse EventPostPutParam
+   * 
    * @apiExample Example usage:
    * PUT /events/sdfdsafa
    *
    * @apiSuccess {Number} code                Code Success
    * @apiSuccess {Object} data                Event detail
-   * @apiSuccessExample {json} Success-Response:
-   *     HTTP/1.1 200 OK
-   *     {
-     *       code: 200,
-     *       data: {
-     *        event_id: "string",
-     *        supplier_id: "string",
-     *        name: "string",
-     *        sub_name: "string",
-     *        thumbnail_url: "string",
-     *        cover_url: "string",
-     *        policy_url: "string",
-     *        detail_url: "string",
-     *        start_time: Number,
-     *        end_time: Number,
-     *        created_date: Number,
-     *        location_info: {Object Location},
-     *        tags: "[string]",
-     *        priority: Number,
-     *        limit_user: Number,
-     *        rule: Object,
-     *        award_ids: [string],
-     *        task_ids: [string],
-     *        status: string
-     *       }
-     *     }
+   * @apiUse EventDetailSuccessExample
    *
-   *
-   * @apiErrorExample Access token not true:
-   *     HTTP/1.1 401 Access token not true
-   *     {
-   *       code : 401
-   *       error: "Access token not true"
-   *     }
+   * @apiUse ErrorAuthorized
    * @apiErrorExample Update fail:
    *     HTTP/1.1 402 Update fail
    *     {
@@ -301,6 +186,7 @@ module.exports = {
    *
    * @apiSuccess {Number} code                Code Success
    * @apiSuccess {Object} data                Message
+   * 
    * @apiSuccessExample {json} Success-Response:
    *     HTTP/1.1 200 OK
    *     {
@@ -308,13 +194,7 @@ module.exports = {
      *       data: "Success"
      *     }
    *
-   *
-   * @apiErrorExample Access token not true:
-   *     HTTP/1.1 401 Access token not true
-   *     {
-   *       code : 401
-   *       error: "Access token not true"
-   *     }
+   * @apiUse ErrorAuthorized
    * @apiErrorExample Delete Event Failure:
    *     HTTP/1.1 402 Delete Event Failure
    *     {
@@ -352,33 +232,13 @@ module.exports = {
    *
    * @apiDescription  Read all event of supplier_id with basic infomation
    *
-   *
    * @apiExample Example usage:
    * GET /events?supplier_id=dasdsadsad
    *
    * @apiSuccess {Number} code                Code Success
    * @apiSuccess {Object[]} data              List of Events options (Array of Events).
-   * @apiSuccessExample {json} Success-Response:
-   *     HTTP/1.1 200 OK
-   *     {
-   *       code: 200,
-   *       data: [
-   *        event_id: "string",
-   *        supplier_id: "string",
-   *        name: "string",
-   *        sub_name: "string",
-   *        thumbnail_url: "string",
-   *        cover_url: "string",
-   *        policy_url: "string",
-   *        detail_url: "string",
-   *        start_time: Number,
-   *        end_time: Number,
-   *        created_date: Number,
-   *        location_info: {Object Location},
-   *        tags: "[string]"
-   *       ]
-   *     }
-   *
+   * 
+   * @apiUse EventInfoSuccessExample
    *
    * @apiErrorExample Get events failure (example):
    *     HTTP/1.1 403 Get events failure
@@ -417,5 +277,9 @@ module.exports = {
           EVResponse.failure(res,403, error);
       });
   },
+
+  getEventForClient: function(req,res,next) {
+
+  }
 
 };

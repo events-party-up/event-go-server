@@ -25,22 +25,8 @@ module.exports = {
    *
    * @apiSuccess {Number} code                Code Success
    * @apiSuccess {Object} data                Item detail
-   * @apiSuccessExample {json} Success-Response:
-   *     HTTP/1.1 200 OK
-   *     {
-     *       code: 200,
-     *       data: {
-     *        item_id: string,
-     *        supplier_id: string,
-     *        name: string,
-     *        detail: string,
-     *        image_url: string,
-     *        created_date: Number,
-     *        tags: [string]
-     *        status: string,
-     *       }
-     *     }
    *
+   * @apiUse ItemInfoResponse
    *
    * @apiErrorExample Get items failure:
    *     HTTP/1.1 402 Get items failure
@@ -73,45 +59,17 @@ module.exports = {
    *
    * @apiDescription  Create Item
    *
-   * @apiParamExample {json} Request-Example-InBody-Required:
-   * {
-     *        name: string,
-     *        detail: string,
-     *        image_url: string,
-     *        created_date: Number,
-     *        tags: [string]
-     *        status: string,
-     * }
-   *
+   * @apiUse ItemInfoParams
    *
    * @apiExample Example usage:
    * POST /items?access_token=asdsad
    *
    * @apiSuccess {Number} code                Code Success
    * @apiSuccess {Object} data                Item detail
-   * @apiSuccessExample {json} Success-Response:
-   *     HTTP/1.1 200 OK
-   *     {
-     *       code: 200,
-     *       data: {
-     *        item_id: string,
-     *        supplier_id: string,
-     *        name: string,
-     *        detail: string,
-     *        image_url: string,
-     *        created_date: Number,
-     *        tags: [string]
-     *        status: string,
-     *       }
-     *     }
    *
+   * @apiUse ItemInfoResponse
    *
-   * @apiErrorExample Access token not true:
-   *     HTTP/1.1 401 Access token not true
-   *     {
-   *       code : 401
-   *       error: "Access token not true"
-   *     }
+   * @apiUse ErrorAuthorized
    * @apiErrorExample Create item failure:
    *     HTTP/1.1 402 Create item failure
    *     {
@@ -149,45 +107,18 @@ module.exports = {
    *
    * @apiDescription  Update Item
    *
-   * @apiParamExample {json} Request-Example-InBody-Required:
-   * {
-     *        name: string,
-     *        detail: string,
-     *        image_url: string,
-     *        created_date: Number,
-     *        tags: [string]
-     *        status: string,
-     * }
-   *
+   * @apiUse ItemInfoParams
    *
    * @apiExample Example usage:
    * PUT /items/sdfdsafa?access_token=?
    *
    * @apiSuccess {Number} code                Code Success
    * @apiSuccess {Object} data                Item detail
-   * @apiSuccessExample {json} Success-Response:
-   *     HTTP/1.1 200 OK
-   *     {
-     *       code: 200,
-     *       data: {
-     *        item_id: string,
-     *        supplier_id: string,
-     *        name: string,
-     *        detail: string,
-     *        image_url: string,
-     *        created_date: Number,
-     *        tags: [string]
-     *        status: string,
-     *       }
-     *     }
-   *
-   *
-   * @apiErrorExample Access token not true:
-   *     HTTP/1.1 401 Access token not true
-   *     {
-   *       code : 401
-   *       error: "Access token not true"
-   *     }
+   * 
+   * @apiUse ItemInfoResponse
+   * 
+   * @apiUse ErrorAuthorized
+   * 
    * @apiErrorExample Update fail:
    *     HTTP/1.1 402 Update fail
    *     {
@@ -241,12 +172,7 @@ module.exports = {
      *     }
    *
    *
-   * @apiErrorExample Access token not true:
-   *     HTTP/1.1 401 Access token not true
-   *     {
-   *       code : 401
-   *       error: "Access token not true"
-   *     }
+   * @apiUse ErrorAuthorized
    * @apiErrorExample Delete Item Failure:
    *     HTTP/1.1 402 Delete Item Failure
    *     {

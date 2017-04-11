@@ -68,8 +68,8 @@ app.use(session({
     store: new MongoStore({ mongooseConnection: mongoose.connection })
 }));
 
-var index = require('./routes/index');
-var v10 = require('./routes/api/v1.0.js');
+var index = require('./src/routes/index');
+var v10 = require('./src/routes/api/v1.0.js');
 
 app.use('/', index);
 app.use('/api/v1.0', v10);

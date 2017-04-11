@@ -42,6 +42,30 @@ supplierSchema.methods.generateJWT = function() {
     }, 'event-go-2017-hcmus-thanh-thai-@-k13-supplier');
 };
 
+/**
+ * @apiDefine SupplierInfoParams
+ */
+
+/**
+ * @apiDefine SupplierInfoResponse
+ * @apiSuccessExample {json} Success-Response:
+     *     HTTP/1.1 200 OK
+     *     {
+     *       code: 200,
+     *       data: [
+     *          supplier_id: "string",
+     *          name: "string",
+     *         image_urL: "string",
+     *         level: Number,
+     *         company_info: {
+     *           company_name: "string"
+     *         },
+     *         supplier_status: "string",
+     *         tags: "[string]"
+     *       ]
+     *     }
+     *
+ */
 supplierSchema.methods.signInResult = function (version) {
 
     return require('../Utility/Utility').extendObject(this.infoResult(),{

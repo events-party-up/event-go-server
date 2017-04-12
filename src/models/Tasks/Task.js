@@ -11,6 +11,10 @@ var taskSchema = new Schema({
       type: String,
       default: 'Nhiệm vụ của bạn'
     },
+    event_id: {
+      type: Schema.Types.ObjectId,
+      ref: 'event'
+    },
     detail:  {
       type: String,
       default: 'Chi tiết nhiệm vụ của bạn'
@@ -39,7 +43,15 @@ var taskSchema = new Schema({
       type: [String],
       default: []
     },
-    status: String
+    tags: {
+      type: [String],
+      default: []
+    },
+    status: {
+      type: String,
+      enum: ["pending","finished","ready"],
+      default: "pending"
+    }
 });
 
 /**
@@ -50,6 +62,7 @@ var taskSchema = new Schema({
      *       code: 200,
      *       data: {
      *        task_id: "string",
+     *        event_id: string
      *        supplier_id: "string",
      *        name: "string",
      *        sub_name: "string",

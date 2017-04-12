@@ -47,7 +47,8 @@ module.exports = {
 
     rx.subscribe(function(doc){
       EVResponse.success(res, doc);
-    }, function(err) {
+    }, function(error) {
+      console.error(error);
       EVResponse.failure(res,402, "Get tasks failure");
     });
   },
@@ -61,36 +62,16 @@ module.exports = {
     }
 
     var event_id = req.params.event_id;
-    var eventRx = RxMongo.findOne(Events,{
-      '_id': event_id,
-      'supplier_id': supplier_id
-    }, false, {
-      'tasks': true
-    });
 
-    eventRx.subscribe(function(doc) {
-      console.log(doc);
-      if (!doc || doc.tasks === undefined) {
-        EVResponse.failure(res,404,'Cant find event');
-        return;
-      } 
-      arrayTaskRx = doc.tasks.map(function(task) {
-        return RxMongo.findOne(Tasks,{
-          '_id': task
-        })
-      });
-
-      Rx.Observable.combineLatest(arrayTaskRx).subscribe(function (docs) {
-        console.log(docs);
-          EVResponse.success(res, docs);
-      }, function (error) {
-          console.error(error);
-          EVResponse.failure(res,408, "Load tasks failure");
-      })
-
-    }, function(error) {
-      EVResponse.failure(res,404,'Cant find event');
-    });
+    RxMongo.find(Tasks, {
+      'event_id': event_id,
+      // 'supplier_id': supplier_id
+    }).subscribe(function(docs){
+      EVResponse.success(res,docs);
+    }, function(error){
+      console.error(error);
+      EVResponse.failure(res,408, "Load tasks failure");
+    })
   },
 
   /**
@@ -129,29 +110,16 @@ module.exports = {
       return;
     }
     var taskInfo = EVBody(req.body);
-    taskInfo.supplier_id = supplier_id;
-
     var event_id = req.params.event_id;
     var newTasks = new Tasks(taskInfo);
 
-    var updateEventID_TaskRx = RxMongo.findOneAndUpdated(Events, {
-      '_id': event_id,
-      'supplier_id': supplier_id
-    }, {
-      $push: {
-        "tasks": [
-          newTasks._id
-        ]
-      }
-    });
+    newTasks.supplier_id = supplier_id;
+    newTasks.event_id = event_id;
 
     RxMongo.save(newTasks).subscribe(function() {
-      updateEventID_TaskRx.subscribe(function(doc) {
-        EVResponse.success(res,newTasks);
-      }, function(err) {
-          EVResponse.failure(res,402, "update event failure");
-      })
-    }, function(err) {
+      EVResponse.success(res,newTasks);
+    }, function(error) {
+      console.error(error);
       EVResponse.failure(res,402, "Create task failure");
     });
   },
@@ -196,13 +164,14 @@ module.exports = {
     var taskInfo = EVBody(req.body);
     var event_id = req.params.event_id;
     var task_id = req.params.task_id;
-
     RxMongo.findOneAndUpdated(Tasks, {
       '_id': task_id,
-      'supplier_id': supplier_id
+      'supplier_id': supplier_id,
+      'event_id': event_id
     }, taskInfo).subscribe(function(doc) {
       EVResponse.success(res,doc);
     }, function(error) {
+        console.error(error);
         EVResponse.failure(res,402, "Update task failure");
     });
   },
@@ -241,36 +210,26 @@ module.exports = {
    *     }
    */
   deleteTask: function(req,res,next) {
-
+    
     var supplier_id = EVResponse.verifiyAccessToken(req,"supplier_id");
     if (supplier_id == null) {
-      EVResponse.failure(res,405,"Access token not true");
+      EVResponse.failure(res,401,"Access token not true");
       return;
     }
 
     var event_id = req.params.event_id;
     var task_id = req.params.task_id;
 
-    var removeEventID_TaskRx = RxMongo.findOneAndUpdated(Events, {
-      '_id': event_id,
-      'supplier_id': supplier_id
-    }, {
-        $pull: { 'tasks': task_id }
-    });
-
     RxMongo.remove(Tasks, {
       '_id': task_id,
-      'supplier_id': supplier_id
-    }, function() {
-      removeEventID_TaskRx.subscribe(function(){
-        EVResponse.success(res,"Delete success");
-      }, function(err) {
-        EVResponse.failure(res,402, "Delete task failure when removeTaskIds in event");
-      })
-    }, function(err) {
+      'supplier_id': supplier_id,
+      'event_id': event_id
+    }).subscribe(function() {
+      EVResponse.success(res,"Delete success");
+    }, function(error) {
+      console.error(error);
       EVResponse.failure(res,402, "Delete task failure");
     });
-
   }
   
 };

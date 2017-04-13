@@ -10,7 +10,7 @@ var EVBody = require('./../EVBody.js');
 module.exports = {
 
   /**
-   * @api {get} awards/:award_id GetDetail
+   * @api {get} /events/:event_id/awards/:award_id GetDetail
    * @apiParam {string} award_id Award_ID want to get detail
    * @apiVersion 0.1.0
    * @apiName GetDetail
@@ -49,8 +49,28 @@ module.exports = {
     });
   },
 
+  getAllOfEvent: function(req,res,next) {
+    var supplier_id = EVResponse.verifiyAccessToken(req,"supplier_id");
+    if (supplier_id == null) {
+      EVResponse.failure(res,401,"Access token not true");
+      return;
+    }
+
+    var event_id = req.params.event_id;
+
+    RxMongo.find(Awards, {
+      'event_id': event_id,
+      'supplier_id': supplier_id
+    }).subscribe(function(docs){
+      EVResponse.success(res,docs);
+    }, function(error){
+      console.error(error);
+      EVResponse.failure(res,408, "Load awards failure");
+    })
+  },
+
   /**
-   * @api {post} awards?access_token Create Award
+   * @api {post} /events/:event_id/awards Create Award
    * @apiParam {string} access_token Authorized access_token
    * @apiVersion 0.1.0
    * @apiName CreateAward
@@ -85,21 +105,24 @@ module.exports = {
       return;
     }
     var awardInfo = EVBody(req.body);
-    awardInfo.supplier_id = supplier_id;
-
+    var event_id = req.params.event_id;
     var newAward = new Awards(awardInfo);
+
+    newAward.supplier_id = supplier_id;
+    newAward.event_id = event_id;
 
     RxMongo.save(newAward).subscribe(function() {
       EVResponse.success(res,newAward);
-    }, function(err) {
+    }, function(error) {
+      console.error(error);
       EVResponse.failure(res,402, "Create award failure");
     });
   },
 
   /**
-   * @api {put} awards/:award_id?access_token Update Award
+   * @api {put} /events/:event_id/awards/:award_id Update Award
    * @apiParam {string} award_id Award_ID want to update
-   * @apiParam {string} access_token Authorized access_token
+   * * @apiParam {string} event_id Award_ID want to update
    * @apiVersion 0.1.0
    * @apiName UpdateAward
    * @apiGroup Awards
@@ -134,10 +157,12 @@ module.exports = {
 
     var awardInfo = EVBody(req.body);
     var award_id = req.params.award_id;
+    var event_id = req.params.event_id;
 
     RxMongo.findOneAndUpdated(Awards, {
       "_id": award_id,
-      "supplier_id": supplier_id
+      "supplier_id": supplier_id,
+      'event_id': event_id
     }, awardInfo).subscribe(function(doc){
       EVResponse.success(res,doc);
     }, function(err){
@@ -146,7 +171,7 @@ module.exports = {
   },
 
   /**
-   * @api {delete} awards/:award_id?access_token Delete Award
+   * @api {delete} /events/:event_id/awards/:award_id?access_token Delete Award
    * @apiParam {string} award_id Award_ID want to Delete
    * @apiParam {string} access_token Authorized access_token
    * @apiVersion 0.1.0
@@ -186,9 +211,12 @@ module.exports = {
     }
 
     var award_id = req.params.award_id;
+    var event_id = req.params.event_id;
+
     RxMongo.remove(Awards, {
       '_id': award_id,
-      'supplier_id': supplier_id
+      'supplier_id': supplier_id,
+      'event_id': event_id
     }).subscribe(function(){
       EVResponse.success(res,"Delete success");
     }, function(err){

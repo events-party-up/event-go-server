@@ -11,9 +11,15 @@ var awardSchema = new Schema({
       type: Schema.Types.ObjectId,
       ref: 'event'
     },
-    name: String,
+    name: {
+      type: String,
+      default: "Tên phần thưởng của bạn"
+    },
     image_url: String,
-    detail: String,
+    detail: {
+      type: String,
+      default: "Chi tiết phần thưởng của bạn"
+    },
     contact: String,
     item_id:  {
       type: Schema.Types.ObjectId,

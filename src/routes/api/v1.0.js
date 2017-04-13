@@ -61,7 +61,8 @@ router.route('/events/:event_id/tasks/:task_id')
 
 // Awards
 var awardController = require("../../controllers/api/AwardController");
-router.post('/events/:event_id/awards', awardController.createAward);
+router.post('/events/:event_id/awards', awardController.createAward)
+      .get('/events/:event_id/awards', awardController.getAllOfEvent);
 
 router.route('/events/:event_id/awards/:award_id')
       .get(awardController.getDetail)

@@ -158,7 +158,12 @@ module.exports = {
     var awardInfo = EVBody(req.body);
     var award_id = req.params.award_id;
     var event_id = req.params.event_id;
-
+    
+    if (awardInfo.item_id === '') {
+      awardInfo.item_id = null;
+    }
+    console.log(awardInfo);
+    
     RxMongo.findOneAndUpdated(Awards, {
       "_id": award_id,
       "supplier_id": supplier_id,
@@ -166,6 +171,7 @@ module.exports = {
     }, awardInfo).subscribe(function(doc){
       EVResponse.success(res,doc);
     }, function(err){
+      console.error(err);
       EVResponse.failure(res,402, "Update award failure");
     });
   },

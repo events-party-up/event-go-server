@@ -28,6 +28,18 @@ var locationSchema = new Schema({
 });
 
 /**
+ * @apiDefine LocationData
+  location_info: {
+    place_id: string,
+    formatted_address: string,
+    coordinate: {
+       lat: double,
+       lng: double
+     }
+  }
+ */
+
+/**
  * @apiDefine LocationInfoResponse
  * @apiSuccessExample {json} Success-Response:
    *     HTTP/1.1 200 OK
@@ -42,14 +54,14 @@ var locationSchema = new Schema({
      *        link: [string],
      *        image_url: string,
      *        created_date: Number,
-              * location_info: {
-          *    place_id: string,
-          *    formatted_address: string,
-          *    coordinate: {
-          *      lat: double,
-          *      lng: double
-          *    }
-          * },
+     *        location_info: {
+                place_id: string,
+                formatted_address: string,
+                coordinate: {
+                  lat: double,
+                  lng: double
+                }
+              }
      *        tags: [string]
      *        status: string,
      *       }
@@ -72,14 +84,14 @@ var locationSchema = new Schema({
         *        link: [string],
         *        image_url: string,
         *        created_date: Number,
-                * location_info: {
-                  *    place_id: string,
-                  *    formatted_address: string,
-                  *    coordinate: {
-                  *      lat: double,
-                  *      lng: double
-                  *    }
-                  * },
+        *        location_info: {
+                  place_id: string,
+                  formatted_address: string,
+                  coordinate: {
+                    lat: double,
+                    lng: double
+                  }
+                }
         *        tags: [string]
         *        status: string,
       *       }, {
@@ -98,14 +110,14 @@ var locationSchema = new Schema({
      *        link: [string],
      *        image_url: string,
      *        created_date: Number,
-            * location_info: {
-                  *    place_id: string,
-                  *    formatted_address: string,
-                  *    coordinate: {
-                  *      lat: double,
-                  *      lng: double
-                  *    }
-                  * },
+     *        location_info: {
+                place_id: string,
+                formatted_address: string,
+                coordinate: {
+                  lat: double,
+                  lng: double
+                }
+              }
      *        tags: [string]
      *        status: string,
      * }

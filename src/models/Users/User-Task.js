@@ -20,6 +20,7 @@ var userTaskSchema = new Schema({
     default: new Date()
   },
   end_time: Date,
+  link: String,
   status: String,
   result: Object
 });

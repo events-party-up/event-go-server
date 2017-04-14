@@ -10,7 +10,10 @@ var locationSchema = new Schema({
     },
     detail: String,
     address: String,
-    image_url: String,
+    image_url:  {
+      type: [String],
+      default: []
+    },
     created_date: {
         type: Date,
         default: new Date()
@@ -82,7 +85,7 @@ var locationSchema = new Schema({
         *        detail: string,
         *        address: string,
         *        link: [string],
-        *        image_url: string,
+        *        image_url: [string],
         *        created_date: Number,
         *        location_info: {
                   place_id: string,
@@ -108,7 +111,7 @@ var locationSchema = new Schema({
      *        detail: string,
      *        address: string,
      *        link: [string],
-     *        image_url: string,
+     *        image_url: [string],
      *        created_date: Number,
      *        location_info: {
                 place_id: string,

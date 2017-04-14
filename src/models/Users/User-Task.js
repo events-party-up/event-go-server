@@ -20,7 +20,7 @@ var userTaskSchema = new Schema({
     default: new Date()
   },
   end_time: Date,
-  link: String,
+  post_id: String,
   status: String,
   result: Object
 });

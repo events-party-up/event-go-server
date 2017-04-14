@@ -42,7 +42,14 @@ var locationSchema = new Schema({
      *        link: [string],
      *        image_url: string,
      *        created_date: Number,
-     *        location_info: {Object Location},
+              * location_info: {
+          *    place_id: string,
+          *    formatted_address: string,
+          *    coordinate: {
+          *      lat: double,
+          *      lng: double
+          *    }
+          * },
      *        tags: [string]
      *        status: string,
      *       }
@@ -65,7 +72,14 @@ var locationSchema = new Schema({
         *        link: [string],
         *        image_url: string,
         *        created_date: Number,
-        *        location_info: {Object Location},
+                * location_info: {
+                  *    place_id: string,
+                  *    formatted_address: string,
+                  *    coordinate: {
+                  *      lat: double,
+                  *      lng: double
+                  *    }
+                  * },
         *        tags: [string]
         *        status: string,
       *       }, {
@@ -84,7 +98,14 @@ var locationSchema = new Schema({
      *        link: [string],
      *        image_url: string,
      *        created_date: Number,
-     *        location_info: {Object Location},
+            * location_info: {
+                  *    place_id: string,
+                  *    formatted_address: string,
+                  *    coordinate: {
+                  *      lat: double,
+                  *      lng: double
+                  *    }
+                  * },
      *        tags: [string]
      *        status: string,
      * }

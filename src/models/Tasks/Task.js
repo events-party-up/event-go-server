@@ -11,13 +11,17 @@ var taskSchema = new Schema({
       type: String,
       default: 'Nhiệm vụ của bạn'
     },
+    sub_name: {
+      type: String,
+      default: 'Tên phụ nhiệm vụ của bạn'
+    },
     event_id: {
       type: Schema.Types.ObjectId,
       ref: 'event'
     },
-    detail:  {
+    description:  {
       type: String,
-      default: 'Chi tiết nhiệm vụ của bạn'
+      default: 'Mô tả nhiệm vụ của bạn'
     },
     thumbnail_url: String,
     cover_url: String,
@@ -29,6 +33,15 @@ var taskSchema = new Schema({
         default: new Date()
     },
     task_info: Object,
+    task_type: {
+      type: String,
+      enum: ["item","location","question"]
+    },
+    task_validate_type: {
+      type: String,
+      enum: ["input","share","photo","share_photo",],
+      default:"photo"
+    },
     award_ids: {
       type: [String],
       default: []

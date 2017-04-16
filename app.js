@@ -117,6 +117,7 @@ app.use(function(err, req, res, next) {
 });
 
 var server = require('http').createServer(app);
+var test = require('./src/test')();
 
 server.listen(8008);
 

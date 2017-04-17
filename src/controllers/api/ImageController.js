@@ -82,7 +82,7 @@ module.exports = {
    * @apiUse ImagesInfoParams
    *
    * @apiExample Example usage:
-   * POST /items
+   * POST /images
    *
    * @apiSuccess {Number} code                Code Success
    * @apiSuccess {Object} data                Item detail

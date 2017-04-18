@@ -177,9 +177,8 @@ module.exports = {
   },
 
   /**
-   * @api {delete} tasks/:task_id?access_token Delete Task
+   * @api {delete} tasks/:task_id Delete Task
    * @apiParam {string} task_id Task_ID want to Delete
-   * @apiParam {string} access_token Authorized access_token
    * @apiVersion 0.1.0
    * @apiName DeleteTask
    * @apiGroup Tasks
@@ -189,7 +188,7 @@ module.exports = {
    *
    *
    * @apiExample Example usage:
-   * DELETE /tasks/sdfdsafa?access_token=asdfdsaf
+   * DELETE /tasks/sdfdsafa
    *
    * @apiSuccess {Number} code                Code Success
    * @apiSuccess {Object} data                Message

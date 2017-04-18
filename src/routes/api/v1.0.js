@@ -95,5 +95,6 @@ router.post('/notifications', pushNotification.pushNotification);
 var imageController = require("../../controllers/api/ImageController");
 router.post('/images', imageController.postImage);
 router.get('/images', imageController.getImages);
+router.delete('/images/:image_id', imageController.deleteImage);
 
 module.exports = router;

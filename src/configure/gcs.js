@@ -26,11 +26,13 @@ var gcs = storage({
 });
 
 var appBucket = 'project-2030561738355063960.appspot.com';
-
+var bucket = gcs.bucket('project-2030561738355063960.appspot.com');
+var imagePrefix = 'https://storage.googleapis.com/project-2030561738355063960.appspot.com/'
 module.exports = {
+
   upload:function(file_name,supplier_id) {
-    return Rx.Observable.create(function(observer){
-      var bucket = gcs.bucket('project-2030561738355063960.appspot.com');
+    return Rx.Observable.create(function(observer) {
+      
       bucket.upload(__dirname + '/../../'+file_name +".jpg",{
           public: true,
           metadata: {
@@ -53,5 +55,21 @@ module.exports = {
           });
       });
     })
+  },
+
+  deleteFile: function(image_url) {
+    return Rx.Observable.create(function(observer) {
+      var newURL = image_url.replace(imagePrefix,"");
+      var file = bucket.file(newURL)
+
+      file.delete(function(err){
+        if (err) {
+          observer.error(err);
+          return;
+        }
+          observer.next();
+      })
+    })
   }
+
 };

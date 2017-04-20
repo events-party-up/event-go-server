@@ -79,22 +79,23 @@ module.exports = {
         var body = EVBody(req.body);
         var access_token = body.provider_access_token;
         var provider_type = body.provider_type;
+        var provider_id = body.provider_id;
 
         if (access_token == null || access_token == undefined) {
             EVResponse.failure(res,401,"Missing access_token key");
             return;
         }
 
-        if (provider_type == null || access_token == undefined) {
+        if (provider_type === null || provider_id === null) {
             EVResponse.failure(res,403,"Missing provider_type key");
             return;
         }
         var authRx = null;
         // Step 1: Check token key with provider
-        if (provider_type.localeCompare("facebook") == 0) {
+        if (provider_type  === "facebook") {
 
             authRx = require('../../../configure/FacebookAuth.js');
-        } else if (body.provider_type.localeCompare("google") == 0) {
+        } else if (provider_type === "google") {
 
             authRx = require('../../../configure/GoogleAuth.js');
         } else {
@@ -103,7 +104,7 @@ module.exports = {
         }
 
         // Step 2: Kiem tra user da ton tai chua
-        delete body["access_token"];
+        delete body["provider_access_token"];
         authRx(body, access_token).subscribe(function (profile) {
 
             RxMongo.findOne(Users, {

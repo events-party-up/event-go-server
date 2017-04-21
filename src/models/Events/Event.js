@@ -9,6 +9,14 @@ var eventSchema = new Schema({
     },
     name: String,
     sub_name: String,
+    description: {
+      type: String,
+      default: "Mô tả sự kiện"
+    },
+    award_description: {
+      type: String,
+      default: "Mô tả phần thưởng"
+    },
     thumbnail_url: String,
     cover_url: String,
     policy_url: String,
@@ -63,6 +71,8 @@ eventSchema.methods.generateJWT = function() {
    *        supplier_id: "string",
    *        name: "string",
    *        sub_name: "string",
+   *        description: "string",
+   *        award_description: "string",
    *        thumbnail_url: "string",
    *        cover_url: "string",
    *        policy_url: "string",
@@ -105,6 +115,8 @@ eventSchema.methods.getInfo = function(ver) {
     *        supplier_id: "string",
     *        name: "string",
     *        sub_name: "string",
+    *        description: "string",
+    *        award_description: "string",
     *        thumbnail_url: "string",
     *        cover_url: "string",
     *        policy_url: "string",

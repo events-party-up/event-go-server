@@ -4,7 +4,6 @@ var mongoose = require('mongoose');
 module.exports = {
 
     findOne: function(object, params, canNull, protection) {
-
         if (canNull == undefined) {
             canNull = true;
         }
@@ -103,7 +102,7 @@ module.exports = {
                     console.log("Error: " + err);
                     observer.error(err);
                 } else {
-                    observer.next();
+                    observer.next(object);
                 }
             });
         });
@@ -124,4 +123,5 @@ module.exports = {
             });
         });
     }
+    
 };

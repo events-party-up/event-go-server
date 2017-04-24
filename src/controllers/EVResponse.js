@@ -61,9 +61,19 @@ function authoriedAdmin(admin) {
 
 }
 
+function sendDataInRxMongo(Rx,res) {
+  Rx.subscribe(function(doc){
+    SuccessResponse(res,doc)
+  }, function(error){
+    console.error(error);
+    ErrorResponse(res,12,"Send data failure");
+  })
+}
+
 module.exports = {
   success: SuccessResponse,
   failure: ErrorResponse,
   verifiyAccessToken: verifiyAccessToken,
   authoriedAdmin: authoriedAdmin,
+  sendData: sendDataInRxMongo
 };

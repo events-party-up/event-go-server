@@ -17,29 +17,6 @@ var EVBody = require('./../EVBody.js');
 
 module.exports = {
 
-    /**
-     * @api {get} suppliers/ GetAllSupplier
-     * @apiVersion 0.1.0
-     * @apiName GetAllSupplier
-     * @apiGroup Supplier
-     * @apiPermission none
-     *
-     * @apiDescription Lấy tất cả supplier hiện có với thông tin cơ bản
-     *
-     *
-     * @apiExample Example usage:
-     * GET /suppliers
-     *
-     * @apiSuccess {Number} code                Code Success
-     * @apiSuccess {Object[]} data              List of Suppliers options (Array of Suppliers).
-     * @apiUse SupplierInfoResponse
-     *
-     * @apiErrorExample Get supplier failure:
-     *     HTTP/1.1 403 Get supplier failure
-     *     {
-     *       "error": "Get supplier failure"
-     *     }
-     */
     getAll : function(req, res, next) {
 
         RxMongo.find(Suppliers, {}).subscribe(function (docs) {
@@ -70,50 +47,6 @@ module.exports = {
         });
     },
 
-    /**
-     * @api {get} suppliers/events/:event_id/users GetAllUserInEvent
-     * @apiParam {String} event_id want to get all user
-     * @apiVersion 0.1.0
-     * @apiName GetAllUserInEvent
-     * @apiGroup Supplier
-     * @apiPermission supplier or admin
-     *
-     * @apiDescription Lấy danh sách người chơi tham gia sự kiện
-     *
-     *
-     * @apiExample Example usage:
-     * GET /suppliers/events/abcde/users
-     *
-     * @apiSuccess {Number} code                Code Success
-     * @apiSuccess {Object} data              Result supplier info
-     * @apiSuccessExample {json} Success-Response:
-     *     HTTP/1.1 200 OK
-     *     {
-     *       code: 200,
-     *       data: [
-     *         event_id: "string",
-     *         user_id: "string",
-     *         start_time: Number,
-     *         end_time: Number,
-     *         status: "string",
-     *         user_tasks: "[string]"
-     *       ]
-     *     }
-     *
-     *
-     * @apiErrorExample User Event not available:
-     *     HTTP/1.1 406 User Event not available
-     *     {
-     *       "code": 406
-     *       "error": "User Event not available"
-     *     }
-     *  @apiErrorExample Event not available:
-     *     HTTP/1.1 407 Event not available
-     *     {
-     *       "code": 407
-     *       "error": "Event not available"
-     *     }
-     */
     getAllUserEvent: function(req,res,next) {
 
         // Step 1: Check supplier_id in access_token and get event_id in params
@@ -124,7 +57,7 @@ module.exports = {
         // Step 1: Check supplier_id in access_token and get event_id in params
         var supplier_id = EVResponse.verifiyAccessToken(req,"supplier_id");
         if (supplier_id == null) {
-            EVResponse.failure(res,405,"Access token not true");
+            EVResponse.failure(res,401,"Access token not true");
             return;
         }
 
@@ -150,6 +83,265 @@ module.exports = {
             EVResponse.failure(res,405,"Event not available");
         });
     },
+
+    getEventAllOfSupplierRoleSupplier: function(req,res,next) {
+
+      var supplier_id = EVResponse.verifiyAccessToken(req,"supplier_id");
+      if (supplier_id == null || supplier_id == undefined) {
+        EVResponse.failure(res,401, 'Missing access token');
+        return;
+      }
+
+      var rx = RxMongo.find(Events, {
+          "supplier_id": supplier_id
+      });
+
+      rx.subscribe(function(doc){
+          if(doc) {
+              doc = doc.map(function(element){
+                  return element.getDetail();
+              })
+          }
+          EVResponse.success(res, doc);
+      }, function(error) {
+          EVResponse.failure(res,403, error);
+      });
+    },
+
+    getLocationAllOfSupplier: function(req,res,next) {
+
+        var supplier_id = EVResponse.verifiyAccessToken(req,"supplier_id");
+        if (supplier_id == null) {
+            EVResponse.failure(res,401,"Access token not true");
+            return;
+        }
+
+        var rx = RxMongo.find(Locations, {
+            "supplier_id": supplier_id
+        });
+
+        rx.subscribe(function(doc){
+            EVResponse.success(res, doc);
+        }, function(error) {
+            EVResponse.failure(res,403, error);
+        });
+    },
+
+    getItemAllOfSupplier: function(req,res,next) {
+
+        console.log('dsadsa');
+        var supplier_id = EVResponse.verifiyAccessToken(req,"supplier_id");
+        if (supplier_id == null) {
+            EVResponse.failure(res,401,"Access token not true");
+            return;
+        }
+
+        var rx = RxMongo.find(Items, {
+            "supplier_id": supplier_id
+        });
+
+        rx.subscribe(function(doc){
+            EVResponse.success(res, doc);
+        }, function(error) {
+            EVResponse.failure(res,403, error);
+        });
+    },
+
+    getAwardAllOfSupplier: function(req,res,next) {
+        var supplier_id = EVResponse.verifiyAccessToken(req,"supplier_id");
+        if (supplier_id == null) {
+            EVResponse.failure(res,401,"Access token not true");
+            return;
+        }
+
+        var rx = RxMongo.find(Awards, {
+            "supplier_id": supplier_id
+        });
+
+        rx.subscribe(function(doc){
+            EVResponse.success(res, doc);
+        }, function(error) {
+            EVResponse.failure(res,403, "Get Awards failure");
+        });
+    },
+
+    getNotificationAllOfSupplier: function (req,res,next) {
+
+        var supplier_id = EVResponse.verifiyAccessToken(req,"supplier_id");
+        if (supplier_id == null) {
+            EVResponse.failure(res,401,"Access token not true");
+            return;
+        }
+
+        var rx = RxMongo.find(Notifications, {
+            "supplier_id": supplier_id
+        });
+
+        rx.subscribe(function(doc){
+            EVResponse.success(res, doc);
+        }, function(error) {
+            EVResponse.failure(res,403, "Get Notifications failure");
+        });
+    },
+
+    get : function(req,res,next) {
+
+        var id = req.params.supplier_id;
+        if (id === 'events' || id === 'items' ||
+            id === 'locations' || id === 'awards' ||
+             id === 'notifications' || id === 'me') {
+              next();
+              return;
+        }
+
+        var rx = RxMongo.findOne(Suppliers, {
+            '_id': req.params.supplier_id
+        }, false);
+
+        rx.subscribe(function(doc) {
+            console.log(doc);
+            EVResponse.success(res, doc.infoResult());
+        }, function(error) {
+            EVResponse.failure(res,403, "Load supplier detail failure");
+        });
+    },
+
+    getMe: function(req,res,next) {
+        
+      var supplier_id = EVResponse.verifiyAccessToken(req,'supplier_id');
+      if (supplier_id == null ) {
+        EVResponse.failure(res,401,'Missing token key');
+        return;
+      }  
+      var rx = RxMongo.findOne(Suppliers, {
+            '_id': supplier_id
+        }, false);
+
+        rx.subscribe(function(doc) {
+            EVResponse.success(res, doc.signInResult());
+        }, function(error) {
+            EVResponse.failure(res,403, "Load supplier detail failure");
+        });
+    },
+
+    signIn: function (req,res,next) {
+
+        var body = EVBody(req.body);
+        var username = body.username;
+        var password = body.password;
+
+        if (username == null || password == null) {
+            EVResponse.failure(res,404,"Missing missing username or passoword key");
+            return;
+        }
+
+        RxMongo.findOne(Suppliers,{
+            'username': username,
+            'password': password
+        }, false). subscribe(function (doc) {
+            var result = doc.signInResult();
+            req.session.access_token = result.access_token;
+            req.session.save();
+            console.log(req.session);
+            EVResponse.success(res,result);
+        }, function (error) {
+            EVResponse.failure(res,403,"supplier is not existed");
+        });
+    },
+
+    signUp: function(req,res,next) {
+
+        var body = EVBody(req.body);
+        var admin = body.admin;
+        var supplierData = body.supplier;
+
+        if (supplierData == null) {
+            EVResponse.failure(res,406,"Supplier data empty");
+            return;
+        }
+
+        var adminMess = EVResponse.authoriedAdmin(admin);
+        if (adminMess != null) {
+            EVResponse.failure(res,408,adminMess);
+            return;
+        }
+
+        // check username vs password available
+        var username = supplierData.username;
+        var password = supplierData.password;
+
+        if (username.length < 6 || password.length < 6) {
+            EVResponse.failure(res,407,'username or password not availabe');
+            return;
+        }
+
+        // create new password
+        var newSupplier = new Suppliers(supplierData);
+        RxMongo.save(newSupplier).subscribe(function () {
+            EVResponse.success(res,newSupplier.signInResult());
+        }, function (error) {
+            EVResponse.failure(res,409,"Create new supplier failure");
+        });
+    },
+
+    signOut: function(req,res,next) {
+        
+        delete req.session["access_token"];
+        req.session.save();
+
+        EVResponse.success(res,"Đăng xuất thành công");
+    },
+
+    update: function (req,res,next) {
+
+        var body = EVBody(req.body);
+
+        // Check access token
+        var access_token = req.session.access_token;
+        var adminMess = EVResponse.authoriedAdmin(body.admin);
+
+        if ( access_token == null && adminMess != null) {
+            EVResponse.failure(res,401,"Missing access token");
+            return;
+        }
+
+        var supplier_id = EVResponse.verifiyAccessToken(req,"supplier_id");
+        // Admin ver
+        if (adminMess == null && body.supplier_id != null) {
+            supplier_id = body.supplier_id;
+        }
+        if ( supplier_id == null) {
+
+            EVResponse.failure(res,401,"Missing access token");
+            return;
+        }
+
+        RxMongo.findOneAndUpdated(Suppliers,{'_id': supplier_id}, body).subscribe(function (doc) {
+            EVResponse.success(res,doc.signInResult());
+        }, function (error) {
+            EVResponse.failure(res,402,"Update fail with error " + error);
+        });
+    },
+
+    delete: function (req,res,next) {
+
+        var body = EVBody(req.body);
+        var admin = body.admin;
+
+        var mess = EVResponse.authoriedAdmin(admin);
+        if (mess != null) {
+            EVResponse.failure(res,401,mess);
+        }
+
+        RxMongo.remove(Suppliers,{'_id': supplier_id_remove}).subscribe(function () {
+            EVResponse.success(res,"Success");
+        }, function (err) {
+            EVResponse.failure(res,402,"Failure Delete Supplier");
+        });
+
+    },
+
+};
 
     /**
      * @api {get} suppliers/events GetAllEvents
@@ -196,29 +388,75 @@ module.exports = {
    *       error: "Get events failure"
   *     }
      */
-    getEventAllOfSupplierRoleSupplier: function(req,res,next) {
 
-      var supplier_id = EVResponse.verifiyAccessToken(req,"supplier_id");
-      if (supplier_id == null || supplier_id == undefined) {
-        EVResponse.failure(res,401, 'Missing access token');
-        return;
-      }
+    /**
+     * @api {get} suppliers/events/:event_id/users GetAllUserInEvent
+     * @apiParam {String} event_id want to get all user
+     * @apiVersion 0.1.0
+     * @apiName GetAllUserInEvent
+     * @apiGroup Supplier
+     * @apiPermission supplier or admin
+     *
+     * @apiDescription Lấy danh sách người chơi tham gia sự kiện
+     *
+     *
+     * @apiExample Example usage:
+     * GET /suppliers/events/abcde/users
+     *
+     * @apiSuccess {Number} code                Code Success
+     * @apiSuccess {Object} data              Result supplier info
+     * @apiSuccessExample {json} Success-Response:
+     *     HTTP/1.1 200 OK
+     *     {
+     *       code: 200,
+     *       data: [
+     *         event_id: "string",
+     *         user_id: "string",
+     *         start_time: Number,
+     *         end_time: Number,
+     *         status: "string",
+     *         user_tasks: "[string]"
+     *       ]
+     *     }
+     *
+     *
+     * @apiErrorExample User Event not available:
+     *     HTTP/1.1 406 User Event not available
+     *     {
+     *       "code": 406
+     *       "error": "User Event not available"
+     *     }
+     *  @apiErrorExample Event not available:
+     *     HTTP/1.1 407 Event not available
+     *     {
+     *       "code": 407
+     *       "error": "Event not available"
+     *     }
+     */
 
-      var rx = RxMongo.find(Events, {
-          "supplier_id": supplier_id
-      });
-
-      rx.subscribe(function(doc){
-          if(doc) {
-              doc = doc.map(function(element){
-                  return element.getDetail();
-              })
-          }
-          EVResponse.success(res, doc);
-      }, function(error) {
-          EVResponse.failure(res,403, error);
-      });
-    },
+    /**
+     * @api {get} suppliers/ GetAllSupplier
+     * @apiVersion 0.1.0
+     * @apiName GetAllSupplier
+     * @apiGroup Supplier
+     * @apiPermission none
+     *
+     * @apiDescription Lấy tất cả supplier hiện có với thông tin cơ bản
+     *
+     *
+     * @apiExample Example usage:
+     * GET /suppliers
+     *
+     * @apiSuccess {Number} code                Code Success
+     * @apiSuccess {Object[]} data              List of Suppliers options (Array of Suppliers).
+     * @apiUse SupplierInfoResponse
+     *
+     * @apiErrorExample Get supplier failure:
+     *     HTTP/1.1 403 Get supplier failure
+     *     {
+     *       "error": "Get supplier failure"
+     *     }
+     */
 
     /**
      * @api {get} suppliers/locations  GetAllLocations
@@ -263,24 +501,6 @@ module.exports = {
      *       error: "Get location failure"
      *     }
      */
-    getLocationAllOfSupplier: function(req,res,next) {
-
-        var supplier_id = EVResponse.verifiyAccessToken(req,"supplier_id");
-        if (supplier_id == null) {
-            EVResponse.failure(res,401,"Access token not true");
-            return;
-        }
-
-        var rx = RxMongo.find(Locations, {
-            "supplier_id": supplier_id
-        });
-
-        rx.subscribe(function(doc){
-            EVResponse.success(res, doc);
-        }, function(error) {
-            EVResponse.failure(res,403, error);
-        });
-    },
 
     /**
      * @api {get} suppliers/items  GetAllItems
@@ -308,25 +528,6 @@ module.exports = {
      *       error: "Get items failure"
      *     }
      */
-    getItemAllOfSupplier: function(req,res,next) {
-
-        console.log('dsadsa');
-        var supplier_id = EVResponse.verifiyAccessToken(req,"supplier_id");
-        if (supplier_id == null) {
-            EVResponse.failure(res,401,"Access token not true");
-            return;
-        }
-
-        var rx = RxMongo.find(Items, {
-            "supplier_id": supplier_id
-        });
-
-        rx.subscribe(function(doc){
-            EVResponse.success(res, doc);
-        }, function(error) {
-            EVResponse.failure(res,403, error);
-        });
-    },
 
     /**
      * @api {get} suppliers/awards GetAllAward
@@ -371,23 +572,6 @@ module.exports = {
      *       error: "Get Awards failure"
      *     }
      */
-    getAwardAllOfSupplier: function(req,res,next) {
-        var supplier_id = EVResponse.verifiyAccessToken(req,"supplier_id");
-        if (supplier_id == null) {
-            EVResponse.failure(res,401,"Access token not true");
-            return;
-        }
-
-        var rx = RxMongo.find(Awards, {
-            "supplier_id": supplier_id
-        });
-
-        rx.subscribe(function(doc){
-            EVResponse.success(res, doc);
-        }, function(error) {
-            EVResponse.failure(res,403, "Get Awards failure");
-        });
-    },
 
     /**
      * @api {get} suppliers/notifications GetAllNotifitions
@@ -432,25 +616,7 @@ module.exports = {
      *       error: "Get Awards failure"
      *     }
      */
-    getNotificationAllOfSupplier: function (req,res,next) {
-
-        var supplier_id = EVResponse.verifiyAccessToken(req,"supplier_id");
-        if (supplier_id == null) {
-            EVResponse.failure(res,401,"Access token not true");
-            return;
-        }
-
-        var rx = RxMongo.find(Notifications, {
-            "supplier_id": supplier_id
-        });
-
-        rx.subscribe(function(doc){
-            EVResponse.success(res, doc);
-        }, function(error) {
-            EVResponse.failure(res,403, "Get Notifications failure");
-        });
-    },
-
+    
     /**
      * @api {get} suppliers/:supplier_id GetDetail
      * @apiParam {String} supplier_id want to get info
@@ -477,27 +643,6 @@ module.exports = {
      *       "error": "Load event detail failure"
      *     }
      */
-    get : function(req,res,next) {
-
-        var id = req.params.supplier_id;
-        if (id === 'events' || id === 'items' ||
-            id === 'locations' || id === 'awards' ||
-             id === 'notifications' || id === 'me') {
-              next();
-              return;
-        }
-
-        var rx = RxMongo.findOne(Suppliers, {
-            '_id': req.params.supplier_id
-        }, false);
-
-        rx.subscribe(function(doc) {
-            console.log(doc);
-            EVResponse.success(res, doc.infoResult());
-        }, function(error) {
-            EVResponse.failure(res,403, "Load supplier detail failure");
-        });
-    },
 
     /**
      * @api {get} suppliers/me GetDetail
@@ -525,23 +670,6 @@ module.exports = {
      *       "error": "Load event detail failure"
      *     }
      */
-    getMe: function(req,res,next) {
-        
-      var supplier_id = EVResponse.verifiyAccessToken(req,'supplier_id');
-      if (supplier_id == null ) {
-        EVResponse.failure(res,401,'Missing token key');
-        return;
-      }  
-      var rx = RxMongo.findOne(Suppliers, {
-            '_id': supplier_id
-        }, false);
-
-        rx.subscribe(function(doc) {
-            EVResponse.success(res, doc.signInResult());
-        }, function(error) {
-            EVResponse.failure(res,403, "Load supplier detail failure");
-        });
-    },
 
     /**
      * @api {post} suppliers/signin SignIn
@@ -580,32 +708,8 @@ module.exports = {
      *       "error": "Missing missing username or passoword key"
      *     }
      */
-    signIn: function (req,res,next) {
 
-        var body = EVBody(req.body);
-        var username = body.username;
-        var password = body.password;
-
-        if (username == null || password == null) {
-            EVResponse.failure(res,404,"Missing missing username or passoword key");
-            return;
-        }
-
-        RxMongo.findOne(Suppliers,{
-            'username': username,
-            'password': password
-        }, false). subscribe(function (doc) {
-            var result = doc.signInResult();
-            req.session.access_token = result.access_token;
-            req.session.save();
-            console.log(req.session);
-            EVResponse.success(res,result);
-        }, function (error) {
-            EVResponse.failure(res,403,"supplier is not existed");
-        });
-    },
-
-    /**
+/**
      * @api {post} suppliers/signup SignUp
      * @apiVersion 0.1.0
      * @apiName SignUp
@@ -660,50 +764,8 @@ module.exports = {
      *       "error": "Create new supplier failure"
      *     }
      */
-    signUp: function(req,res,next) {
 
-        var body = EVBody(req.body);
-        var admin = body.admin;
-        var supplierData = body.supplier;
-
-        if (supplierData == null) {
-            EVResponse.failure(res,406,"Supplier data empty");
-            return;
-        }
-
-        var adminMess = EVResponse.authoriedAdmin(admin);
-        if (adminMess != null) {
-            EVResponse.failure(res,408,adminMess);
-            return;
-        }
-
-        // check username vs password available
-        var username = supplierData.username;
-        var password = supplierData.password;
-
-        if (username.length < 6 || password.length < 6) {
-            EVResponse.failure(res,407,'username or password not availabe');
-            return;
-        }
-
-        // create new password
-        var newSupplier = new Suppliers(supplierData);
-        RxMongo.save(newSupplier).subscribe(function () {
-            EVResponse.success(res,newSupplier.signInResult());
-        }, function (error) {
-            EVResponse.failure(res,409,"Create new supplier failure");
-        });
-    },
-
-    signOut: function(req,res,next) {
-        
-        delete req.session["access_token"];
-        req.session.save();
-
-        EVResponse.success(res,"Đăng xuất thành công");
-    },
-
-    /**
+/**
      * @api {put} suppliers  UpdateInfo
      * @apiParam {string} supplier access_token require
      * @apiVersion 0.1.0
@@ -738,38 +800,8 @@ module.exports = {
      *       "error": "Update fail with error + error"
      *     }
      */
-    update: function (req,res,next) {
 
-        var body = EVBody(req.body);
-
-        // Check access token
-        var access_token = req.session.access_token;
-        var adminMess = EVResponse.authoriedAdmin(body.admin);
-
-        if ( access_token == null && adminMess != null) {
-            EVResponse.failure(res,401,"Missing access token");
-            return;
-        }
-
-        var supplier_id = EVResponse.verifiyAccessToken(req,"supplier_id");
-        // Admin ver
-        if (adminMess == null && body.supplier_id != null) {
-            supplier_id = body.supplier_id;
-        }
-        if ( supplier_id == null) {
-
-            EVResponse.failure(res,401,"Missing access token");
-            return;
-        }
-
-        RxMongo.findOneAndUpdated(Suppliers,{'_id': supplier_id}, body).subscribe(function (doc) {
-            EVResponse.success(res,doc.signInResult());
-        }, function (error) {
-            EVResponse.failure(res,402,"Update fail with error " + error);
-        });
-    },
-
-    /**
+/**
      * @api {delete} suppliers/:suplier_id Delete
      * @apiVersion 0.1.0
      * @apiName Delete
@@ -807,22 +839,3 @@ module.exports = {
      *       "error": "Failure Delete Supplier"
      *     }
      */
-    delete: function (req,res,next) {
-
-        var body = EVBody(req.body);
-        var admin = body.admin;
-
-        var mess = EVResponse.authoriedAdmin(admin);
-        if (mess != null) {
-            EVResponse.failure(res,401,mess);
-        }
-
-        RxMongo.remove(Suppliers,{'_id': supplier_id_remove}).subscribe(function () {
-            EVResponse.success(res,"Success");
-        }, function (err) {
-            EVResponse.failure(res,402,"Failure Delete Supplier");
-        });
-
-    },
-
-};

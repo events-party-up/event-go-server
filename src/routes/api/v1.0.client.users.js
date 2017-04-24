@@ -5,20 +5,27 @@ var router = express.Router();
 var userEventController = require("../../controllers/api/Users/UserEventController");
 router.route('/events')
     .get(userEventController.getAll)
+
+router.route('/events/:event_id/joinEvent')
     .post(userEventController.joinEvent);
 
-router.route('/events/:user_event_id')
-    .post(userEventController.completeEvent)
-    .delete(userEventController.outEvent);
+router.route('/events/:event_id/outEvent')
+    .post(userEventController.outEvent);
 
-    // User Task
+router.route('/events/:event_id/completeEvent')
+    .post(userEventController.completeEvent);
+
+// User Task
 var userTaskController = require("../../controllers/api/Users/UserTaskController");
-router.route('/events/:user_event_id/tasks')
+router.route('/events/:user_event_id/tasks/:task_id/joinTask')
     .post(userTaskController.joinTask);
 
-router.route('/events/:user_event_id/tasks/:user_task_id')
-    .delete(userTaskController.outTask)
+router.route('/events/:user_event_id/tasks/:task_id/completeTask')
     .post(userTaskController.completeTask);
+
+router.route('/events/:user_event_id/tasks/:task_id/outTask')
+    .post(userTaskController.outTask)
+    
 
 // UserAward
 var userAwardController = require("../../controllers/api/Users/UserAwardController");

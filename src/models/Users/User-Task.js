@@ -13,7 +13,11 @@ var userTaskSchema = new Schema({
   },
   event_id: {
     type: Schema.Types.ObjectId,
-    ref: 'user'
+    ref: 'event'
+  },
+  user_event_id: {
+    type: Schema.Types.ObjectId,
+    ref: "user-event"
   },
   start_time: {
     type: Date,
@@ -21,7 +25,11 @@ var userTaskSchema = new Schema({
   },
   end_time: Date,
   post_id: String,
-  status: String,
+  status: {
+    type: String,
+    enum: ['doing', 'expire','failure','complete','out'],
+    default: 'doing'
+  },
   result: Object
 });
 

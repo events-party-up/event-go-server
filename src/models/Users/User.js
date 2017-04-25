@@ -98,6 +98,7 @@ userSchema.methods.infoResult = function (version) {
         level: this.level,
         created_date: this.created_date,
         tags: this.tags,
+        device: this.device
     }
 };
 

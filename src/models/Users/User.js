@@ -38,15 +38,22 @@ var userSchema = new Schema({
     },
     birthday: Date,
     address: String,
-    level: Number,
+    level: {
+        type: Number,
+        default: 0
+    },
+    exp: {
+        type: Number,
+        default: 0
+    },
     user_status: String,
     tags: {
       type: [String],
       default: []
     },
-    devices: {
-      type: [Object],
-      default: []
+    device: {
+      type: Object,
+      default: {}
     },
     last_location_info: Object
 });
@@ -58,7 +65,7 @@ userSchema.methods.generateJWT = function() {
     // set expiration to 30 days
     var today = new Date();
     var exp = new Date(today);
-    exp.setDate(today.getDate() + 30);
+    exp.setDate(today.getDate() + 60);
 
     return jwt.sign({
         user_id: this._id,

@@ -50,8 +50,7 @@ module.exports = {
   },
 
   /**
-   * @api {post} items?access_token Create Item
-   * @apiParam {string} access_token Authorized access_token
+   * @api {post} items/ Create Item
    * @apiVersion 0.1.0
    * @apiName CreateItem
    * @apiGroup Items
@@ -97,9 +96,8 @@ module.exports = {
   },
 
   /**
-   * @api {put} items/:item_id?access_token Update Item
+   * @api {put} items/:item_id Update Item
    * @apiParam {string} item_id Item_ID want to update
-   * @apiParam {string} access_token Authorized access_token
    * @apiVersion 0.1.0
    * @apiName UpdateItem
    * @apiGroup Items

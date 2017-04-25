@@ -9,16 +9,16 @@ module.exports = function() {
     // }
     // )
 
-    var bucket = require('./configure/firebase');
+    // var bucket = require('./configure/firebase');
     var fs = require('fs');
-    bucket.upload(__dirname + '/../public/images/clipboard.png', function(err, file) {
-        if (!err) {
-            // "zebra.jpg" is now in your bucket.
+    // bucket.upload(__dirname + '/../public/images/clipboard.png', function(err, file) {
+    //     if (!err) {
+    //         // "zebra.jpg" is now in your bucket.
             
-        }
-        console.error(err);
-        console.log(file);
-    });
+    //     }
+    //     console.error(err);
+    //     console.log(file);
+    // });
 
     // var writeStream = fs.createWriteStream(__dirname + '/../public/images/clipboard.png');
     // var remoteFile = bucket.file('clipboard.png');

@@ -49,6 +49,7 @@ module.exports = {
         });
     },
 
+    // POST: /events/:event_id/joinEvent
     joinEvent: function (req,res,next) {
 
         var user_id = EVResponse.verifiyAccessToken(req,"user_id");
@@ -59,20 +60,26 @@ module.exports = {
         }
 
         var event_id = req.params.event_id;
-        var newUserEvent = new UserEvent({
+
+        RxMongo.findOne(UserEvent,{
             'user_id': user_id,
             'event_id': event_id,
-            'status': 'pending'
-        });
+            'status': {$in: ['out', 'expired','closed']}
+        },false).subscribe(function(doc){
+            EVResponse.failure(res,5,"Bạn đã không thể tham gia sự kiện này")
+        }, function(err){
+            var newUserEvent = new UserEvent({
+                'user_id': user_id,
+                'event_id': event_id,
+                'status': 'pending'
+            });
 
-        RxMongo.save(newUserEvent).subscribe(function () {
-            EVResponse.success(res,newUserEvent);
-        }, function (error) {
-            EVResponse.failure(res,406,"Save failure");
-        });
-
+            var rx = RxMongo.save(newUserEvent)
+            EVResponse.sendData(rx,res)
+        })
     },
 
+    // POST: /events/:event_id/outEvent
     outEvent: function (req,res,next) {
 
         var user_id = EVResponse.verifiyAccessToken(req,"user_id");
@@ -85,13 +92,14 @@ module.exports = {
 
         RxMongo.findOneAndUpdated(UserEvent, {
             'user_id': user_id,
-            'event_id': event_id
+            'event_id': event_id,
+            'status': 'pending'
         }, {
             'status': 'out'
         }).subscribe(function (doc) {
-            EVResponse.success(res,"Delete success");
+            EVResponse.success(res,"Out success");
         }, function (error) {
-            EVResponse.failure(res,406,"Delete failure");
+            EVResponse.failure(res,406,"Out failure");
         });
     },
 
@@ -99,12 +107,13 @@ module.exports = {
     // Step 2 : get awards
     // step 3 : update awards to UserAward
     // Step 4 : Update state UserEvent
+    // POST: /events/:event_id/completeEvent
     completeEvent: function (req,res,next) {
 
         var user_id = EVResponse.verifiyAccessToken(req,"user_id");
         if (user_id == null) {
 
-            EVResponse.failure(res,403,"Missing access token");
+            EVResponse.failure(res,401,"Missing access token");
             return;
         }
 
@@ -112,7 +121,8 @@ module.exports = {
 
         var findUserEventRx = RxMongo.findOneAndUpdated(UserEvent, {
             'user_id': user_id,
-            'event_id': event_id
+            'event_id': event_id,
+            'status': 'pending'
         }, {
             'status': 'complete'
         });
@@ -142,7 +152,7 @@ module.exports = {
                         'user_awards': []
                     })
                 } else {
-                    Rx.Observable.merge(null,userAwardsRx).subscribe(function () {
+                    Rx.Observable.merge(userAwardsRx).subscribe(function () {
                         EVResponse.success(res, {
                             'user_event': user_event,
                             'user_awards': userAwards

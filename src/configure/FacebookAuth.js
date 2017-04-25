@@ -22,6 +22,7 @@ function requestFacebookInfo(body, access_token) {
                 var error = bodyData.error;
                 if (error) {
                     observer.error('access_token fail');
+                    console.log(error);
                     return;
                 }
 

@@ -20,6 +20,10 @@ var awardSchema = new Schema({
       type: String,
       default: "Chi tiết phần thưởng của bạn"
     },
+    priority: {
+      type: Number,
+      default: 1
+    },
     contact: String,
     item_id:  {
       type: Schema.Types.ObjectId,

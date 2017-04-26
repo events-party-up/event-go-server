@@ -48,6 +48,10 @@ var eventSchema = new Schema({
       enum: ['Prepare for Submit', 'Waiting for Review', 'In Review','Rejected', 'Ready for Sale', 'Waiting For Start'],
       default: 'Prepare for Submit'
     },
+    client_status: {
+      type: String,
+      enum: ['preparing','stagging','expired']
+    }
 });
 
 eventSchema.statics.prepareForSubmit = 'Prepare for Submit';

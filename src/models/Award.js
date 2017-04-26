@@ -22,7 +22,7 @@ var awardSchema = new Schema({
     },
     priority: {
       type: Number,
-      default: 1
+      default: 10
     },
     contact: String,
     item_id:  {
@@ -35,7 +35,8 @@ var awardSchema = new Schema({
     },
     award_type: {
       type: String,
-      enum: ["item", "voucher"]
+      enum: ["item", "voucher","other"],
+      default: "item"
     },
     tags: {
       type: [String],

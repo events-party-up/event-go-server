@@ -6,7 +6,7 @@ var eventController = require('../../controllers/api/EventController');
 router.route('/events').get(eventController.getEventForClient);
 // Lấy danh sách award của eventController
 var awardController = require('../../controllers/api/AwardController');
-router.route('/events/:event_id/awards').post(awardController.getAllOfEventClient);
+router.route('/events/:event_id/awards').get(awardController.getAllOfEventClient);
 
 // Lấy danh sach locations
 var locationController = require('../../controllers/api/LocationController');

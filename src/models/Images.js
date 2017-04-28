@@ -16,7 +16,11 @@ var imageSchema = new Schema({
     tags: {
       type: [String],
       default: []
-    }
+    },
+    staff_id: {
+      type: Schema.Types.ObjectId,
+      ref: 'staff'
+    },
 });
 
 var imageModel = mongoose.model('images', imageSchema);

@@ -8,6 +8,10 @@ var locationSchema = new Schema({
       type: Schema.Types.ObjectId,
       ref: 'supplier'
     },
+    staff_id: {
+      type: Schema.Types.ObjectId,
+      ref: 'staff'
+    },
     detail: String,
     address: String,
     image_url:  {

@@ -71,11 +71,13 @@ app.use(session({
 var index = require('./src/routes/index');
 var v10 = require('./src/routes/api/v1.0.js');
 var v10Client = require('./src/routes/api/v1.0.client.js');
+var v10Staff = require('./src/routes/api/v1.0.staff.js');
 var v10ClientUsers = require('./src/routes/api/v1.0.client.users');
 
 app.use('/', index);
 app.use('/api/v1.0', v10);
 app.use('/api/v1.0/client', v10Client);
+app.use('/api/v1.0/staff', v10Staff);
 app.use('/api/v1.0/client/users', v10ClientUsers);
 
 // catch 404 and forward to error handler

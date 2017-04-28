@@ -38,9 +38,20 @@ function verifiyAccessToken(req, key) {
   }
 
   var decode = jwt_decode(access_token);
-  var value = decode[key];
+  if (typeof key === 'string') {
+    
+    var value = decode[key];
+    return value;
+  }
+  if (typeof key === 'Array') {
+    var value = {};
+    key.forEach(function(keyItem) {
+      value[key] = decode[key];
+    })
 
-  return value;
+    return value;
+  }
+  return null;
 }
 
 var configure = require('../configure/configure');

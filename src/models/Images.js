@@ -6,6 +6,10 @@ var imageSchema = new Schema({
       type: Schema.Types.ObjectId,
       ref: 'supplier'
     },
+    staff_id: {
+      type: Schema.Types.ObjectId,
+      ref: 'staff'
+    },
     name: String,
     detail: String,
     image_url: String,

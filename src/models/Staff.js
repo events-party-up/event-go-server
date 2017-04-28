@@ -34,6 +34,7 @@ staffSchema.methods.generateJWT = function() {
 
     return jwt.sign({
         staff_id: this._id,
+        supplier_id: this.supplier_id,
         password: this.password,
         exp: parseInt(exp.getTime() / 1000)
     }, 'event-go-2017-hcmus-thanh-thai-@-k13-supplier');

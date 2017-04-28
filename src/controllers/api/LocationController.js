@@ -91,11 +91,8 @@ module.exports = {
     var newItem = new Locations(locationInfo);
     console.log(newItem);
 
-    RxMongo.save(newItem).subscribe(function() {
-      EVResponse.success(res,newItem);
-    }, function(err) {
-      EVResponse.failure(res,402, "Create Location failure");
-    });
+    var rx = RxMongo.save(newItem)
+    EVResponse.sendData(rx,res);
   },
 
   /**

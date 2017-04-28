@@ -69,6 +69,25 @@ module.exports = {
     })
   },
 
+  getAllOfEventClient: function(req,res,next) {
+    var user_id = EVResponse.verifiyAccessToken(req,"user_id");
+    if (user_id == null) {
+      EVResponse.failure(res,401,"Access token not true");
+      return;
+    }
+
+    var event_id = req.params.event_id;
+
+    RxMongo.find(Awards, {
+      'event_id': event_id,
+    }).subscribe(function(docs){
+      EVResponse.success(res,docs);
+    }, function(error){
+      console.error(error);
+      EVResponse.failure(res,408, "Load awards failure");
+    })
+  },
+
   /**
    * @api {post} /events/:event_id/awards Create Award
    * @apiParam {string} access_token Authorized access_token

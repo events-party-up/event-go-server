@@ -8,9 +8,14 @@ var staffSchema = new Schema({
       ref: 'supplier'
     },
     name: String,
-    email: {
+    username: {
         type: String,
         unique: true
+    },
+    role: {
+        type: String,
+        enum: ["readonly","fullaccess"],
+        default: "readonly"
     },
     password: String,
     image_urL: String,
@@ -18,9 +23,10 @@ var staffSchema = new Schema({
         type: Date,
         default: new Date()
     },
-    tags: {
-        type: [String],
-        default: []
+    status: {
+        type: String,
+        enum: ['active','deactive'],
+        default: 'active'
     }
 });
 
@@ -33,8 +39,7 @@ staffSchema.methods.generateJWT = function() {
     exp.setDate(today.getDate() + 30);
 
     return jwt.sign({
-        staff_id: this._id,
-        supplier_id: this.supplier_id,
+        staff_id: this._id+ "EVENTGO" + this.supplier_id,
         password: this.password,
         exp: parseInt(exp.getTime() / 1000)
     }, 'event-go-2017-hcmus-thanh-thai-@-k13-supplier');
@@ -64,7 +69,7 @@ staffSchema.methods.generateJWT = function() {
      *     }
      *
  */
-supplierSchema.methods.signInResult = function (version) {
+staffSchema.methods.signInResult = function (version) {
 
     return require('../Utility/Utility').extendObject(this.infoResult(),{
         username: this.username,
@@ -72,7 +77,7 @@ supplierSchema.methods.signInResult = function (version) {
     });
 };
 
-supplierSchema.methods.infoResult = function (version) {
+staffSchema.methods.infoResult = function (version) {
     return {
         staff_id: this._id,
         name: this.name,
@@ -81,5 +86,12 @@ supplierSchema.methods.infoResult = function (version) {
     }
 };
 
-var StaffModel = mongoose.model('staff', staffSchema);
+staffSchema.statics.getDicData = function (staffToken) {
+    var data = staffToken.split("EVENTGO");
+    return {
+        staff_id: data[0],
+        supplier_id: data[1]
+    }
+};
+var StaffModel = mongoose.model('supplier-staffs', staffSchema);
 module.exports = StaffModel;

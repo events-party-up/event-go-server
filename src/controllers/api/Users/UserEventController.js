@@ -66,7 +66,7 @@ module.exports = {
             'event_id': event_id,
             'status': {$in: ['out', 'expired','closed']}
         },false).subscribe(function(doc){
-            EVResponse.failure(res,5,"Bạn đã không thể tham gia sự kiện này")
+            EVResponse.failure(res,403,"Bạn đã không thể tham gia sự kiện này")
         }, function(err){
             var newUserEvent = new UserEvent({
                 'user_id': user_id,

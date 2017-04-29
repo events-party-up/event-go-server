@@ -118,7 +118,7 @@ module.exports = {
                     console.log("Error: " + err);
                     observer.error(err);
                 } else {
-                    observer.next();
+                    observer.next('Delete success');
                 }
             });
         });

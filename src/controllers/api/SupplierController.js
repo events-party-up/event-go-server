@@ -8,6 +8,7 @@ var UserEvent = require('../../models/Users/User-Event');
 var Locations = require('../../models/Location');
 var Items = require('../../models/Events/Item');
 var Notifications = require('../../models/Notifications');
+var Staff = require('../../models/Staff');
 
 var mongoose = require('mongoose');
 var EVResponse = require('./../EVResponse.js');
@@ -129,7 +130,6 @@ module.exports = {
 
     getItemAllOfSupplier: function(req,res,next) {
 
-        console.log('dsadsa');
         var supplier_id = EVResponse.verifiyAccessToken(req,"supplier_id");
         if (supplier_id == null) {
             EVResponse.failure(res,401,"Access token not true");
@@ -189,7 +189,9 @@ module.exports = {
         var id = req.params.supplier_id;
         if (id === 'events' || id === 'items' ||
             id === 'locations' || id === 'awards' ||
-             id === 'notifications' || id === 'me') {
+             id === 'notifications' || id === 'me' ||
+             id === 'staffs'
+             ) {
               next();
               return;
         }
@@ -242,7 +244,6 @@ module.exports = {
             var result = doc.signInResult();
             req.session.access_token = result.access_token;
             req.session.save();
-            console.log(req.session);
             EVResponse.success(res,result);
         }, function (error) {
             EVResponse.failure(res,403,"supplier is not existed");
@@ -290,6 +291,82 @@ module.exports = {
         req.session.save();
 
         EVResponse.success(res,"Đăng xuất thành công");
+    },
+
+    getAllStaff: function(req,res,next) {
+        var supplier_id = EVResponse.verifiyAccessToken(req,"supplier_id");
+        if ( supplier_id == null) {
+            EVResponse.failure(res,401,"Missing access token");
+            return;
+        }
+
+        var rx = RxMongo.find(Staff,{
+            'supplier_id': supplier_id
+        }).subscribe(function(doc){
+            var docs = doc.map(function(d){
+                return d.signInResult()
+            })
+            EVResponse.success(res,docs)
+        }, function(error){
+            EVResponse.failure(res,403,'Get staff failure');
+        })
+    },
+
+    updateStaff: function(req,res,next) {
+        var supplier_id = EVResponse.verifiyAccessToken(req,"supplier_id");
+        if ( supplier_id == null) {
+            EVResponse.failure(res,401,"Missing access token");
+            return;
+        }
+
+        var staff_id = req.params.staff_id
+        var body = EVBody(req.body)
+        var rx = RxMongo.findOneAndUpdated(Staff,{'_id': staff_id},body);
+        EVResponse.sendData(rx,res);     
+    },
+
+    deleteStaffAcount: function(req,res,next) {
+        var supplier_id = EVResponse.verifiyAccessToken(req,"supplier_id");
+        if ( supplier_id == null) {
+            EVResponse.failure(res,401,"Missing access token");
+            return;
+        }
+        var staff_id = req.params.staff_id
+        var rx = RxMongo.remove(Staff,{'_id': staff_id})
+        EVResponse.sendData(rx,res);
+    },
+
+    createStaffAccount: function(req,res,next) {
+        
+        var supplier_id = EVResponse.verifiyAccessToken(req,"supplier_id");
+        if ( supplier_id == null) {
+            EVResponse.failure(res,401,"Missing access token");
+            return;
+        }
+        
+        var body = EVBody(req.body);
+        var username = body.username;
+        var password = body.password;
+        body.supplier_id = supplier_id;
+        if (username.length < 6 || password.length < 6) {
+            EVResponse.failure(res,407,'username or password not availabe');
+            return;
+        }
+        console.log("Create Staff: ");
+        console.log(body);
+        RxMongo.findOne(Staff,{
+            'supplier_id': supplier_id,
+            'username': username
+        },false).subscribe(function(doc){
+            console.log("findOne createStaff Next");
+            EVResponse.failure(res,403,'username has existed');
+        }, function(error){
+            console.log("findOne createStaff Error")
+            var newStaff = new Staff(body);
+            newStaff.email = newStaff._id;
+            var rx = RxMongo.save(newStaff);
+            EVResponse.sendData(rx,res);
+        })        
     },
 
     update: function (req,res,next) {
@@ -342,7 +419,6 @@ module.exports = {
     },
 
 };
-
     /**
      * @api {get} suppliers/events GetAllEvents
      * @apiParam {string} supplier_id Supplier_id want to get events

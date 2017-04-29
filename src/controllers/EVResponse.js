@@ -28,12 +28,19 @@ var jwt_decode = require('jwt-decode');
 function verifiyAccessToken(req, key) {
   // CHeck user_id decode jwt
   // access_token trong header hoac session
+  if (req.next_authorized !== undefined && req.next_authorized !== null) {
+    if (req.next_authorized[key] !== undefined) {
+      console.log("vào đây");
+      return req.next_authorized[key];
+    }
+  }
+  
   var access_token = req.authorization;
-  if (access_token == null) {
+  if (access_token === undefined || access_token === null) {
     access_token = req.session.access_token;
   }
 
-  if (access_token == null || access_token == undefined ) {
+  if (access_token === null || access_token === undefined ) {
     return null;
   }
 

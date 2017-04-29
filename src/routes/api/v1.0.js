@@ -97,4 +97,11 @@ router.post('/images', imageController.postImage);
 router.get('/images', imageController.getImages);
 router.delete('/images/:image_id', imageController.deleteImage);
 
+// Staff
+router.get('/suppliers/staffs',supplierController.getAllStaff)
+      .post('/suppliers/staffs',supplierController.createStaffAccount);
+router.route('/suppliers/staffs/:staff_id')
+      .put(supplierController.updateStaff)
+      .delete(supplierController.deleteStaffAcount)
+
 module.exports = router;

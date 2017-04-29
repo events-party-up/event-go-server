@@ -80,11 +80,11 @@ module.exports = {
                     })
                     EVResponse.sendData(RxMongo.save(newUserTask),res);
                 }, function(error) {
-                    EVResponse.failure(res,3,"Nhiệm vụ không thuộc sự kiện");
+                    EVResponse.failure(res,403,"Nhiệm vụ không thuộc sự kiện");
                 });
             }, function(error){ 
                 console.error(error);
-                EVResponse.failure(res,5,"Bạn chưa tham gia sự kiện để nhận nhiệm vụ");
+                EVResponse.failure(res,403,"Bạn chưa tham gia sự kiện để nhận nhiệm vụ");
             });
         }
 
@@ -94,11 +94,11 @@ module.exports = {
             'task_id': task_id
         },false).subscribe(function(doc){
             if (doc.status === 'doing') {
-                EVResponse.failure(res,6,"Bạn thực hiện nhiệm vụ");
+                EVResponse.failure(res,403,"Bạn thực hiện nhiệm vụ");
             } else if (doc.status === 'out') {
-                EVResponse.failure(res,6,"Bạn đã rời khỏi nhiệm vụ");   
+                EVResponse.failure(res,403,"Bạn đã rời khỏi nhiệm vụ");   
             } else {
-                EVResponse.failure(res,6,"Bạn đã hoàn thành niệm vụ");
+                EVResponse.failure(res,403,"Bạn đã hoàn thành niệm vụ");
             }
         },function(error){
             doingNext();

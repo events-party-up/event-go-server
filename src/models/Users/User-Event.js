@@ -18,7 +18,7 @@ var userEventSchema = new Schema({
   end_time: Date,
   status: {
     type: String,
-    enum: ['pending', 'out', 'complete','closed'],
+    enum: ['pending', 'quited', 'completed','closed'],
     default: 'pending'
   },
   user_tasks: {

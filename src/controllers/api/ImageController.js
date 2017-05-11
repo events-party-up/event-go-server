@@ -46,7 +46,6 @@ module.exports = {
     },
 
     deleteImage: function(req,res,next) {
-
         var supplier_id = EVResponse.verifiyAccessToken(req,"supplier_id");
         if (supplier_id == null) {
             EVResponse.failure(res,401,"Access token not true");
@@ -57,7 +56,6 @@ module.exports = {
             'supplier_id': supplier_id,
             "_id": image_id
         })
-
         findImage.subscribe(function(doc) {
             var image_url = doc.image_url;
             
@@ -74,10 +72,10 @@ module.exports = {
             }).subscribe(function() {
                 EVResponse.success(res,"Delete success");
             }, function(err) {
-                EVResponse.failure(res,4,"delete failure");
+                EVResponse.failure(res,403,"delete failure");
             })
         }, function(error){
-            EVResponse.failure(res,2,"Image Not Found");
+            EVResponse.failure(res,405,"Image Not Found");
         });
     },
 
@@ -89,10 +87,14 @@ module.exports = {
             EVResponse.failure(res,401,"Access token not true");
             return;
         }
-
+        
         var body = EVBody(req.body);
         var file_encode_64 = body.file_encode_64;
         var image_description = body.image_description;
+
+        console.log('callhere');
+        console.log('sup: ' +supplier_id);
+        console.log('staff: ' + image_description.staff_id);
 
         if (file_encode_64 === undefined || file_encode_64 === null) {
             EVResponse.failure(res,405,"file_encode_64 not validate");

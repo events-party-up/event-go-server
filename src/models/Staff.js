@@ -82,7 +82,8 @@ staffSchema.methods.infoResult = function (version) {
         staff_id: this._id,
         name: this.name,
         image_url: this.image_url,
-        create_date: this.create_date
+        create_date: this.create_date,
+        status: this.status
     }
 };
 

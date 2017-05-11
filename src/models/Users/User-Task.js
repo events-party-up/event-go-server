@@ -24,10 +24,9 @@ var userTaskSchema = new Schema({
     default: new Date()
   },
   end_time: Date,
-  post_id: String,
   status: {
     type: String,
-    enum: ['doing', 'expire','failure','complete','out'],
+    enum: ['doing', 'expired','failure','completed','quited'],
     default: 'doing'
   },
   result: Object

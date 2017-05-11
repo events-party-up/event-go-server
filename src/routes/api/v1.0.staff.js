@@ -16,6 +16,9 @@ router.route('/locations/:location_id')
 router.route('/images')
     .get(staffController.getImages)
     .post(staffController.uploadImage);
+router.route('/images/:image_id')
+    .delete(staffController.deleteImage)
+    
 router.route('/locations/:location_id')
     .delete(staffController.deleteImage);
 

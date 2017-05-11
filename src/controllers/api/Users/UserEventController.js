@@ -64,10 +64,14 @@ module.exports = {
         RxMongo.findOne(UserEvent,{
             'user_id': user_id,
             'event_id': event_id,
-            'status': {$in: ['out', 'expired','closed']}
-        },false).subscribe(function(doc){
-            EVResponse.failure(res,403,"Bạn đã không thể tham gia sự kiện này")
-        }, function(err){
+        })
+        .subscribe(function(doc) {
+
+            if (doc !== null) {
+                EVResponse.failure(res,403,"Bạn đã không thể tham gia sự kiện này")
+                return;
+            }
+
             var newUserEvent = new UserEvent({
                 'user_id': user_id,
                 'event_id': event_id,
@@ -76,6 +80,8 @@ module.exports = {
 
             var rx = RxMongo.save(newUserEvent)
             EVResponse.sendData(rx,res)
+        }, function(err){
+            EVResponse.failure(res,403,"Error when join event")
         })
     },
 
@@ -95,11 +101,11 @@ module.exports = {
             'event_id': event_id,
             'status': 'pending'
         }, {
-            'status': 'out'
+            'status': 'quited'
         }).subscribe(function (doc) {
             EVResponse.success(res,"Out success");
         }, function (error) {
-            EVResponse.failure(res,406,"Out failure");
+            EVResponse.failure(res,403,"Out failure");
         });
     },
 
@@ -124,7 +130,7 @@ module.exports = {
             'event_id': event_id,
             'status': 'pending'
         }, {
-            'status': 'complete'
+            'status': 'completed'
         });
 
         var awardIDsRx = function (user_event) {

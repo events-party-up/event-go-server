@@ -82,11 +82,13 @@ module.exports = {
     },
 
     uploadImage(req,res,next) {
+        
         var staff = EVResponse.verifiyAccessToken(req,"staff_id");
         if (staff === null) {
             EVResponse.failure(res,401,"Access token not true");
             return;
         }
+        
         staff = Staff.getDicData(staff);
         if (req.body !== undefined && req.body !== null) {
             if (req.body.image_description !== undefined && req.body.image_description !== null) {
@@ -97,8 +99,11 @@ module.exports = {
                 }
             }
         }
-        staff = Staff.getDicData(staff);
-        req.next_authorized["supplier_id"] = staff.supplier_id
+    
+        req.next_authorized = {
+            'supplier_id': staff.supplier_id
+        }
+
         ImageManager.postImage(req,res,next);
     },
 
@@ -109,7 +114,10 @@ module.exports = {
             return;
         }
         staff = Staff.getDicData(staff);
-        req.next_authorized["supplier_id"] = staff.supplier_id
+        req.next_authorized = {
+            'supplier_id': staff.supplier_id
+        }
+        
         ImageManager.deleteImage(req,res,next);
     },
 
@@ -121,10 +129,11 @@ module.exports = {
         }
         staff = Staff.getDicData(staff);
         if (req.body !== undefined && req.body !== null) {
-            req.body.staff_id = staff.staff_id;
+            req.body["staff_id"] = staff.staff_id;
         }
-        staff = Staff.getDicData(staff);
-        req.next_authorized["supplier_id"] = staff.supplier_id
+        req.next_authorized = {
+            'supplier_id': staff.supplier_id
+        }
         LocationManager.create(req,res,next)
     },
 
@@ -135,8 +144,10 @@ module.exports = {
             return;
         }
         staff = Staff.getDicData(staff);
-        req.next_authorized["supplier_id"] = staff.supplier_id
-        LocationManager.deleteLocation(req,res,next)
+        req.next_authorized = {
+            'supplier_id': staff.supplier_id
+        }
+        LocationManager.delete(req,res,next)
     },
 
     getLocations(req,res,next) {

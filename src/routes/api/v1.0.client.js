@@ -4,6 +4,7 @@ var router = express.Router();
 // Lấy danh sách events 
 var eventController = require('../../controllers/api/EventController');
 router.route('/events').get(eventController.getEventForClient);
+
 // Lấy danh sách award của eventController
 var awardController = require('../../controllers/api/AwardController');
 router.route('/events/:event_id/awards').get(awardController.getAllOfEventClient);

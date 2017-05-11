@@ -22,7 +22,6 @@ var userNotificationSchema = new Schema({
         type: Date,
         default: new Date()
     },
-    status: String
 });
 
 var userNotificationModel = mongoose.model('user-notification',userNotificationSchema);

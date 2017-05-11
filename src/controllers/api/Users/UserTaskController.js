@@ -92,16 +92,21 @@ module.exports = {
             'user_event_id': user_event_id,
             'user_id': user_id,
             'task_id': task_id
-        },false).subscribe(function(doc){
-            if (doc.status === 'doing') {
-                EVResponse.failure(res,403,"Bạn thực hiện nhiệm vụ");
-            } else if (doc.status === 'out') {
-                EVResponse.failure(res,403,"Bạn đã rời khỏi nhiệm vụ");   
-            } else {
-                EVResponse.failure(res,403,"Bạn đã hoàn thành niệm vụ");
+        }).subscribe(function(doc) {
+            if (doc !== null) {
+                if (doc.status === 'doing') {
+                    EVResponse.failure(res,403,"Bạn thực hiện nhiệm vụ");
+                } else if (doc.status === 'quited') {
+                    EVResponse.failure(res,403,"Bạn đã rời khỏi nhiệm vụ");   
+                } else {
+                    EVResponse.failure(res,403,"Bạn đã hoàn thành niệm vụ");
+                }
+                return;
             }
-        },function(error){
+            
             doingNext();
+        },function(error){
+            EVResponse.failure(res,403,"Có lỗi tìm kiếm nhiệm vụ sự kiện");
         })
     },
 

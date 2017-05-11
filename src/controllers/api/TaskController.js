@@ -55,12 +55,6 @@ module.exports = {
 
   getAllOfEvent: function(req,res,next) {
 
-    var supplier_id = EVResponse.verifiyAccessToken(req,"supplier_id");
-    if (supplier_id == null) {
-      EVResponse.failure(res,401,"Access token not true");
-      return;
-    }
-
     var event_id = req.params.event_id;
 
     RxMongo.find(Tasks, {

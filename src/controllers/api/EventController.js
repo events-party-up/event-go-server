@@ -320,7 +320,7 @@ module.exports = {
     var params = req.query;
 
     var eventRx = RxMongo.find(Events,{
-      'status': {$in : [Events.readyForSale, Events.waitForStart]}
+      // 'status': {$in : [Events.readyForSale, Events.waitForStart]}
     }).subscribe(function(docs){
       if(docs) {
           docs = docs.map(function(element){

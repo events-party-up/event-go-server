@@ -60,25 +60,37 @@ module.exports = {
     var event_id = req.params.event_id;
     var user_id = req.query.user_id;
 
-    // if (user_id) {
-    //   RxMongo.find(UserTasks,{
-    //     'event_id': event_id,
-    //     'user_id': user_id
-    //   }).subscribe(function(docs){
-    //     var task_ids = docs.map(function(element) {
-    //       return element.task_id
-    //     })
-    //   })
-    // }
-    RxMongo.find(Tasks, {
-      'event_id': event_id,
-      // 'supplier_id': supplier_id
-    }).subscribe(function(docs){
-      EVResponse.success(res,docs);
-    }, function(error){
-      console.error(error);
-      EVResponse.failure(res,408, "Load tasks failure");
-    })
+    var requestTask = function(params) {
+      RxMongo.find(Tasks, params)
+      .subscribe(function(docs){
+        EVResponse.success(res,docs);
+      }, function(error){
+        console.error(error);
+        EVResponse.failure(res,408, "Load tasks failure");
+      });
+    }
+
+    if (user_id) {
+      RxMongo.find(UserTasks,{
+        'event_id': event_id,
+        'user_id': user_id
+      }).subscribe(function(docs){
+        var task_ids = docs.map(function(element) {
+          return element.task_id
+        })
+
+        requestTask({
+          'event_id': event_id,
+          '_id': { $nin: task_ids}
+        })
+      }, function(error) {
+        EVResponse.failure(res,404,"Error load user task");
+      })
+      return;
+    }
+   requestTask({
+     'event_id': event_id
+   })
   },
 
   /**

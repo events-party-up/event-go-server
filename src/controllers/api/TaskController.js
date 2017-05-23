@@ -1,6 +1,7 @@
 var Suppliers = require('../../models/Supplier');
 var Tasks = require('../../models/Tasks/Task');
-var UserTasks = require('../../models/Users/Users-Task');
+// var UserTasks = require('../../models/Users/Users-Task');
+var UserTasks = require('../../models/Users/User-Task');
 var Events = require('../../models/Events/Event');
 // var TaskItems = require('../../models/Tasks/Task-Item');
 // var TaskLocations = require('../../models/Task-Locations');

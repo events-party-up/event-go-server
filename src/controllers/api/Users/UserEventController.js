@@ -36,14 +36,19 @@ module.exports = {
         .find({
             'user_id': user_id
         })
-        // .populate('event_id', 'name sub_name description thumbnail_url cover_url start_time end_time')
+        .populate('event_id', 'name sub_name description thumbnail_url cover_url start_time end_time')
         .populate('event_id.supplier_id', 'name image_url')
         .exec(function(err,docs){
             if (err) {
                 EVResponse.failure(res,404,"Get error");
                 return;
             } 
-            EVResponse.success(res,docs);
+            var newDoc = docs.map(function(element){
+                var event = element.event_id;
+                return element["event_id"] = event_id._id;
+            })
+
+            EVResponse.success(res,newDoc);
         })
     },
 

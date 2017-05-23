@@ -21,13 +21,30 @@ module.exports = {
             return;
         }
 
-        RxMongo.find(UserEvent,{
+        // RxMongo.find(UserEvent,{
+        //     'user_id': user_id
+        // })
+        // .subscribe(function (docs) {
+        //     EVResponse.success(res,docs);
+        // }, function (err) {
+        //     EVResponse(res,406,"Error fetch data");
+        // });
+        let rx = RxMongo.populateFind(UserEvent,{
             'user_id': user_id
-        }).subscribe(function (docs) {
+        },'supplier','name  image_url')
+        UserEvent
+        .find({
+            'user_id': user_id
+        })
+        .populate('event_id', 'name sub_name description thumbnail_url cover_url start_time end_time')
+        .populate('event_id.supplier_id', 'name image_url')
+        .exec(function(err,docs){
+            if (err) {
+                EVResponse.failure(res,404,"Get error");
+                return;
+            } 
             EVResponse.success(res,docs);
-        }, function (err) {
-            EVResponse(res,406,"Error fetch data");
-        });
+        })
     },
 
     get: function (req,res,next) {
@@ -68,7 +85,7 @@ module.exports = {
         .subscribe(function(doc) {
 
             if (doc !== null) {
-                EVResponse.failure(res,403,"Bạn đã không thể tham gia sự kiện này")
+                    
                 return;
             }
 

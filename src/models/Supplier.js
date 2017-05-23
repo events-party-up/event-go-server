@@ -10,7 +10,7 @@ var supplierSchema = new Schema({
     },
     password: String,
     company_info: Object,
-    image_urL: String,
+    image_url: String,
     description: String,
     level: {
         type: Number,

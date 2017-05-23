@@ -319,17 +319,21 @@ module.exports = {
 
     var params = req.query;
 
-    var eventRx = RxMongo.find(Events,{
-      // 'status': {$in : [Events.readyForSale, Events.waitForStart]}
-    }).subscribe(function(docs){
-      if(docs) {
-          docs = docs.map(function(element){
-              return element.getInfo();
-          })
-      }
-      EVResponse.success(res, docs);  
-    }, function(error) {
-      EVResponse.failure(res,403, 'Get event error');
-    });
+    // var eventRx = RxMongo.find(Events,{
+    //   // 'status': {$in : [Events.readyForSale, Events.waitForStart]}
+    // }).subscribe(function(docs){
+    //   if(docs) {
+    //       docs = docs.map(function(element){
+    //           return element.getInfo();
+    //       })
+    //   }
+    //   EVResponse.success(res, docs);  
+    // }, function(error) {
+    //   EVResponse.failure(res,403, 'Get event error');
+    // });
+    let rx = RxMongo.populateFind(Events,{
+            // 'user_id': user_id
+        },'supplier_id',"name image_url level")
+    EVResponse.sendData(rx,res);
   }
 };

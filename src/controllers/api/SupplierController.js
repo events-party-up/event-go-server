@@ -393,6 +393,11 @@ module.exports = {
             return;
         }
 
+        delete body["password"];
+        delete body["username"];
+        delete body["status"];
+        delete body["created_date"];
+
         RxMongo.findOneAndUpdated(Suppliers,{'_id': supplier_id}, body).subscribe(function (doc) {
             EVResponse.success(res,doc.signInResult());
         }, function (error) {

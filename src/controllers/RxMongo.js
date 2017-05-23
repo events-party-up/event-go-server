@@ -91,6 +91,39 @@ module.exports = {
         });
     },
 
+    populateFind: function(object, params,populateCollection,populateFields) {
+
+        var response = function(err, doc, observer) {
+            if (err) {
+                console.log("find failure with Object " + object);
+                observer.error(err);
+            } else {
+                if (doc == null) {
+                    observer.error('Not found');
+                } else {
+                    observer.next(doc);
+                }
+            }
+        };
+
+        var exeMongo = null;
+        if (populateFields === null) {
+            exeMongo = object
+                .find(params)
+                .populate(populateCollection)
+        } else {
+            console.log("Callhere")
+             exeMongo = object
+                .find(params)
+                .populate(populateCollection, populateFields)
+        }
+        return Rx.Observable.create(function (observer) {
+            exeMongo.exec(function(err,docs) {
+                response(err,docs,observer);
+            })
+        });
+    },
+
     save: function(object) {
 
         return Rx.Observable.create(function (observer) {

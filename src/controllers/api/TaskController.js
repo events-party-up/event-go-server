@@ -1,5 +1,6 @@
 var Suppliers = require('../../models/Supplier');
 var Tasks = require('../../models/Tasks/Task');
+var UserTasks = require('../../models/Users/Users-Task');
 var Events = require('../../models/Events/Event');
 // var TaskItems = require('../../models/Tasks/Task-Item');
 // var TaskLocations = require('../../models/Task-Locations');
@@ -56,7 +57,18 @@ module.exports = {
   getAllOfEvent: function(req,res,next) {
 
     var event_id = req.params.event_id;
+    var user_id = req.query.user_id;
 
+    // if (user_id) {
+    //   RxMongo.find(UserTasks,{
+    //     'event_id': event_id,
+    //     'user_id': user_id
+    //   }).subscribe(function(docs){
+    //     var task_ids = docs.map(function(element) {
+    //       return element.task_id
+    //     })
+    //   })
+    // }
     RxMongo.find(Tasks, {
       'event_id': event_id,
       // 'supplier_id': supplier_id

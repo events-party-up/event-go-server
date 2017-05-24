@@ -45,7 +45,8 @@ module.exports = {
             } 
             var newDoc = docs.map(function(element){
                 var event = element.event_id;
-                return element["event_id"] = event_id._id;
+                element["event_id"] = event_id._id;
+                return element;
             })
 
             EVResponse.success(res,newDoc);

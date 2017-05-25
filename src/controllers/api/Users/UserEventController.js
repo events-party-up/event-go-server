@@ -91,7 +91,7 @@ module.exports = {
         .subscribe(function(doc) {
 
             if (doc !== null) {
-                    
+                EVResponse.failure(res,400,"Your are in event")
                 return;
             }
 
@@ -104,7 +104,7 @@ module.exports = {
             var rx = RxMongo.save(newUserEvent)
             EVResponse.sendData(rx,res)
         }, function(err){
-            EVResponse.failure(res,403,"Error when join event")
+            EVResponse.failure(res,404,"Error when join event")
         })
     },
 

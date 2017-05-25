@@ -84,7 +84,7 @@ function sendDataInRxMongo(Rx,res) {
     SuccessResponse(res,doc)
   }, function(error){
     console.error(error);
-    ErrorResponse(res,12,"Send data failure");
+    ErrorResponse(res,404,"Send data failure");
   })
 }
 

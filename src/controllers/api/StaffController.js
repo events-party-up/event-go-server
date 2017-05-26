@@ -28,7 +28,7 @@ module.exports = {
         }
 
         if (typeof username !== "string" || typeof password !== "string") {
-            EVResponse.failure(res,20,"Field not a string");
+            EVResponse.failure(res,400,"Field not a string");
             return
         }        
 
@@ -41,7 +41,7 @@ module.exports = {
             req.session.save();
             EVResponse.success(res,result);
         }, function (error) {
-            EVResponse.failure(res,21,"staff is not existed");
+            EVResponse.failure(res,404,"staff is not existed");
         });
     },
 

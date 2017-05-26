@@ -94,7 +94,7 @@ module.exports = {
 
         console.log('callhere');
         console.log('sup: ' +supplier_id);
-        console.log('staff: ' + image_description.staff_id);
+        // console.log('staff: ' + image_description.staff_id);
 
         if (file_encode_64 === undefined || file_encode_64 === null) {
             EVResponse.failure(res,405,"file_encode_64 not validate");

@@ -210,8 +210,8 @@ module.exports = {
     // POST {PATH} client/users/images?supplier_id={}
     uploadImage: function(req,res,next) {
         
-        var user = EVResponse.verifiyAccessToken(req,"user_id");
-        if (user === null) {
+        var user_id = EVResponse.verifiyAccessToken(req,"user_id");
+        if (user_id === null) {
             EVResponse.failure(res,401,"Access token not true");
             return;
         }
@@ -224,7 +224,7 @@ module.exports = {
 
         if (req.body !== undefined && req.body !== null) {
             if (req.body.image_description !== undefined && req.body.image_description !== null) {
-                req.body.image_description.staff_id = staff.staff_id;
+                req.body.image_description["user_id"] = user_id;
             } else {
                 req.body.image_description = {
                     'user_id': user_id

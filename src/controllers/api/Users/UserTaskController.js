@@ -23,8 +23,10 @@ module.exports = {
             EVResponse.failure(res,401,"Missing access token or accesstoken not true");
             return;
         }
-        rx = RxMongo.find(UserEvent,{
-            'user_id': user_id
+        var user_event_id = req.params.user_event_id
+        rx = RxMongo.find(UserTask,{
+            'user_id': user_id,
+            'user_event_id': user_event_id
         })
         EVResponse.sendData(rx,res);
     },

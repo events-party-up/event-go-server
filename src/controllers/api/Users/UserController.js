@@ -11,6 +11,7 @@ var EVResponse = require('./../../EVResponse.js');
 var Rx = require('rxjs/Rx');
 var RxMongo = require('./../../RxMongo.js');
 var EVBody = require('./../../EVBody.js');
+var ImageManager = require('../ImageController');
 
 module.exports = {
 
@@ -204,6 +205,41 @@ module.exports = {
             EVResponse.failure(res,406,"Fail 174");
         }
 
+    },
+
+    // POST {PATH} client/users/images?supplier_id={}
+    uploadImage: function(req,res,next) {
+        
+        var user = EVResponse.verifiyAccessToken(req,"user_id");
+        if (user === null) {
+            EVResponse.failure(res,401,"Access token not true");
+            return;
+        }
+        
+        var supplier_id = req.query.supplier_id;
+        if (supplier_id === null || supplier_id === undefined) {
+            EVResponse.failure(res,400,"supplier_id empty");
+            return
+        }
+
+        if (req.body !== undefined && req.body !== null) {
+            if (req.body.image_description !== undefined && req.body.image_description !== null) {
+                req.body.image_description.staff_id = staff.staff_id;
+            } else {
+                req.body.image_description = {
+                    'user_id': user_id
+                }
+            }
+        } else {
+            EVResponse.failure(res,400,"Body empty");
+            return;
+        }
+    
+        req.next_authorized = {
+            'supplier_id': supplier_id
+        }
+
+        ImageManager.postImage(req,res,next);
     },
 
     signOut: function(req,res,next) {

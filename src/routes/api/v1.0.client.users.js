@@ -47,4 +47,8 @@ router.route('/notifications/:user_notification_id')
     .put(userNotificationController.put)
     .delete(userNotificationController.delete);
 
+var userController = require("../../controllers/api/Users/UserController");
+router.route('/images')
+        .post(userController.uploadImage);
+
 module.exports = router;

@@ -16,7 +16,7 @@ var EVBody = require('./../../EVBody.js');
 
 module.exports = {
 
-    getAll: function (req,res,next) {
+    getAllInEvent: function (req,res,next) {
 
         var user_id = EVResponse.verifiyAccessToken(req,"user_id");
         if (user_id == null) {
@@ -27,6 +27,19 @@ module.exports = {
         rx = RxMongo.find(UserTask,{
             'user_id': user_id,
             'user_event_id': user_event_id
+        })
+        EVResponse.sendData(rx,res);
+    },
+
+    getAll: function (req,res,next) {
+
+        var user_id = EVResponse.verifiyAccessToken(req,"user_id");
+        if (user_id == null) {
+            EVResponse.failure(res,401,"Missing access token or accesstoken not true");
+            return;
+        }
+        rx = RxMongo.find(UserTask,{
+            'user_id': user_id,
         })
         EVResponse.sendData(rx,res);
     },

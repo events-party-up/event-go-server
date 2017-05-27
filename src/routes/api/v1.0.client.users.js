@@ -18,6 +18,9 @@ router.route('/events/:event_id/completeEvent')
 // User Task
 var userTaskController = require("../../controllers/api/Users/UserTaskController");
 router.route('/events/:user_event_id/tasks')
+    .get(userTaskController.getAllInEvent)
+
+router.route('/tasks')
     .get(userTaskController.getAll)
 
 router.route('/events/:user_event_id/tasks/:task_id/joinTask')

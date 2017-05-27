@@ -41,7 +41,20 @@ module.exports = {
         rx = RxMongo.find(UserTask,{
             'user_id': user_id,
         })
-        EVResponse.sendData(rx,res);
+        UserTask.find({
+            'user_id': user_id
+        }).populate('task_id','name sub_name description thumbnail_url cover_url task_info task_type start_time end_time created_date status')
+        .populate('event_id', 'name sub_name description thumbnail_url')
+        .populate('event_id.supplier_id', 'name image_url').exec(function(err,docs){
+            if (err) {
+                EVResponse.failure(res,404,"Get error");
+                return;
+            } 
+          
+            EVResponse.success(res,docs);
+        })
+
+        // EVResponse.sendData(rx,res);
     },
 
     get: function (req,res,next) {

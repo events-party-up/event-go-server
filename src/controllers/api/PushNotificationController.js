@@ -8,10 +8,110 @@ var UserEvents = require('../../models/Users/User-Event');
 var UserTasks = require('../../models/Users/User-Task');
 var UserSubs = require('../../models/Users/User-Subscribe');
 var UserNotis = require('../../models/Users/User-Notification');
-var Users = require('../../models/Users/User-Subscribe');
+var Users = require('../../models/Users/User');
 var Notifications = require('../../models/Notifications');
 
+var apn = require('../../configure/apn');
+
 module.exports = {
+
+  createNotification: function(req,res,next) {
+
+      var supplier_id = EVResponse.verifiyAccessToken(req,"supplier_id");
+      if (supplier_id == null) {
+        EVResponse.failure(res,401,"Access token not true");
+        return;
+      }
+      
+       // Create new notification
+      var data = req.body;
+      console.log(data);
+      var newNotification = new Notifications(data);
+      newNotification.supplier_id = supplier_id;
+
+      console.log("Call here");
+      var rx = RxMongo.save(newNotification);
+      EVResponse.sendData(rx,res);
+  },
+
+  pushNotificationSupplier: function(req,res,next) {
+
+      var supplier_id = EVResponse.verifiyAccessToken(req,"supplier_id");
+      if (supplier_id == null) {
+        EVResponse.failure(res,401,"Access token not true");
+        return;
+      }
+
+      var notification_id = req.params.notification_id;
+      
+      var pushNotificationAction = function(notifiaction) {
+        var event_id = req.query.event_id;
+        var task_id = req.query.task_id;
+
+        var exec = null;
+        if (event_id) {
+          console.log("Push event_id = " + event_id);
+          exec = UserEvents.find({
+            'event_id': event_id
+          }).populate('user_id','device')
+          
+        } else if (task_id) {
+          console.log("Push task_id = " + task_id);
+          exec = UserTasks.find({
+            'task_id': task_id
+          }).populate('user_id','device')
+        } else {
+          console.log("Push AllUser");
+          exec = Users.find();
+        }
+
+        exec.exec(function(err,docs){
+              if (err) {
+                  console.error(err);
+                  return;
+              } 
+            var deviceArray = [];
+            docs.forEach(function(element) {
+              var userInfo = element.user_id === undefined ? element : element.user_id;
+              var device = userInfo.device;
+
+              if (device !== undefined && device !== null) {
+                if ( device.title !== null && device.title !== undefined &&
+                    device.body !== null && device.body !== undefined 
+                ) {
+                    deviceArray.push(device);
+                }
+              }
+            });
+            deviceArray.forEach(function(device){
+              var device_token = device.device_token === undefined ? "" : device.device_token;
+              console.log("Push notification in device token - " + device_token)
+              apn.applePush(device_token,device.title,device.body,1);
+            })
+        })
+      };
+      
+      console.log(notification_id);
+      Notifications.findById(notification_id,function(err,notification){
+        if (notification) {
+          EVResponse.success(res,notification);
+          pushNotificationAction(notification);
+        } else {
+          EVResponse.failure(res,404,"Notification not found");
+        }
+        
+      })
+      // RxMongo.findOne(Notifications,{
+      //   '_id': notification_id
+      // }, function(notification){
+      //   console.log(notification)
+      //   EVResponse.success(res,notification);
+      //   // pushNotificationAction(notification);
+      // }, function(error){
+      //   console.error(error);
+      
+      // });
+  },
 
   /**
    * @api {post} notifications?access_token PushNotification

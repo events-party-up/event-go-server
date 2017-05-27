@@ -39,7 +39,7 @@ var apn = {
         notification.title  = title;
         notification.badge  = badge == undefined ? 0 : badge;
         notification.sound  = "default";
-        notification.topic = "com.ketnoichitieu";
+        notification.topic = "com.eventgo.app";
 
         notification.setAction(action)
             .setMutableContent(1);

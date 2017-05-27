@@ -89,8 +89,10 @@ router.route('/items/:item_id')
 
 // Push notification
 var pushNotification = require("../../controllers/api/PushNotificationController");
-router.get('/notifications',pushNotification.getNotification);
-router.post('/notifications', pushNotification.pushNotification);
+router.get('/suppliers/notifications',pushNotification.getNotification);
+router.post('/suppliers/notifications', pushNotification.createNotification);
+router.post('/suppliers/notifications/:notification_id', pushNotification.pushNotificationSupplier);
+
 
 var imageController = require("../../controllers/api/ImageController");
 router.post('/images', imageController.postImage);

@@ -70,14 +70,17 @@ module.exports = {
                   console.error(err);
                   return;
               } 
+              // console.log(docs);
             var deviceArray = [];
             docs.forEach(function(element) {
               var userInfo = element.user_id === undefined ? element : element.user_id;
               var device = userInfo.device;
 
-              if (device !== undefined && device !== null) {
-                if ( device.title !== null && device.title !== undefined &&
-                    device.body !== null && device.body !== undefined 
+              if (device !== undefined && device !== null &&
+                  notifiaction !== undefined && notifiaction !== null 
+                ) {
+                if ( notifiaction.title !== null && notifiaction.title !== undefined &&
+                    notifiaction.body !== null && notifiaction.body !== undefined
                 ) {
                     deviceArray.push(device);
                 }
@@ -85,8 +88,10 @@ module.exports = {
             });
             deviceArray.forEach(function(device){
               var device_token = device.device_token === undefined ? "" : device.device_token;
-              console.log("Push notification in device token - " + device_token)
-              apn.applePush(device_token,device.title,device.body,1);
+              if (device_token.length > 1) {
+                console.log("Push notification in device token - " + device_token)
+                apn.applePush(device_token,notifiaction.title,notifiaction.body,1);
+              }
             })
         })
       };

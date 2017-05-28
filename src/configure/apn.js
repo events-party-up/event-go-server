@@ -38,8 +38,9 @@ var apn = {
         notification.body   = body;
         notification.title  = title;
         notification.badge  = badge == undefined ? 0 : badge;
-        notification.sound  = "default";
+        notification.sound  = "ping.aiff";
         notification.topic = "com.eventgo.app";
+        notification.payload = {'messageFrom': 'John Appleseed'};
 
         notification.setAction(action)
             .setMutableContent(1);
@@ -47,6 +48,8 @@ var apn = {
 
         service.send(notification, tokens).then(function (result) {
             console.log("APN Apple send: ");
+            console.log("Title: "+ title);
+            console.log("Body: "+ Body);
             console.log(result);
         });
     }

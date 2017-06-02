@@ -89,17 +89,21 @@ module.exports = {
             'event_id': event_id,
         })
         .subscribe(function(doc) {
-
-            if (doc !== null) {
-                EVResponse.failure(res,400,"Your are in event")
-                return;
-            }
-
             var newUserEvent = new UserEvent({
                 'user_id': user_id,
                 'event_id': event_id,
                 'status': 'pending'
             });
+
+            if (doc !== null) {
+                if (doc.status === 'quited') {
+                    newUserEvent = doc;
+                    newUserEvent.status = 'pending'
+                } else {
+                    EVResponse.failure(res,400,"Your are in event")
+                    return;
+                }
+            }
 
             var rx = RxMongo.save(newUserEvent)
             EVResponse.sendData(rx,res)

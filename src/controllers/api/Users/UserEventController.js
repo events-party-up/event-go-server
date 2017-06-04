@@ -68,7 +68,7 @@ module.exports = {
         }).subscribe(function (docs) {
             EVResponse.success(res,docs);
         }, function (err) {
-            EVResponse(res,406,"Error fetch data");
+            EVResponse(res,406,"Lỗi lấy sự kiện");
         });
     },
 
@@ -100,7 +100,7 @@ module.exports = {
                     newUserEvent = doc;
                     newUserEvent.status = 'pending'
                 } else {
-                    EVResponse.failure(res,400,"Your are in event")
+                    EVResponse.failure(res,404,"Bạn đã đang tham gia sự kiện này")
                     return;
                 }
             }
@@ -108,7 +108,7 @@ module.exports = {
             var rx = RxMongo.save(newUserEvent)
             EVResponse.sendData(rx,res)
         }, function(err){
-            EVResponse.failure(res,404,"Error when join event")
+            EVResponse.failure(res,404,"Lôi khi tham gia sự kiện")
         })
     },
 
@@ -130,9 +130,9 @@ module.exports = {
         }, {
             'status': 'quited'
         }).subscribe(function (doc) {
-            EVResponse.success(res,"Out success");
+            EVResponse.success(res,"Huỷ sự kiện thành công");
         }, function (error) {
-            EVResponse.failure(res,403,"Out failure");
+            EVResponse.failure(res,404,"Huỷ sự kiện thất bại");
         });
     },
 
@@ -191,19 +191,19 @@ module.exports = {
                             'user_awards': userAwards
                         });
                     }, function (error) {
-                        EVResponse.failure(res,408, "Save userawards fail");
+                        EVResponse.failure(res,404, "Save userawards fail");
                     })
                 }
 
             }, function (err) {
-                EVResponse.failure(res,407, "Event not found");
+                EVResponse.failure(res,404, "Không tìm thấy sự kiện");
             })
         };
 
         findUserEventRx.subscribe(function (user_event) {
             awardIDsRx(user_event);
         }, function (error) {
-            EVResponse.failure(res,406,"complete failure");
+            EVResponse.failure(res,404,"Hoàn tất sự kiện lỗi");
         });
     }
 };
